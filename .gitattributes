@@ -1,0 +1,37 @@
+# Line endings.
+#
+# This repository is authored on Windows and built on Linux (GitHub Actions, EAS, Vercel).
+# Without this file every checkout on one platform rewrites the working tree of the other, and
+# `git diff` fills with whole-file changes that contain no change at all.
+#
+# `text=auto eol=lf` normalises to LF in the object store and checks out LF everywhere. LF rather
+# than native, because three things here care about the byte:
+#
+#   * shell scripts inside .github/workflows heredocs — bash refuses a CRLF `SQL` terminator
+#   * supabase/migrations/*.sql, replayed by psql in CI
+#   * services/anomaly shell entrypoints in the Docker image
+*                    text=auto eol=lf
+
+# Binary. Never diffed, never normalised — a "text" PNG is a corrupted PNG.
+*.png                binary
+*.jpg                binary
+*.jpeg               binary
+*.gif                binary
+*.ico                binary
+*.webp               binary
+*.pdf                binary
+*.ttf                binary
+*.otf                binary
+*.woff               binary
+*.woff2              binary
+*.joblib             binary
+*.pkl                binary
+
+# Generated, and enormous. Collapsed in pull requests so a dependency bump does not bury the
+# change it came with; still versioned, because a lockfile that is not is not a lockfile.
+package-lock.json    linguist-generated=true -diff
+
+# GitHub's language stats otherwise report this project as majority SQL, because the migrations
+# are long and heavily commented. They are the most important files here, but they are not what
+# the repository is written in.
+supabase/migrations/*.sql linguist-detectable=true linguist-language=PLpgSQL

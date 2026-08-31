@@ -1,0 +1,467 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/**
+ * shadcn/ui CSS-variable palette.
+ *
+ * Values are bare `H S% L%` triples (no `hsl()` wrapper) because tailwind.config.ts wraps
+ * them as `hsl(var(--token))`. That indirection is what lets `/50` opacity modifiers work.
+ * Dark mode is the `.dark` class on <html>, toggled without a re-render.
+ *
+ * EDITORIAL PALETTE
+ * -----------------
+ * Warm paper ground, deep navy ink, gold accent. The reference points are printed football
+ * artefacts — a match programme, a team sheet, a league table — which is why the ground is
+ * paper rather than white and the corners are 2px rather than rounded.
+ *
+ *   paper      #f6f1e7   the ground
+ *   deep       #ece4d3   secondary surfaces, table stripes
+ *   deeper     #e3dccb   hover surfaces
+ *   ink        #1b2230   text, primary buttons
+ *   ink-dim    #4a5468   secondary text
+ *   muted      #6b7160   tertiary text, captions
+ *   gold       #b8902e   accent: numerals, links, focus, yellow card
+ *   vermilion  #cf2734   destructive: cancel, dispute, red card
+ *   teal       #178f9a   success: confirmed, live
+ *   azure      #1f5fa8   informational: pending, scheduled
+ *
+ * Gold carries two meanings on purpose. It is the brand accent AND the caution state,
+ * because in this domain those are the same colour — a yellow card.
+ */
+
+@layer base {
+  :root {
+    --background: 40 45.5% 93.5%;
+    --foreground: 220 28% 14.7%;
+
+    /* Cards sit a shade above the paper rather than on a white plane. */
+    --card: 42 71.4% 97.3%;
+    --card-foreground: 220 28% 14.7%;
+
+    --popover: 42 71.4% 97.3%;
+    --popover-foreground: 220 28% 14.7%;
+
+    /* Primary is ink, not gold. Buttons read as set type; gold stays an accent. */
+    --primary: 220 28% 14.7%;
+    --primary-foreground: 40 45.5% 93.5%;
+
+    --secondary: 41 39.7% 87.6%;
+    --secondary-foreground: 220 28% 14.7%;
+
+    --muted: 41 39.7% 87.6%;
+    --muted-foreground: 81 8.1% 41%;
+
+    --accent: 43 30% 84.3%;
+    --accent-foreground: 220 28% 14.7%;
+
+    --destructive: 355 68.3% 48.2%;
+    --destructive-foreground: 40 45.5% 93.5%;
+
+    --success: 185 74% 34.7%;
+    --success-foreground: 40 45.5% 93.5%;
+
+    --warning: 43 60% 45.1%;
+    --warning-foreground: 40 45.5% 93.5%;
+
+    --info: 212 68.8% 39%;
+    --info-foreground: 40 45.5% 93.5%;
+
+    /* Named accents, for the places that mean the colour rather than the role. */
+    --gold: 43 60% 45.1%;
+    --vermilion: 355 68.3% 48.2%;
+    --teal: 185 74% 34.7%;
+    --azure: 212 68.8% 39%;
+
+    /* Hairlines: ink over paper at 16% and 9%, flattened so opacity modifiers stay free. */
+    --border: 40 9.5% 80.9%;
+    --line-soft: 40 17% 86.4%;
+    --input: 40 9.5% 80.9%;
+    --ring: 43 60% 45.1%;
+
+    /* Architectural, not rounded. 2px is a cut edge, not a corner. */
+    --radius: 2px;
+  }
+
+  .dark {
+    --background: 220 28% 14.7%;
+    --foreground: 40 45.5% 93.5%;
+
+    --card: 219 27.1% 18.8%;
+    --card-foreground: 40 45.5% 93.5%;
+
+    --popover: 219 27.1% 18.8%;
+    --popover-foreground: 40 45.5% 93.5%;
+
+    --primary: 40 45.5% 93.5%;
+    --primary-foreground: 220 28% 14.7%;
+
+    --secondary: 220 23.9% 22.2%;
+    --secondary-foreground: 40 45.5% 93.5%;
+
+    --muted: 220 23.9% 22.2%;
+    --muted-foreground: 219 12.8% 64.9%;
+
+    --accent: 220 23.9% 22.2%;
+    --accent-foreground: 40 45.5% 93.5%;
+
+    --destructive: 355 68.3% 55%;
+    --destructive-foreground: 220 28% 14.7%;
+
+    --success: 185 64% 45%;
+    --success-foreground: 220 28% 14.7%;
+
+    --warning: 43 64.5% 52.5%;
+    --warning-foreground: 220 28% 14.7%;
+
+    --info: 212 60% 55%;
+    --info-foreground: 220 28% 14.7%;
+
+    --gold: 43 64.5% 52.5%;
+    --vermilion: 355 68.3% 55%;
+    --teal: 185 64% 45%;
+    --azure: 212 60% 55%;
+
+    --border: 220 10.9% 27.3%;
+    --line-soft: 220 12% 22%;
+    --input: 220 10.9% 27.3%;
+    --ring: 43 64.5% 52.5%;
+  }
+
+  /**
+   * NIGHT SCOPE
+   * -----------
+   * The landing page only. Not `.dark` — that is the app's own theme and a visitor who chose
+   * light mode should still get light mode on /venues after arriving through here.
+   *
+   * The reference palette is already a dark theme inverted onto paper (its tokens literally
+   * name #1b2230 "white"), so turning the ground back over is not a departure from the design
+   * system, it is the other half of it. What the scope changes is the ground and the ink; every
+   * accent keeps its meaning, lifted in luminance so it survives on near-black.
+   *
+   *   #05070c  the ground — a floodlit pitch has no black, only this
+   *   #f6f1e7  the same paper, now the ink
+   *   #e0b352  gold, lifted: the floodlight and the caution
+   */
+  .night {
+    --background: 223 41% 3.5%;
+    --foreground: 40 45.5% 93.5%;
+
+    --card: 218 42% 8.8%;
+    --card-foreground: 40 45.5% 93.5%;
+
+    --popover: 218 42% 8.8%;
+    --popover-foreground: 40 45.5% 93.5%;
+
+    --primary: 40 45.5% 93.5%;
+    --primary-foreground: 223 41% 5%;
+
+    --secondary: 218 28% 12%;
+    --secondary-foreground: 40 45.5% 93.5%;
+
+    --muted: 218 28% 12%;
+    --muted-foreground: 215 18% 66%;
+
+    --accent: 218 26% 16%;
+    --accent-foreground: 40 45.5% 93.5%;
+
+    --destructive: 3 79% 58%;
+    --destructive-foreground: 223 41% 5%;
+
+    --success: 183 61% 47%;
+    --success-foreground: 223 41% 5%;
+
+    --warning: 41 70% 60%;
+    --warning-foreground: 223 41% 5%;
+
+    --info: 211 63% 57%;
+    --info-foreground: 223 41% 5%;
+
+    --gold: 41 70% 60%;
+    --vermilion: 3 79% 58%;
+    --teal: 183 61% 47%;
+    --azure: 211 63% 57%;
+
+    --border: 214 15% 25%;
+    --line-soft: 214 14% 17%;
+    --input: 214 15% 25%;
+    --ring: 41 70% 60%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  /* Headings are set light and tight. The weight comes from size and space, not from bold. */
+  h1,
+  h2,
+  h3 {
+    font-weight: 300;
+    letter-spacing: -0.02em;
+  }
+
+  /* Keyboard focus is visible everywhere; pointer focus is not. */
+  :focus-visible {
+    @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
+  }
+
+  /* Turkish content is the default; keep numerals tabular in tables and score displays. */
+  table,
+  [data-tabular] {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+@layer components {
+  /**
+   * The editorial label: uppercase, tracked, mono, small. Used for section eyebrows,
+   * table headers, metric captions and status chips — anywhere a word is naming a thing
+   * rather than saying it.
+   */
+  .label-eyebrow {
+    @apply font-mono text-[0.6875rem] font-medium uppercase tracking-[0.14em] text-muted-foreground;
+  }
+
+  /** A section number: 01, 02, 03. Gold, mono, sitting above a hairline. */
+  .section-number {
+    @apply font-mono text-[0.6875rem] font-medium tracking-[0.14em];
+    color: hsl(var(--gold));
+  }
+
+  /** Hairline rule at the ink's own colour, faint enough to structure without dividing. */
+  .rule {
+    @apply border-0 border-t;
+    border-color: hsl(var(--foreground) / 0.12);
+  }
+
+  /**
+   * A ruled row: the primary list idiom. Fixtures, bookings, roster lines and payouts all
+   * use it, so a list reads as a printed table rather than a stack of floating cards.
+   */
+  .ruled-row {
+    @apply border-b py-4;
+    border-color: hsl(var(--foreground) / 0.09);
+  }
+
+  .ruled-row:last-child {
+    @apply border-b-0;
+  }
+
+  /**
+   * NIGHT COMPONENTS
+   * ----------------
+   * Type set over a live 3D scene has one hard requirement: it must stay readable when the
+   * frame behind it is a floodlit pitch rather than the dark concourse. The veil below is the
+   * answer — a directional gradient, opaque where the words are and gone where the picture is,
+   * so the composition still breathes on one side.
+   */
+  .night-veil {
+    background-image: linear-gradient(
+      to right,
+      rgba(5, 7, 12, 0.92) 0%,
+      rgba(5, 7, 12, 0.78) 34%,
+      rgba(5, 7, 12, 0.34) 62%,
+      rgba(5, 7, 12, 0) 88%
+    );
+  }
+
+  /* Mirror of the above, for the chapters composed against the right-hand edge. */
+  .night-veil-r {
+    background-image: linear-gradient(
+      to left,
+      rgba(5, 7, 12, 0.92) 0%,
+      rgba(5, 7, 12, 0.78) 34%,
+      rgba(5, 7, 12, 0.34) 62%,
+      rgba(5, 7, 12, 0) 88%
+    );
+  }
+
+  /* Top and bottom feathering, so a section never meets the next one on a hard line. */
+  .night-veil-y {
+    background-image: linear-gradient(
+      to bottom,
+      rgba(5, 7, 12, 0.86) 0%,
+      rgba(5, 7, 12, 0) 26%,
+      rgba(5, 7, 12, 0) 74%,
+      rgba(5, 7, 12, 0.86) 100%
+    );
+  }
+
+  /**
+   * A frame marker: the small corner ticks that sit around a composed shot. Borrowed from a
+   * camera viewfinder rather than from a UI kit, because that is what the reader is looking
+   * through for the length of this page.
+   */
+  .frame-ticks::before,
+  .frame-ticks::after {
+    content: "";
+    position: absolute;
+    width: 0.75rem;
+    height: 0.75rem;
+    border-color: hsl(var(--gold) / 0.55);
+  }
+
+  .frame-ticks::before {
+    top: 0;
+    left: 0;
+    border-top-width: 1px;
+    border-left-width: 1px;
+  }
+
+  .frame-ticks::after {
+    bottom: 0;
+    right: 0;
+    border-bottom-width: 1px;
+    border-right-width: 1px;
+  }
+}
+
+@layer utilities {
+  /* Visible only to assistive tech — used for form hints and live-region announcements. */
+  .sr-only-focusable:not(:focus):not(:focus-within) {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+
+  /**
+   * The hero ground. A slow warm wash from the top, as if light were falling across paper,
+   * plus a faint ruled grid that suggests a fixture sheet without drawing one.
+   */
+  .paper-gradient {
+    background-image: radial-gradient(
+        70rem 36rem at 50% -18%,
+        hsl(var(--gold) / 0.13),
+        transparent 68%
+      ),
+      linear-gradient(to bottom, hsl(var(--background)), hsl(var(--background)));
+  }
+
+  .paper-grid {
+    background-image: linear-gradient(hsl(var(--foreground) / 0.035) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(var(--foreground) / 0.035) 1px, transparent 1px);
+    background-size: 100% 3.5rem, 8.333% 100%;
+  }
+
+  /* Tabular figures for scores, money and ratings, wherever digits must line up. */
+  .nums {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum" 1;
+  }
+
+  /**
+   * The floor beneath the WebGL canvas.
+   *
+   * This is not a placeholder. It is what the page looks like when there is no WebGL context —
+   * a blocklisted driver, a locked-down browser, a machine with no GPU — and it is painted
+   * server-side, so it is also what fills the frame for the second or two before the scene
+   * chunk arrives. Four floodlight pools over a horizon that goes warm at the bottom, which is
+   * what a city night sky actually does.
+   */
+  .night-fallback {
+    background-color: #05070c;
+    background-image: radial-gradient(48rem 22rem at 50% 74%, rgba(255, 201, 120, 0.15), transparent 68%),
+      radial-gradient(26rem 13rem at 14% 64%, rgba(255, 201, 120, 0.1), transparent 70%),
+      radial-gradient(26rem 13rem at 86% 64%, rgba(255, 201, 120, 0.1), transparent 70%),
+      radial-gradient(34rem 18rem at 74% 100%, rgba(255, 178, 96, 0.14), transparent 72%),
+      linear-gradient(to bottom, #05070c 0%, #080d16 44%, #131c2b 76%, #1d2739 100%);
+  }
+
+  /**
+   * The opening reveal.
+   *
+   * Words rise individually rather than the block fading in as one, which is the difference
+   * between type that arrives and type that appears. `both` is load-bearing: with the fill mode
+   * the final state is what a reduced-motion visitor sees, since the media query at the bottom
+   * of this file collapses the duration rather than removing the rule.
+   */
+  .word-rise {
+    display: inline-block;
+    animation: word-rise 1.15s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  @keyframes word-rise {
+    from {
+      opacity: 0;
+      transform: translateY(0.62em);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  .fade-rise {
+    animation: fade-rise 1.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  @keyframes fade-rise {
+    from {
+      opacity: 0;
+      transform: translateY(1.1rem);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  /* The scroll cue: a hairline that draws itself down, over and over. */
+  .scroll-tick {
+    position: relative;
+    display: block;
+    width: 1px;
+    height: 3.5rem;
+    background: hsl(var(--foreground) / 0.16);
+    overflow: hidden;
+  }
+
+  .scroll-tick::after {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    top: 0;
+    height: 40%;
+    background: hsl(var(--gold));
+    animation: scroll-tick 2.4s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+  }
+
+  @keyframes scroll-tick {
+    0% {
+      transform: translateY(-100%);
+    }
+    60%,
+    100% {
+      transform: translateY(250%);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

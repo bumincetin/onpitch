@@ -1,0 +1,31 @@
+{
+  "name": "halisaha",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Amateur football platform - pitch booking, split payments, TrueSkill matchmaking",
+  "workspaces": [
+    "apps/web",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspace @halisaha/web",
+    "dev:mobile": "npm --prefix apps/mobile run start",
+    "build": "npm run build --workspace @halisaha/web",
+    "lint": "npm run lint --workspace @halisaha/web",
+    "typecheck": "npm run typecheck --workspaces --if-present && npm --prefix apps/mobile run typecheck",
+    "test": "npm run test --workspaces --if-present",
+    "verify": "npm run typecheck && npm run lint && npm run test",
+    "db:reset": "supabase db reset",
+    "db:types": "supabase gen types typescript --local > packages/shared/src/database.ts",
+    "stripe:listen": "stripe listen --forward-to localhost:3000/api/stripe/webhook",
+    "progress": "node scripts/progress.mjs",
+    "install:mobile": "npm --prefix apps/mobile install",
+    "postinstall": "npm --prefix apps/mobile install --no-audit --no-fund"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.8"
+  }
+}

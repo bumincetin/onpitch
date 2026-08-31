@@ -1,0 +1,212 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  # Build-time placeholders. Never real credentials.
+  #
+  # These are kept as a configuration `apps/web/lib/env.ts` would ACCEPT, even though nothing
+  # here enforces that: `next build` does NOT run the instrumentation hook, so a broken
+  # environment still builds. The validation is a runtime gate (see docs/PRODUCTION.md 1a).
+  #
+  # They are kept valid anyway so this block stays a worked example of a configuration that
+  # boots, rather than one that would 500 on every request if anybody copied it. Specifically:
+  # the keys are long enough to pass the length checks, and STRIPE_SECRET_KEY is accompanied by
+  # a webhook secret, because a secret key without one is a payments configuration that takes
+  # the money and silently loses the booking.
+  NEXT_PUBLIC_SUPABASE_URL: https://placeholder.supabase.co
+  NEXT_PUBLIC_SUPABASE_ANON_KEY: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.placeholder-anon-key
+  NEXT_PUBLIC_SITE_URL: http://localhost:3000
+  NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: pk_test_placeholder
+  STRIPE_SECRET_KEY: sk_test_placeholder
+  STRIPE_WEBHOOK_SECRET: whsec_placeholder_platform
+  STRIPE_CONNECT_WEBHOOK_SECRET: whsec_placeholder_connect
+  SUPABASE_SERVICE_ROLE_KEY: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.placeholder-service-role
+
+jobs:
+  web:
+    name: Web · typecheck · lint · build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      # apps/mobile is not a workspace (see the note in package.json), and its install is
+      # slow and irrelevant here, so skip the postinstall hook that pulls it in.
+      - run: npm ci --ignore-scripts
+      - run: npm run typecheck --workspace @halisaha/shared
+      - run: npm run typecheck --workspace @halisaha/web
+      - run: npm run lint --workspace @halisaha/web
+      # The shared package's suite pins the TrueSkill golden vector, the XP level curve and the
+      # division ladder against the SQL that owns each of them; the web suite pins the
+      # permission matrix, the response envelope's redaction and the notification formatter.
+      # Both run before the build, so a broken invariant fails in seconds rather than minutes.
+      - run: npm run test --workspace @halisaha/shared
+      - run: npm run test --workspace @halisaha/web
+      - run: npm run build --workspace @halisaha/web
+
+  mobile:
+    name: Mobile · typecheck · Metro bundle
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: apps/mobile/package-lock.json
+      # packages/shared is linked with file:, so it has to exist before the mobile install.
+      - run: npm ci --ignore-scripts
+      - run: npm ci --prefix apps/mobile
+      - run: npm --prefix apps/mobile run typecheck
+      # A green typecheck says nothing about Metro's ability to resolve the monorepo. Bundling
+      # is what catches an unhoisted transitive dependency or a bad metro.config.js.
+      - name: Metro bundle (android + ios)
+        working-directory: apps/mobile
+        env:
+          EXPO_PUBLIC_SUPABASE_URL: https://placeholder.supabase.co
+          EXPO_PUBLIC_SUPABASE_ANON_KEY: placeholder-anon-key
+          EXPO_PUBLIC_API_URL: http://localhost:3000
+          EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY: pk_test_placeholder
+        run: npx expo export --platform android --platform ios --output-dir /tmp/expo-export
+
+  migrations:
+    name: Migrations · replay · RLS gates
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd pg_isready --health-interval 10s
+          --health-timeout 5s --health-retries 5
+        ports: ['5432:5432']
+    steps:
+      - uses: actions/checkout@v4
+      - name: Replay migrations in order
+        env:
+          PGPASSWORD: postgres
+        run: |
+          # Supabase-managed objects the migrations reference, stubbed so the files can run
+          # against a stock Postgres image.
+          psql -h localhost -U postgres -v ON_ERROR_STOP=1 <<'SQL'
+          create schema if not exists auth;
+          create schema if not exists realtime;
+          create extension if not exists pgcrypto;
+          create extension if not exists btree_gist;
+          create extension if not exists citext;
+          create table if not exists auth.users (
+            id uuid primary key default gen_random_uuid(),
+            email text,
+            raw_user_meta_data jsonb default '{}'::jsonb,
+            created_at timestamptz default now()
+          );
+          create or replace function auth.uid() returns uuid language sql stable as $$ select null::uuid $$;
+          create or replace function auth.jwt() returns jsonb language sql stable as $$ select '{}'::jsonb $$;
+          create or replace function auth.role() returns text language sql stable as $$ select 'authenticated'::text $$;
+          do $$ begin create role authenticated; exception when duplicate_object then null; end $$;
+          do $$ begin create role anon; exception when duplicate_object then null; end $$;
+          do $$ begin create role service_role; exception when duplicate_object then null; end $$;
+          do $$ begin create role supabase_auth_admin; exception when duplicate_object then null; end $$;
+          SQL
+          for f in supabase/migrations/*.sql; do
+            echo "=== $f"
+            psql -h localhost -U postgres -v ON_ERROR_STOP=1 -f "$f"
+          done
+
+      - name: Every public table has RLS enabled
+        env:
+          PGPASSWORD: postgres
+        run: |
+          missing=$(psql -h localhost -U postgres -tAc "
+            select coalesce(string_agg(relname, ', '), '')
+            from pg_class c join pg_namespace n on n.oid = c.relnamespace
+            where n.nspname='public' and c.relkind='r' and not c.relrowsecurity;")
+          if [ -n "$missing" ]; then echo "::error::tables without RLS: $missing"; exit 1; fi
+          echo "ok"
+
+      - name: No unwrapped auth calls in policies
+        run: |
+          # A bare auth.uid() in a policy is re-evaluated per row, which turns an index scan
+          # into a sequential scan. The wrapped form is hoisted to an InitPlan.
+          #
+          # Comments are stripped first: 0002_rls.sql documents the forbidden pattern in prose,
+          # and matching that would fail the build on its own explanation.
+          found=0
+          for f in supabase/migrations/*.sql; do
+            hits=$(sed 's/--.*$//' "$f" \
+              | grep -nE '(USING|WITH CHECK)[^;]*[^t]\bauth\.(uid|jwt|role)\(\)' \
+              | grep -vE '\(\s*select\s+auth\.' || true)
+            if [ -n "$hits" ]; then echo "::error file=$f::unwrapped auth.*() — use (select auth.uid())"; echo "$hits"; found=1; fi
+          done
+          [ "$found" = "0" ] || exit 1
+          echo "ok"
+
+      - name: Every foreign key is indexed
+        env:
+          PGPASSWORD: postgres
+        run: |
+          # An RLS policy that filters on an unindexed FK still scans the table.
+          unindexed=$(psql -h localhost -U postgres -tAc "
+            select coalesce(string_agg(format('%s.%s', c.relname, a.attname), ', '), '')
+            from pg_constraint ct
+            join pg_class c on c.oid = ct.conrelid
+            join pg_namespace n on n.oid = c.relnamespace
+            join lateral unnest(ct.conkey) k(attnum) on true
+            join pg_attribute a on a.attrelid = c.oid and a.attnum = k.attnum
+            where ct.contype = 'f' and n.nspname = 'public'
+              and not exists (
+                select 1 from pg_index i
+                where i.indrelid = c.oid and i.indkey[0] = a.attnum
+              );")
+          if [ -n "$unindexed" ]; then echo "::error::unindexed foreign keys: $unindexed"; exit 1; fi
+          echo "ok"
+
+      # ----------------------------------------------------------------------
+      # `packages/shared/src/database.ts` is maintained BY HAND — `npm run db:types`
+      # would regenerate it but discards every doc comment in it, and those comments
+      # carry real information ("GENERATED: won * 3 + drawn", "citext", the IANA-zone
+      # note on venues.timezone). The cost of that choice is that nothing enforces the
+      # correspondence: a migration adds a column, the type file does not, and `tsc`
+      # is perfectly happy with a type that is simply wrong.
+      #
+      # This step is what makes hand-maintaining it safe. It compares table names,
+      # column names and nullability against the schema the migrations just produced.
+      # It does NOT compare SQL types — see the script's header for why that would
+      # produce false failures people learn to ignore.
+      # ----------------------------------------------------------------------
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: database.ts matches the migrated schema
+        env:
+          PGPASSWORD: postgres
+        run: |
+          psql -h localhost -U postgres -tA -f scripts/dump-public-schema.sql > /tmp/live-schema.json
+          node scripts/check-schema-drift.mjs /tmp/live-schema.json
+
+  anomaly:
+    name: Anomaly service · pytest
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: services/anomaly
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: services/anomaly/requirements.txt
+      - run: pip install -r requirements.txt pytest
+      - run: python -m pytest -q

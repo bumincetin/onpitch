@@ -1,0 +1,17 @@
+# Expo build output and generated native projects
+.expo/
+dist/
+web-build/
+android/
+ios/
+expo-env.d.ts.bak
+
+# Native credentials
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+
+# Metro
+.metro-health-check*

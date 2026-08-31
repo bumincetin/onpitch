@@ -1,0 +1,55 @@
+# Keep the build context small and keep secrets and artefacts out of the image.
+# The model is mounted at runtime (or written by the training job), never baked
+# in: an artefact in the image is a model you cannot roll back without a
+# rebuild, and a stale one you cannot tell apart from a fresh one.
+
+# Secrets
+.env
+.env.*
+!.env.example
+
+# Model artefacts and training data
+artifacts/
+data/
+*.joblib
+*.pkl
+*.csv
+*.parquet
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+env/
+.python-version
+
+# Tooling caches
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+
+# Tests are not shipped in the runtime image
+tests/
+
+# Editors and OS
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
+
+# VCS and docs
+.git/
+.gitignore
+Dockerfile
+.dockerignore
+README.md

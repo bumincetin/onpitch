@@ -1,0 +1,90 @@
+{
+  "//": [
+    "EAS build and submit profiles for apps/mobile.",
+    "",
+    "  eas build --profile development --platform android   installable dev client",
+    "  eas build --profile preview     --platform all       internal APK / TestFlight",
+    "  eas build --profile production  --platform all       store binaries",
+    "",
+    "WHY THE ENV BLOCKS ARE HERE AND NOT IN .env:",
+    "Babel inlines every EXPO_PUBLIC_* value into the JavaScript bundle at build time, so the",
+    "value baked into a store binary is whatever the BUILD MACHINE saw. EAS builders do not read",
+    "apps/mobile/.env — it is gitignored and never uploaded — so a production build with these",
+    "unset ships a bundle pointing at `undefined`, which fails at the first request with an",
+    "unhelpful error. The non-secret ones are pinned per profile below; the two that differ per",
+    "environment are declared in the EAS project's secrets and referenced by name, so a rotated",
+    "key does not require a code change.",
+    "",
+    "None of these are secrets. They are public by design: the anon key is filtered by RLS on",
+    "every table, and the publishable key can only create payment methods. The service-role key",
+    "and the Stripe secret key are server-side only and appear nowhere in this file."
+  ],
+
+  "cli": {
+    "version": ">= 12.0.0",
+    "appVersionSource": "remote",
+    "requireCommit": true
+  },
+
+  "build": {
+    "base": {
+      "node": "20.18.0",
+      "env": {
+        "EXPO_PUBLIC_SUPABASE_URL": "$EXPO_PUBLIC_SUPABASE_URL",
+        "EXPO_PUBLIC_SUPABASE_ANON_KEY": "$EXPO_PUBLIC_SUPABASE_ANON_KEY"
+      }
+    },
+
+    "development": {
+      "extends": "base",
+      "developmentClient": true,
+      "distribution": "internal",
+      "channel": "development",
+      "env": {
+        "EXPO_PUBLIC_API_URL": "http://10.0.2.2:3000"
+      },
+      "android": { "buildType": "apk" },
+      "ios": { "simulator": true }
+    },
+
+    "preview": {
+      "extends": "base",
+      "distribution": "internal",
+      "channel": "preview",
+      "env": {
+        "EXPO_PUBLIC_API_URL": "$EXPO_PUBLIC_API_URL_PREVIEW",
+        "EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY": "$EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY_TEST"
+      },
+      "android": {
+        "buildType": "apk"
+      }
+    },
+
+    "production": {
+      "extends": "base",
+      "channel": "production",
+      "autoIncrement": true,
+      "env": {
+        "EXPO_PUBLIC_API_URL": "$EXPO_PUBLIC_API_URL_PRODUCTION",
+        "EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY": "$EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY_LIVE"
+      },
+      "android": {
+        "buildType": "app-bundle"
+      }
+    }
+  },
+
+  "submit": {
+    "production": {
+      "android": {
+        "//": "serviceAccountKeyPath points at a Play Console service-account JSON kept OUTSIDE the repo. `internal` is the safe default track: it publishes to a named tester list, never to the public listing, so a mis-tagged submit cannot ship to users.",
+        "track": "internal",
+        "releaseStatus": "draft",
+        "changesNotSentForReview": false
+      },
+      "ios": {
+        "//": "ascAppId and appleTeamId are set in the EAS project rather than committed: they are account identifiers, and a fork of this repo submitting to our App Store record would be a genuine problem."
+      }
+    }
+  }
+}

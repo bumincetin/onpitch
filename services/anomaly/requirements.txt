@@ -1,0 +1,32 @@
+# Runtime dependencies for the Halisaha anomaly sidecar.
+#
+# Upper bounds are pinned to the next major so an unattended `pip install` in a
+# rebuilt image cannot pull a breaking release. Refresh them deliberately.
+#
+#   pip install -r requirements.txt
+
+# --- HTTP -------------------------------------------------------------------
+fastapi>=0.115,<0.121
+uvicorn[standard]>=0.30,<0.40
+pydantic>=2.7,<3
+
+# --- Model ------------------------------------------------------------------
+# scikit-learn needs libgomp at runtime on Debian slim; the Dockerfile installs
+# it. numpy 2.x is fine from scikit-learn 1.5 onward.
+scikit-learn>=1.5,<2
+numpy>=1.26,<3
+joblib>=1.4,<2
+
+# --- Training (train.py only) -----------------------------------------------
+# Kept in the runtime set on purpose: the same image runs the training job, so
+# `docker run <image> python train.py ...` works without a second build.
+pandas>=2.2,<3
+psycopg[binary]>=3.2,<4
+
+# --- Dev / test -------------------------------------------------------------
+# NOT installed in the image. `httpx` is what fastapi.testclient drives.
+#
+#   pip install "pytest>=8.2,<9" "httpx>=0.27,<0.29"
+#
+# pytest>=8.2,<9
+# httpx>=0.27,<0.29

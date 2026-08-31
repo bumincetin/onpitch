@@ -1,0 +1,120 @@
+# ==============================================================================
+# Supabase local development stack — `supabase start` reads this file.
+# Anything here that mirrors a production dashboard setting is documented so the
+# two can be kept in sync by hand (the CLI does not push most of these).
+# ==============================================================================
+
+project_id = "halisaha"
+
+[api]
+enabled = true
+port = 54321
+# `graphql_public` is exposed so pg_graphql keeps working; every other schema stays private.
+schemas = ["public", "graphql_public"]
+# Lets PostgREST resolve the operators/opclasses that live in `extensions`
+# (btree_gist powers the anti-double-booking EXCLUDE constraint).
+extra_search_path = ["public", "extensions"]
+max_rows = 1000
+
+[db]
+port = 54322
+shadow_port = 54320
+# Must match production. The schema uses tstzrange + GiST EXCLUDE constraints and
+# GENERATED ALWAYS AS ... STORED columns; all are Postgres 15 features we rely on.
+major_version = 15
+
+[db.pooler]
+enabled = true
+port = 54329
+# Transaction pooling mirrors Supavisor in production (DATABASE_URL, port 6543).
+pool_mode = "transaction"
+default_pool_size = 20
+max_client_conn = 100
+
+[realtime]
+enabled = true
+ip_version = "IPv4"
+
+[studio]
+enabled = true
+port = 54323
+api_url = "http://127.0.0.1"
+
+# Local mail catcher. Parental-consent and booking emails land here in dev instead of
+# being sent for real — important, because consent mail is addressed to a third party.
+[inbucket]
+enabled = true
+port = 54324
+smtp_port = 54325
+pop3_port = 54326
+
+[storage]
+enabled = true
+file_size_limit = "50MiB"
+
+[analytics]
+enabled = false
+
+# ------------------------------------------------------------------------------
+# Auth (GoTrue)
+# ------------------------------------------------------------------------------
+[auth]
+enabled = true
+site_url = "http://localhost:3000"
+additional_redirect_urls = [
+  "http://localhost:3000/auth/callback",
+  "http://localhost:3000/parental-consent"
+]
+# 1 hour. The `user_role` JWT claim is stamped by the access-token hook below, so a role
+# change only reaches middleware after the next refresh — RLS re-derives it per row anyway.
+jwt_expiry = 3600
+enable_refresh_token_rotation = true
+refresh_token_reuse_interval = 10
+enable_signup = true
+enable_anonymous_sign_ins = false
+# 12 chars: bookings move real money and venue owners hold connected-account access.
+minimum_password_length = 12
+password_requirements = "lower_upper_letters_digits"
+
+[auth.email]
+enable_signup = true
+enable_confirmations = true
+double_confirm_changes = true
+secure_password_change = true
+max_frequency = "60s"
+otp_expiry = 3600
+
+[auth.sms]
+enable_signup = false
+enable_confirmations = false
+
+[auth.external.google]
+enabled = false
+client_id = ""
+secret = ""
+redirect_uri = "http://localhost:54321/auth/v1/callback"
+
+# ------------------------------------------------------------------------------
+# Custom access token hook — stamps `user_role` (and the minor/consent flags) into every
+# issued JWT so middleware can gate routes with ZERO database round trips.
+# Defined in supabase/migrations/0003_auth_rbac_gdpr.sql.
+# In production this must also be enabled under Authentication > Hooks.
+# ------------------------------------------------------------------------------
+[auth.hook.custom_access_token]
+enabled = true
+uri = "pg-functions://postgres/public/custom_access_token_hook"
+
+# ------------------------------------------------------------------------------
+# Edge Functions
+# ------------------------------------------------------------------------------
+
+# Invoked by the database (pg_net) and by cron after a match is finalised, then again by
+# the operator's service-role key. verify_jwt = false because the callers present the
+# service-role key / INTERNAL_API_TOKEN in a header, not a user JWT.
+[functions.trueskill-update]
+verify_jwt = false
+
+# Scheduled sweep that re-scores recent matches through the IsolationForest sidecar.
+# Same reasoning: machine-to-machine, no end-user session exists.
+[functions.anomaly-sweep]
+verify_jwt = false
