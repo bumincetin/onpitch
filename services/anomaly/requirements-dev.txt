@@ -1,0 +1,22 @@
+# Test-only dependencies for the anomaly sidecar.
+#
+#   pip install -r requirements.txt -r requirements-dev.txt
+#   python -m pytest -q
+#
+# These are deliberately NOT in requirements.txt and NOT in the Docker image: the image runs the
+# service and the training job, and a test client shipped to production is extra attack surface
+# for no benefit.
+#
+# They were previously a commented-out note at the bottom of requirements.txt, which meant the
+# CI job installed `pytest` alone and every one of the twelve HTTP tests errored out with
+# "starlette.testclient requires httpx" — 32 passed, 12 errors, red build. A commented
+# dependency is not a dependency; this file is.
+
+-r requirements.txt
+
+pytest>=8.2,<9
+
+# What `fastapi.testclient.TestClient` drives. Starlette imports it lazily and raises at
+# construction time if it is absent, so its absence is not a collection error that names itself
+# clearly — it is twelve identical runtime errors.
+httpx>=0.27,<0.29

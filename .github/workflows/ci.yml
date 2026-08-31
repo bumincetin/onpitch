@@ -118,6 +118,53 @@ jobs:
           do $$ begin create role anon; exception when duplicate_object then null; end $$;
           do $$ begin create role service_role; exception when duplicate_object then null; end $$;
           do $$ begin create role supabase_auth_admin; exception when duplicate_object then null; end $$;
+
+          -- Supabase Storage. 0002_rls.sql declares the `avatars` bucket and four policies on
+          -- storage.objects, so these have to exist or the replay stops there. Shapes match the
+          -- columns the migration actually names; this is a stub for replay, not a reproduction
+          -- of Storage.
+          create schema if not exists storage;
+
+          create table if not exists storage.buckets (
+            id                 text primary key,
+            name               text not null,
+            owner              uuid,
+            public             boolean default false,
+            avif_autodetection boolean default false,
+            file_size_limit    bigint,
+            allowed_mime_types text[],
+            created_at         timestamptz default now(),
+            updated_at         timestamptz default now()
+          );
+
+          create table if not exists storage.objects (
+            id               uuid primary key default gen_random_uuid(),
+            bucket_id        text references storage.buckets (id),
+            name             text,
+            owner            uuid,
+            metadata         jsonb,
+            created_at       timestamptz default now(),
+            updated_at       timestamptz default now(),
+            last_accessed_at timestamptz default now()
+          );
+          alter table storage.objects enable row level security;
+
+          -- Returns every path segment EXCEPT the last, so for '<uid>/avatar.png' element 1 is
+          -- the uid. The avatars policies compare that to auth.uid(), so an implementation that
+          -- returned all segments would still pass a syntax check and quietly change what the
+          -- policies mean.
+          create or replace function storage.foldername(name text)
+          returns text[]
+          language plpgsql
+          immutable
+          as $fn$
+          declare
+            parts text[];
+          begin
+            parts := string_to_array(name, '/');
+            return parts[1:array_length(parts, 1) - 1];
+          end
+          $fn$;
           SQL
           for f in supabase/migrations/*.sql; do
             echo "=== $f"
@@ -207,6 +254,10 @@ jobs:
         with:
           python-version: '3.12'
           cache: pip
-          cache-dependency-path: services/anomaly/requirements.txt
-      - run: pip install -r requirements.txt pytest
+          cache-dependency-path: services/anomaly/requirements*.txt
+      # requirements-dev.txt pulls in requirements.txt and adds pytest + httpx. Installing
+      # `pytest` alone is what made this job report "32 passed, 12 errors": every HTTP test
+      # constructs a fastapi TestClient, and starlette raises at construction when httpx is
+      # missing rather than failing to import.
+      - run: pip install -r requirements-dev.txt
       - run: python -m pytest -q
