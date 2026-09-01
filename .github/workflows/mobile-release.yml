@@ -1,0 +1,72 @@
+# One button for both stores.
+#
+# Actions → "Mobile release" → Run workflow. Picks the EAS profile, builds Android and iOS on
+# EAS's builders at the same time, and (optionally) submits both to the internal Play track and
+# TestFlight. Nothing runs on a push: a store release is a decision, not a side effect.
+#
+# Needs ONE repository secret: EXPO_TOKEN (expo.dev → Account settings → Access tokens). Every
+# other credential — Apple App Store Connect API key, Play service account, signing keys — is
+# stored in the EAS project by `eas credentials`, never in this repository.
+#
+# See docs/GO_LIVE.md for the first-time setup that has to happen before this is useful.
+
+name: Mobile release
+
+on:
+  workflow_dispatch:
+    inputs:
+      profile:
+        description: EAS build profile
+        type: choice
+        default: production
+        options: [preview, production]
+      platform:
+        description: Platform(s)
+        type: choice
+        default: all
+        options: [all, android, ios]
+      submit:
+        description: Submit to the stores after the build (production profile only)
+        type: boolean
+        default: false
+
+concurrency:
+  group: mobile-release
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: EAS build · ${{ inputs.profile }} · ${{ inputs.platform }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: apps/mobile/package-lock.json
+      - uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+      # packages/shared is linked with file:, so the root install has to exist first.
+      - run: npm ci --ignore-scripts
+      - run: npm ci --prefix apps/mobile
+      - run: npm --prefix apps/mobile run typecheck
+
+      - name: Build
+        working-directory: apps/mobile
+        run: >-
+          eas build
+          --profile ${{ inputs.profile }}
+          --platform ${{ inputs.platform }}
+          --non-interactive
+          --no-wait
+          ${{ inputs.submit && inputs.profile == 'production' && '--auto-submit' || '' }}
+
+      - name: Where to look
+        run: |
+          echo "Builds are queued on EAS. Follow them at https://expo.dev → project → Builds."
+          echo "With 'submit' on, EAS submits each platform as soon as its build finishes:"
+          echo "  Android → Play Console → Testing → Internal testing (draft release)"
+          echo "  iOS     → App Store Connect → TestFlight"

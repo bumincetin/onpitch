@@ -4,6 +4,9 @@ What has been verified in this repository, what has not, and the exact steps to 
 
 ---
 
+> Looking for the ordered, click-by-click launch checklist with costs? That is
+> [GO_LIVE.md](./GO_LIVE.md). This document is the reference it points back to.
+
 ## 1. Verification status
 
 Run in this repository, passing:

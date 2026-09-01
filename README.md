@@ -143,6 +143,13 @@ Run from the repository root.
 > `scripts/check-schema-drift.mjs`, which CI runs against the migrated schema and which compares
 > table names, column names and nullability.
 
+## Going live
+
+[docs/GO_LIVE.md](docs/GO_LIVE.md) is the ordered checklist for shipping web, Android and iOS
+together at minimal cost: which accounts to open, what each costs, the exact Vercel and EAS
+settings (already committed in `apps/web/vercel.json` and `apps/mobile/eas.json`), and the
+**Mobile release** GitHub Action that builds and submits both platforms with one click.
+
 ## CI
 
 `.github/workflows/ci.yml`, four jobs on every push:
