@@ -465,3 +465,25 @@
     scroll-behavior: auto !important;
   }
 }
+
+/*
+ * Printing the sideline cheat sheet (components/matchday/cheat-sheet.tsx). Everything but the
+ * sheet is hidden, and the sheet is lifted to the page origin so it prints at the top of one A4.
+ */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  .matchday-print,
+  .matchday-print * {
+    visibility: visible;
+  }
+  .matchday-print {
+    position: absolute;
+    inset: 0;
+    margin: 0;
+    padding: 12mm;
+    color: #000;
+    background: #fff;
+  }
+}

@@ -26,6 +26,7 @@ import {
 } from "@/components/match/match-card"
 import { ConsensusPanel } from "@/components/match/consensus-panel"
 import { MatchPrivateListener } from "@/components/match/match-private-listener"
+import { MatchdayHubCard } from "@/components/matchday/matchday-hub-card"
 import { RatingDelta } from "@/components/match/rating-delta"
 import { Roster, type RosterPlayer } from "@/components/match/roster"
 import { ScoreReporter } from "@/components/match/score-reporter"
@@ -268,6 +269,13 @@ export default async function MatchDetailPage({ params }: { params: { id: string
           */}
         </CardContent>
       </Card>
+
+      {/* ---------------- matchday: plan / live / debrief ---------------- */}
+      {/*
+        Coach tooling for people in the fixture. It reads a device-local record, never the
+        database, so it can be offered to anyone who can see the match without widening anything.
+      */}
+      {isParticipant || isOrganiser ? <MatchdayHubCard matchId={match.id} matchStatus={match.status} /> : null}
 
       {/* ---------------- consensus ---------------- */}
       {match.requires_consensus ? (

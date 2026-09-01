@@ -19,7 +19,7 @@ import { notFound } from "next/navigation"
 import { getSessionUser } from "@/lib/rbac"
 import { createClient } from "@/lib/supabase/server"
 import { isUuid, type MatchPresencePayload } from "@halisaha/shared/channels"
-import { LiveScoreboard } from "@/components/match/live-scoreboard"
+import { LiveCompanion } from "@/components/matchday/live-companion"
 import type { RosterPlayer } from "@/components/match/roster"
 import { formatKickoff } from "@/components/match/match-card"
 
@@ -148,15 +148,27 @@ export default async function LiveMatchPage({ params }: { params: { id: string }
           </p>
         </div>
 
-        <Link
-          href={`/matches/${match.id}`}
-          className="text-sm text-muted-foreground underline underline-offset-4 hover:text-foreground"
-        >
-          Maç ayrıntıları
-        </Link>
+        <div className="flex gap-4">
+          <Link
+            href={`/matches/${match.id}/plan`}
+            className="text-sm text-muted-foreground underline underline-offset-4 hover:text-foreground"
+          >
+            Plan
+          </Link>
+          <Link
+            href={`/matches/${match.id}`}
+            className="text-sm text-muted-foreground underline underline-offset-4 hover:text-foreground"
+          >
+            Maç ayrıntıları
+          </Link>
+        </div>
       </div>
 
-      <LiveScoreboard
+      {/*
+        `LiveCompanion` renders the unchanged `LiveScoreboard` (still the page's one channel
+        owner) and, under it, the matchday panel fed by the plan saved on this device.
+      */}
+      <LiveCompanion
         match={match}
         homeTeamName={homeTeamName}
         awayTeamName={awayTeamName}
@@ -164,6 +176,7 @@ export default async function LiveMatchPage({ params }: { params: { id: string }
         viewer={presenceSelf}
         canScore={canScore}
         reportHref={`/matches/${match.id}`}
+        viewerSide={selfSide}
       />
 
       <p className="text-xs leading-relaxed text-muted-foreground">

@@ -22,6 +22,11 @@ including API error messages.
 - **Keep playing.** An XP ledger with a derived level (`50·L·(L−1)`), weekly streaks recomputed
   by gaps-and-islands so back-dated results cannot silently break a run, 19 badges, and weekly
   challenges with baselines.
+- **Coach a matchday.** Squad check-in, a drag-or-tap line-up on a 5v5–11v11 pitch, an
+  equal-minutes rotation planner with dedicated or rotating goalkeeper, a lock-screen cheat
+  sheet, and a 60-second post-match debrief that pre-fills from live tracking or reconstructs the
+  match when the phone stayed in the bag. Exports WhatsApp cards and 9:16 stories. See
+  [docs/MATCHDAY.md](docs/MATCHDAY.md).
 - **Watch live** over Supabase Realtime: broadcast for score ticks, Postgres Changes for the
   state that has to be right, both authorised by RLS.
 
@@ -35,7 +40,7 @@ that renders a still. See [docs/DESIGN.md](docs/DESIGN.md).
 apps/web/          Next.js 14 App Router, React 18, TypeScript strict, Tailwind + shadcn/ui
 apps/mobile/       Expo SDK 57, expo-router, React Native 0.86, React 19
 packages/shared/   database.ts · domain.ts · trueskill.ts · balance.ts · quality.ts
-                   · channels.ts · gamification.ts · leagues.ts
+                   · channels.ts · gamification.ts · leagues.ts · matchday/
 supabase/          migrations 0001…0010 · functions/ (Deno edge) · config.toml
 services/anomaly/  FastAPI + scikit-learn IsolationForest sidecar
 scripts/           check-schema-drift.mjs · generate-mobile-assets.mjs · seed-dev.mjs
@@ -52,11 +57,11 @@ Inside `apps/web`:
 
 ```
 app/          (auth) (app) (dashboard) route groups, api/ route handlers, auth/ callbacks
-components/   ui/ (shadcn primitives) · account · admin · auth · booking · match · nav
-              · notifications · team · venue
+components/   ui/ (shadcn primitives) · account · admin · auth · booking · match · matchday
+              · nav · notifications · team · venue
 lib/          supabase clients · stripe · payments · rbac · gdpr · realtime · matchmaking
               · booking · teams · admin · notifications · api-response · env
-              · rate-limit · site-url · progress · leagues
+              · rate-limit · site-url · progress · leagues · matchday
 components/three/  the night-pitch scenes: world · players · scene · textures · palette
 ```
 

@@ -43,7 +43,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react"
 import Link from "next/link"
 
-import { useMatchChannel } from "@/lib/realtime/use-match-channel"
+import { useMatchChannel, type LiveTally } from "@/lib/realtime/use-match-channel"
 import { CONNECTION_LABEL, type MatchPresencePayload } from "@halisaha/shared/channels"
 import { MATCH_FORMAT_LABEL, MATCH_STATUS_META } from "@/components/match/match-card"
 import { Roster, type RosterPlayer } from "@/components/match/roster"
@@ -87,6 +87,12 @@ export interface LiveScoreboardProps {
   canScore: boolean
   /** Where "report the final score" goes. */
   reportHref?: string
+  /**
+   * Observe the unofficial tally as it changes, from this device or any other. Used by the
+   * matchday companion to keep a local session for the debrief; the scoreboard itself is
+   * unaffected by whether anyone listens.
+   */
+  onTallyChange?: (tally: LiveTally | null) => void
   className?: string
 }
 
@@ -121,6 +127,7 @@ export function LiveScoreboard({
   viewer,
   canScore,
   reportHref,
+  onTallyChange,
   className,
 }: LiveScoreboardProps) {
   const home = homeTeamName ?? "Home"
@@ -140,6 +147,10 @@ export function LiveScoreboard({
   const { score, status, connection, tally, presence, error, broadcastScore, resync } = channel
 
   const [sendWarning, setSendWarning] = useState<string | null>(null)
+
+  useEffect(() => {
+    onTallyChange?.(tally)
+  }, [tally, onTallyChange])
 
   /* ---- the clock ------------------------------------------------------- */
 
