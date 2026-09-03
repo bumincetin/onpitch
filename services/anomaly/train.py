@@ -360,7 +360,7 @@ def resolve_dsn() -> str:
 def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         prog="train.py",
-        description="Fit the Halisaha Isolation Forest and write model.joblib + metadata.json.",
+        description="Fit the OnPitch Isolation Forest and write model.joblib + metadata.json.",
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
     parser.add_argument(
@@ -453,7 +453,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         _write_artifacts(args.output, forest, metadata)
         print(
             f"\nwrote {args.output / MODEL_FILENAME} and {args.output / METADATA_FILENAME}\n"
-            f"restart the sidecar, or POST /model/reload with X-Halisaha-Admin-Token."
+            f"restart the sidecar, or POST /model/reload with X-OnPitch-Admin-Token."
         )
         return 0
 

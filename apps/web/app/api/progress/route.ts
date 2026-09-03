@@ -14,8 +14,8 @@
 import { fail, handleRoute, ok } from "@/lib/api-response"
 import { getSessionUser } from "@/lib/rbac"
 import { loadMyProgress, loadNextFixture, loadRecentForm } from "@/lib/progress"
-import { API_ERROR_CODES } from "@halisaha/shared/domain"
-import type { PlayerProgress } from "@halisaha/shared/gamification"
+import { API_ERROR_CODES } from "@onpitch/shared/domain"
+import type { PlayerProgress } from "@onpitch/shared/gamification"
 import type { FormResult, NextFixture } from "@/lib/progress"
 
 export const runtime = "nodejs"

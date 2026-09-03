@@ -13,7 +13,7 @@ import { ImageResponse } from "next/og"
  * megabytes and would need regenerating whenever the scene changes.
  */
 export const runtime = "edge"
-export const alt = "Halısaha — saha kirala, maç kur, oyna"
+export const alt = "OnPitch — saha kirala, maç kur, oyna"
 export const size = { width: 1200, height: 630 }
 export const contentType = "image/png"
 
@@ -99,7 +99,7 @@ export default function OpengraphImage() {
               lineHeight: 1.05,
             }}
           >
-            Halısaha
+            OnPitch
           </div>
           <div style={{ display: "flex", fontSize: 38, color: "#a8c9b8", lineHeight: 1.3 }}>
             Saha kirala, maç kur, oyna.

@@ -16,7 +16,7 @@ import { View } from 'react-native'
 import { Badge, Card, Spinner, Text } from '@/components/ui'
 import { formatMinor, formatTime } from '@/lib/format'
 import { useTheme } from '@/lib/theme'
-import type { Enums } from '@halisaha/shared/database'
+import type { Enums } from '@onpitch/shared/database'
 
 import { formatLabel, surfaceLabel } from './labels'
 

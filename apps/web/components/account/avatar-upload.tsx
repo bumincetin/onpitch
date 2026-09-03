@@ -28,7 +28,7 @@ import { Button } from "@/components/ui/button"
 import { createClient } from "@/lib/supabase/client"
 import { toast } from "@/lib/use-toast"
 import { cn } from "@/lib/utils"
-import { isApiOk, type ApiResponse } from "@halisaha/shared/domain"
+import { isApiOk, type ApiResponse } from "@onpitch/shared/domain"
 
 /** Mirrors the ceiling enforced in `app/api/account/route.ts`. */
 const MAX_AVATAR_BYTES = 2 * 1024 * 1024

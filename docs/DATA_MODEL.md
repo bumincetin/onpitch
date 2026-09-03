@@ -1,4 +1,4 @@
-# Halisaha — Data Model
+# OnPitch — Data Model
 
 Reference for `supabase/migrations/0001_schema.sql` (19 tables, 9 enums). Money is **integer
 minor units** (`*_minor`, kuruş). All timestamps are `timestamptz`. Ranges are `tstzrange`,

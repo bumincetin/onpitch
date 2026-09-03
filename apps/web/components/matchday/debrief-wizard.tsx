@@ -18,8 +18,8 @@ import { useCallback, useEffect, useMemo, useState } from "react"
 import Link from "next/link"
 import { ChevronLeft, ChevronRight, Minus, Plus } from "lucide-react"
 
-import type { Enums } from "@halisaha/shared/database"
-import type { TeamSide } from "@halisaha/shared/domain"
+import type { Enums } from "@onpitch/shared/database"
+import type { TeamSide } from "@onpitch/shared/domain"
 import {
   actualMinutes,
   createDebriefDraft,
@@ -27,7 +27,7 @@ import {
   scoreForSide,
   type PlayerCount,
   type PostMatchDebrief,
-} from "@halisaha/shared/matchday"
+} from "@onpitch/shared/matchday"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"

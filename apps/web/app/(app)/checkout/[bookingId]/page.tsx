@@ -42,7 +42,7 @@ import { parseTstzRange } from "@/lib/payments"
 import { getSessionUser } from "@/lib/rbac"
 import { describeStripeError, stripe } from "@/lib/stripe"
 import { createClient } from "@/lib/supabase/server"
-import { DEFAULT_CURRENCY } from "@halisaha/shared/domain"
+import { DEFAULT_CURRENCY } from "@onpitch/shared/domain"
 
 export const dynamic = "force-dynamic"
 
@@ -227,7 +227,7 @@ export default async function CheckoutPage({ params }: { params: { bookingId: st
           <CardHeader>
             <CardTitle className="text-base">Ödeme bilgileri</CardTitle>
             <CardDescription>
-              Ödeme Stripe üzerinden alınır. Kart bilgilerin Halısaha&apos;ya hiç ulaşmaz.
+              Ödeme Stripe üzerinden alınır. Kart bilgilerin OnPitch&apos;ya hiç ulaşmaz.
             </CardDescription>
           </CardHeader>
           <CardContent>

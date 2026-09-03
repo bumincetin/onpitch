@@ -15,7 +15,7 @@ import { notFound } from "next/navigation"
 
 import { getSessionUser } from "@/lib/rbac"
 import { createClient } from "@/lib/supabase/server"
-import { isUuid } from "@halisaha/shared/channels"
+import { isUuid } from "@onpitch/shared/channels"
 import { DebriefWizard } from "@/components/matchday/debrief-wizard"
 import { formatKickoff } from "@/components/match/match-card"
 

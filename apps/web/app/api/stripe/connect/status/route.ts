@@ -51,8 +51,8 @@ import {
   stripe,
   toOnboardingState,
 } from "@/lib/stripe"
-import type { Tables } from "@halisaha/shared/database"
-import { API_ERROR_CODES, type StripeOnboardingState } from "@halisaha/shared/domain"
+import type { Tables } from "@onpitch/shared/database"
+import { API_ERROR_CODES, type StripeOnboardingState } from "@onpitch/shared/domain"
 
 export const runtime = "nodejs"
 export const dynamic = "force-dynamic"

@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Halisaha",
-    "slug": "halisaha",
+    "name": "OnPitch",
+    "slug": "onpitch",
     "description": "Amatör futbol için halı saha rezervasyonu, maç organizasyonu ve şehir ligleri.",
     "version": "1.0.0",
     "runtimeVersion": {
@@ -9,7 +9,7 @@
     },
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "scheme": "halisaha",
+    "scheme": "onpitch",
     "userInterfaceStyle": "automatic",
     "primaryColor": "#1d6a46",
     "backgroundColor": "#0b1512",
@@ -24,7 +24,7 @@
     ],
     "locales": {},
     "ios": {
-      "bundleIdentifier": "com.halisaha.app",
+      "bundleIdentifier": "com.onpitch.app",
       "supportsTablet": true,
       "infoPlist": {
         "CFBundleAllowMixedLocalizations": true,
@@ -43,7 +43,7 @@
       }
     },
     "android": {
-      "package": "com.halisaha.app",
+      "package": "com.onpitch.app",
       "edgeToEdgeEnabled": true,
       "intentFilters": [
         {
@@ -51,7 +51,7 @@
           "autoVerify": false,
           "data": [
             {
-              "scheme": "halisaha"
+              "scheme": "onpitch"
             }
           ],
           "category": [
@@ -83,7 +83,7 @@
       [
         "@stripe/stripe-react-native",
         {
-          "merchantIdentifier": "merchant.com.halisaha.app",
+          "merchantIdentifier": "merchant.com.onpitch.app",
           "enableGooglePay": false
         }
       ]

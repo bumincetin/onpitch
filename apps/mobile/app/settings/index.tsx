@@ -27,7 +27,7 @@ import { useRouter } from 'expo-router'
 import * as React from 'react'
 import { RefreshControl, View } from 'react-native'
 
-import type { TablesUpdate } from '@halisaha/shared/database'
+import type { TablesUpdate } from '@onpitch/shared/database'
 
 import { Badge, Button, Card, Field, Notice, Screen, Separator, Text } from '@/components/ui'
 import { ScreenHeader, displayNameOf, useMyProfile, type MyProfile } from '@/components/profile'

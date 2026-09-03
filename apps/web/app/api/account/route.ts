@@ -44,12 +44,12 @@ import { fail, handleRoute, ok } from "@/lib/api-response"
 import { getSessionUser } from "@/lib/rbac"
 import { createRouteClient } from "@/lib/supabase/server"
 import { enforcePrivacyDefaults, type LockedPrivacyField } from "@/lib/gdpr"
-import type { TablesUpdate } from "@halisaha/shared/database"
+import type { TablesUpdate } from "@onpitch/shared/database"
 import {
   API_ERROR_CODES,
   profileVisibilitySchema,
   type ProfileVisibility,
-} from "@halisaha/shared/domain"
+} from "@onpitch/shared/domain"
 
 export const runtime = "nodejs"
 export const dynamic = "force-dynamic"

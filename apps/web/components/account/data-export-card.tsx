@@ -22,9 +22,9 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Button } from "@/components/ui/button"
 import { toast } from "@/lib/use-toast"
 import { cn } from "@/lib/utils"
-import { isApiOk, type ApiResponse } from "@halisaha/shared/domain"
+import { isApiOk, type ApiResponse } from "@onpitch/shared/domain"
 
-/** `attachment; filename="halisaha-data-export-2026-08-30.json"` -> the filename. */
+/** `attachment; filename="onpitch-data-export-2026-08-30.json"` -> the filename. */
 function filenameFrom(header: string | null): string | null {
   if (!header) return null
   const quoted = /filename\*?=(?:UTF-8'')?"?([^";]+)"?/i.exec(header)
@@ -38,7 +38,7 @@ function filenameFrom(header: string | null): string | null {
 }
 
 function fallbackFilename(): string {
-  return `halisaha-data-export-${new Date().toISOString().slice(0, 10)}.json`
+  return `onpitch-data-export-${new Date().toISOString().slice(0, 10)}.json`
 }
 
 export function DataExportCard({ className }: { className?: string }) {

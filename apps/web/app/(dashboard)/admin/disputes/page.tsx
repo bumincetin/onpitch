@@ -24,7 +24,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { DisputeQueue, type DisputeQueueRow } from "@/components/admin/dispute-queue"
 import { requireRole } from "@/lib/rbac"
 import { createClient } from "@/lib/supabase/server"
-import type { Enums } from "@halisaha/shared/database"
+import type { Enums } from "@onpitch/shared/database"
 
 export const dynamic = "force-dynamic"
 

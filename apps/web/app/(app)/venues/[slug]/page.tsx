@@ -25,7 +25,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { getSessionUser } from "@/lib/rbac"
 import { createClient } from "@/lib/supabase/server"
-import { DEFAULT_CURRENCY } from "@halisaha/shared/domain"
+import { DEFAULT_CURRENCY } from "@onpitch/shared/domain"
 
 export const dynamic = "force-dynamic"
 

@@ -192,7 +192,7 @@ export function buildCrowd(options: CrowdOptions = {}): Crowd {
     ball.x += ball.vx * dt
     ball.z += ball.vz * dt
 
-    // Bounce off the boards. Halısaha is a cage; the ball never really goes out.
+    // Bounce off the boards. OnPitch is a cage; the ball never really goes out.
     const bx = pitch.width / 2 - 0.6
     const bz = pitch.length / 2 - 0.6
     if (ball.x < -bx || ball.x > bx) {

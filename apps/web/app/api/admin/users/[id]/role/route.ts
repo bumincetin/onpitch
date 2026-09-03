@@ -44,7 +44,7 @@ import { requireRole, type AppRole } from "@/lib/rbac"
 import { createClient } from "@/lib/supabase/server"
 import { createAdminClient } from "@/lib/supabase/admin"
 import { countLiveAdmins, recordAdminAudit } from "@/lib/admin/metrics"
-import { API_ERROR_CODES, appRoleSchema } from "@halisaha/shared/domain"
+import { API_ERROR_CODES, appRoleSchema } from "@onpitch/shared/domain"
 
 export const runtime = "nodejs"
 export const dynamic = "force-dynamic"

@@ -1,5 +1,5 @@
 -- =============================================================================
--- Halisaha — 0007_cron_decay.sql
+-- OnPitch — 0007_cron_decay.sql
 -- pg_cron scheduled housekeeping.
 --
 -- WHAT THIS FILE OWNS

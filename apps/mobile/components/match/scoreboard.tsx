@@ -16,8 +16,8 @@
 import * as React from 'react'
 import { AccessibilityInfo, Platform, View } from 'react-native'
 
-import { CONNECTION_LABEL, type RealtimeConnection } from '@halisaha/shared/channels'
-import type { Enums } from '@halisaha/shared/database'
+import { CONNECTION_LABEL, type RealtimeConnection } from '@onpitch/shared/channels'
+import type { Enums } from '@onpitch/shared/database'
 
 import { Badge, Text, type BadgeTone } from '@/components/ui'
 import { formatRelative } from '@/lib/format'

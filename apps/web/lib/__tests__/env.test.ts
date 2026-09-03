@@ -124,7 +124,7 @@ describe("required in every environment", () => {
   })
 
   it("refuses a site URL with a trailing slash, which doubles the slash in every redirect", async () => {
-    mutableEnv.NEXT_PUBLIC_SITE_URL = "https://halisaha.example/"
+    mutableEnv.NEXT_PUBLIC_SITE_URL = "https://onpitch.example/"
     await expect(loadEnv()).rejects.toThrow(/NEXT_PUBLIC_SITE_URL/)
   })
 
@@ -226,7 +226,7 @@ describe("production-only rules", () => {
   it("requires https, because the auth cookies are Secure and would never be sent", async () => {
     const message = await failureFor({
       ...production,
-      NEXT_PUBLIC_SITE_URL: "http://halisaha.example",
+      NEXT_PUBLIC_SITE_URL: "http://onpitch.example",
       INTERNAL_API_TOKEN: "0".repeat(64),
       RESEND_API_KEY: "re_x",
     })
@@ -238,7 +238,7 @@ describe("production-only rules", () => {
     // and no money ever moves.
     const message = await failureFor({
       ...production,
-      NEXT_PUBLIC_SITE_URL: "https://halisaha.example",
+      NEXT_PUBLIC_SITE_URL: "https://onpitch.example",
       STRIPE_SECRET_KEY: "sk_test_abc",
       STRIPE_WEBHOOK_SECRET: "whsec_p",
       INTERNAL_API_TOKEN: "0".repeat(64),
@@ -251,7 +251,7 @@ describe("production-only rules", () => {
   it("rejects a live secret key paired with a test publishable key", async () => {
     const message = await failureFor({
       ...production,
-      NEXT_PUBLIC_SITE_URL: "https://halisaha.example",
+      NEXT_PUBLIC_SITE_URL: "https://onpitch.example",
       NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: "pk_test_abc",
       STRIPE_SECRET_KEY: "sk_live_abc",
       STRIPE_WEBHOOK_SECRET: "whsec_p",
@@ -264,7 +264,7 @@ describe("production-only rules", () => {
   it("requires the internal token, without which the reservation sweeper cannot run", async () => {
     const message = await failureFor({
       ...production,
-      NEXT_PUBLIC_SITE_URL: "https://halisaha.example",
+      NEXT_PUBLIC_SITE_URL: "https://onpitch.example",
       RESEND_API_KEY: "re_x",
     })
     expect(message).toContain("INTERNAL_API_TOKEN")
@@ -273,7 +273,7 @@ describe("production-only rules", () => {
   it("requires an email transport, or an under-16 signup can never be approved", async () => {
     const message = await failureFor({
       ...production,
-      NEXT_PUBLIC_SITE_URL: "https://halisaha.example",
+      NEXT_PUBLIC_SITE_URL: "https://onpitch.example",
       INTERNAL_API_TOKEN: "0".repeat(64),
     })
     expect(message).toContain("RESEND_API_KEY")
@@ -283,7 +283,7 @@ describe("production-only rules", () => {
     expect(
       await failureFor({
         ...production,
-        NEXT_PUBLIC_SITE_URL: "https://halisaha.example",
+        NEXT_PUBLIC_SITE_URL: "https://onpitch.example",
         NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: "pk_live_abc",
         STRIPE_SECRET_KEY: "sk_live_abc",
         STRIPE_WEBHOOK_SECRET: "whsec_platform",

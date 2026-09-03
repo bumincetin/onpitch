@@ -1,4 +1,4 @@
-# Runtime dependencies for the Halisaha anomaly sidecar.
+# Runtime dependencies for the OnPitch anomaly sidecar.
 #
 # Upper bounds are pinned to the next major so an unattended `pip install` in a
 # rebuilt image cannot pull a breaking release. Refresh them deliberately.

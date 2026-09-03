@@ -10,7 +10,7 @@
  * caller's baseline. Putting that behind the same route the web dashboard uses means there is
  * one definition of "a player's progress", and the phone cannot end up with a different one.
  *
- * The payload is parsed with the schemas from `@halisaha/shared/gamification`, the same ones the
+ * The payload is parsed with the schemas from `@onpitch/shared/gamification`, the same ones the
  * server validates against. `apiFetch` verifies the envelope; what is inside it is still the
  * server's claim until something checks it.
  */
@@ -24,7 +24,7 @@ import {
   type LeaderboardEntry,
   type LeaderboardScope,
   type PlayerProgress,
-} from '@halisaha/shared/gamification'
+} from '@onpitch/shared/gamification'
 
 import { apiFetch } from '@/lib/api'
 import { DataError } from '@/lib/data-error'

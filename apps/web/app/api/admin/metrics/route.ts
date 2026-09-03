@@ -30,7 +30,7 @@ import {
   computePlatformMetrics,
   type PlatformMetrics,
 } from "@/lib/admin/metrics"
-import { API_ERROR_CODES } from "@halisaha/shared/domain"
+import { API_ERROR_CODES } from "@onpitch/shared/domain"
 
 export const runtime = "nodejs"
 export const dynamic = "force-dynamic"

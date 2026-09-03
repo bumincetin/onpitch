@@ -30,7 +30,7 @@ import { notFound } from "next/navigation"
 
 import { getSessionUser } from "@/lib/rbac"
 import { createClient } from "@/lib/supabase/server"
-import { isUuid } from "@halisaha/shared/channels"
+import { isUuid } from "@onpitch/shared/channels"
 import { MATCH_STATUS_META, formatKickoff } from "@/components/match/match-card"
 import { RatingDeltaInline, UncertaintyBar, conservativeRating } from "@/components/match/rating-delta"
 import { Badge } from "@/components/ui/badge"

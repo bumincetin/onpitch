@@ -21,7 +21,7 @@ import { AnomalyTable, decodeReasons, type AnomalyRow } from "@/components/admin
 import { requireRole } from "@/lib/rbac"
 import { createClient } from "@/lib/supabase/server"
 import { cn } from "@/lib/utils"
-import type { Enums, Json } from "@halisaha/shared/database"
+import type { Enums, Json } from "@onpitch/shared/database"
 
 export const dynamic = "force-dynamic"
 

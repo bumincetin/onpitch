@@ -3,7 +3,7 @@ import { View } from 'react-native'
 
 import { Button, Text } from '@/components/ui'
 import { useTheme } from '@/lib/theme'
-import { formatXp, type ChallengeState } from '@halisaha/shared/gamification'
+import { formatXp, type ChallengeState } from '@onpitch/shared/gamification'
 
 import { Eyebrow, HairlineBar } from './primitives'
 

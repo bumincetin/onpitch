@@ -21,7 +21,7 @@ if (!KEY) {
 
 const db = createClient(URL, KEY, { auth: { persistSession: false, autoRefreshToken: false } })
 
-const PASSWORD = 'halisaha-dev-2026'
+const PASSWORD = 'onpitch-dev-2026'
 const day = 86_400_000
 const now = Date.now()
 const at = (offsetDays, hour) => {
@@ -48,17 +48,17 @@ const dobForAge = (years) => {
 }
 
 const PEOPLE = [
-  { key: 'admin', email: 'admin@halisaha.dev', name: 'Deniz Yılmaz', role: 'admin', age: 34, city: 'İstanbul' },
-  { key: 'owner', email: 'owner@halisaha.dev', name: 'Kemal Arslan', role: 'venue_owner', age: 41, city: 'İstanbul' },
-  { key: 'owner2', email: 'owner2@halisaha.dev', name: 'Selin Kaya', role: 'venue_owner', age: 38, city: 'Ankara' },
-  { key: 'ayse', email: 'ayse@halisaha.dev', name: 'Ayşe Demir', role: 'player', age: 27, city: 'İstanbul', position: 'midfielder' },
-  { key: 'mehmet', email: 'mehmet@halisaha.dev', name: 'Mehmet Öz', role: 'player', age: 31, city: 'İstanbul', position: 'forward' },
-  { key: 'burak', email: 'burak@halisaha.dev', name: 'Burak Şahin', role: 'player', age: 24, city: 'İstanbul', position: 'goalkeeper' },
-  { key: 'elif', email: 'elif@halisaha.dev', name: 'Elif Çelik', role: 'player', age: 29, city: 'İstanbul', position: 'defender' },
-  { key: 'can', email: 'can@halisaha.dev', name: 'Can Aydın', role: 'player', age: 22, city: 'İstanbul', position: 'midfielder' },
-  { key: 'zeynep', email: 'zeynep@halisaha.dev', name: 'Zeynep Koç', role: 'player', age: 26, city: 'İstanbul', position: 'forward' },
+  { key: 'admin', email: 'admin@onpitch.dev', name: 'Deniz Yılmaz', role: 'admin', age: 34, city: 'İstanbul' },
+  { key: 'owner', email: 'owner@onpitch.dev', name: 'Kemal Arslan', role: 'venue_owner', age: 41, city: 'İstanbul' },
+  { key: 'owner2', email: 'owner2@onpitch.dev', name: 'Selin Kaya', role: 'venue_owner', age: 38, city: 'Ankara' },
+  { key: 'ayse', email: 'ayse@onpitch.dev', name: 'Ayşe Demir', role: 'player', age: 27, city: 'İstanbul', position: 'midfielder' },
+  { key: 'mehmet', email: 'mehmet@onpitch.dev', name: 'Mehmet Öz', role: 'player', age: 31, city: 'İstanbul', position: 'forward' },
+  { key: 'burak', email: 'burak@onpitch.dev', name: 'Burak Şahin', role: 'player', age: 24, city: 'İstanbul', position: 'goalkeeper' },
+  { key: 'elif', email: 'elif@onpitch.dev', name: 'Elif Çelik', role: 'player', age: 29, city: 'İstanbul', position: 'defender' },
+  { key: 'can', email: 'can@onpitch.dev', name: 'Can Aydın', role: 'player', age: 22, city: 'İstanbul', position: 'midfielder' },
+  { key: 'zeynep', email: 'zeynep@onpitch.dev', name: 'Zeynep Koç', role: 'player', age: 26, city: 'İstanbul', position: 'forward' },
   // Under 16: exercises the Art. 8 age gate, the locked privacy defaults and the consent banner.
-  { key: 'minor', email: 'genc@halisaha.dev', name: 'Kaan Tunç', role: 'player', age: 14, city: 'İstanbul', position: 'midfielder' },
+  { key: 'minor', email: 'genc@onpitch.dev', name: 'Kaan Tunç', role: 'player', age: 14, city: 'İstanbul', position: 'midfielder' },
 ]
 
 const ids = {}
@@ -121,7 +121,7 @@ console.log(`  ✓ ${PEOPLE.filter((p) => p.role !== 'player').length} elevated,
 if (ids.minor) {
   await db
     .from('profiles')
-    .update({ guardian_name: 'Ayla Tunç', guardian_email: 'veli@halisaha.dev', parental_consent_status: 'pending' })
+    .update({ guardian_name: 'Ayla Tunç', guardian_email: 'veli@onpitch.dev', parental_consent_status: 'pending' })
     .eq('id', ids.minor)
   console.log('  ✓ minor account left at parental_consent_status = pending')
 }

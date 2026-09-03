@@ -1,4 +1,4 @@
-# Halisaha — MVP Implementation Plan
+# OnPitch — MVP Implementation Plan
 
 > Amateur football platform. Dual-sided marketplace: players & teams on one side, venue owners
 > on the other. Pitch booking with Stripe Connect split payments, TrueSkill 2 matchmaking,
@@ -412,9 +412,9 @@ The repository is an npm-workspaces monorepo. Root `package.json` declares two w
 would fight the web app's hoisted tree.
 
 ```
-apps/web/            Next.js 14 App Router  (@halisaha/web)
-apps/mobile/         Expo 57 + expo-router  (@halisaha/mobile)
-packages/shared/     @halisaha/shared — code both clients import
+apps/web/            Next.js 14 App Router  (@onpitch/web)
+apps/mobile/         Expo 57 + expo-router  (@onpitch/mobile)
+packages/shared/     @onpitch/shared — code both clients import
 supabase/            migrations/ · functions/ · config.toml
 services/anomaly/    FastAPI + IsolationForest sidecar
 docs/ · scripts/progress.mjs · .github/workflows/ci.yml
@@ -438,18 +438,18 @@ Two modules would otherwise be copy-pasted into both clients and drift apart:
 `balance.ts` and `quality.ts` live there for the same reason.
 
 The package has **no build step**. `main`, `types` and the `exports` map point straight at the
-TypeScript sources, so `@halisaha/shared/domain` resolves to `packages/shared/src/domain.ts` and
+TypeScript sources, so `@onpitch/shared/domain` resolves to `packages/shared/src/domain.ts` and
 an edit is picked up by `next dev` and by Metro without a rebuild. The cost is a hard constraint
 on what may live there: platform-neutral only — no `next/*`, no `react-native`, no `node:*`, no
 DOM globals. Anything that cannot satisfy that belongs in an app.
 
-Web resolves the package through the workspace (`"@halisaha/shared": "*"`); mobile links it with
+Web resolves the package through the workspace (`"@onpitch/shared": "*"`); mobile links it with
 `file:../../packages/shared`. Metro needs four explicit settings for that to work, all in
 `apps/mobile/metro.config.js`: watch the workspace root, so shared edits trigger a reload; list
 `nodeModulesPaths` nearest-first, so a locally pinned package wins over a hoisted one; set
 `disableHierarchicalLookup`, so a stray `packages/shared/node_modules/react` cannot load a second
 React and turn every hook into "Invalid hook call"; and keep `unstable_enablePackageExports` on,
-since the subpath exports map is the only way `@halisaha/shared/domain` resolves at all.
+since the subpath exports map is the only way `@onpitch/shared/domain` resolves at all.
 
 ### App Router
 
@@ -653,7 +653,7 @@ reproducibility). Endpoints `POST /score`, `POST /score/batch`, `GET /healthz`,
 - **Cold start.** With no trained artefact the service falls back to a documented deterministic
   rule scorer and labels itself `rules-fallback-v1` in the response, so the caller always knows
   which scorer answered.
-- **Request signing:** `X-Halisaha-Signature = hex(hmac_sha256(secret, timestamp + '.' + body))`
+- **Request signing:** `X-OnPitch-Signature = hex(hmac_sha256(secret, timestamp + '.' + body))`
   with a 300s skew window and `hmac.compare_digest`. The scoring endpoint is not public.
 - `train.py` pulls historical features over the **session-mode** connection (5432) — a long
   analytical job has no business on the transaction pooler.
@@ -715,7 +715,7 @@ one line what the vote binds: this exact scoreline.
 
 CI (`.github/workflows/ci.yml`) runs four jobs:
 
-- **web** — `tsc --noEmit` for `@halisaha/shared` and `@halisaha/web`, then `next lint` and
+- **web** — `tsc --noEmit` for `@onpitch/shared` and `@onpitch/web`, then `next lint` and
   `next build`. It installs with `npm ci --ignore-scripts` to skip the mobile postinstall.
 - **mobile** — `npm ci --prefix apps/mobile`, `tsc --noEmit`, then
   `expo export --platform android --platform ios`. A green typecheck says nothing about Metro's

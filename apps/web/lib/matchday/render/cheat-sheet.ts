@@ -14,7 +14,7 @@ import {
   type PreMatchPlan,
   type RotationBlock,
   MATCHDAY_BRAND,
-} from "@halisaha/shared/matchday"
+} from "@onpitch/shared/matchday"
 
 import { displayName, formationOf, playerById, slotLabel } from "../plan"
 import {

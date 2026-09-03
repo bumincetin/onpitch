@@ -1,4 +1,4 @@
-import { levelProgress, rankForLevel, formatXp } from "@halisaha/shared/gamification"
+import { levelProgress, rankForLevel, formatXp } from "@onpitch/shared/gamification"
 
 import { cn } from "@/lib/utils"
 

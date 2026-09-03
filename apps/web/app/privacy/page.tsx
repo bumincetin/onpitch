@@ -17,7 +17,7 @@ import Link from "next/link"
 
 export const metadata: Metadata = {
   title: "Gizlilik",
-  description: "Halısaha'nın hakkında ne sakladığı, nedeni ve verini nasıl geri alıp sildirebileceğin.",
+  description: "OnPitch'nın hakkında ne sakladığı, nedeni ve verini nasıl geri alıp sildirebileceğin.",
 }
 
 interface Section {
@@ -68,7 +68,7 @@ export default function PrivacyPage() {
   return (
     <main id="main" className="mx-auto w-full max-w-3xl px-4 py-10 sm:py-16">
       <Link href="/" className="text-sm text-muted-foreground underline underline-offset-4">
-        Halısaha&apos;ya dön
+        OnPitch&apos;ya dön
       </Link>
 
       <h1 className="mt-6 text-3xl font-bold tracking-tight">Gizlilik bildirimi</h1>

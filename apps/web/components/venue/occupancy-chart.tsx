@@ -30,7 +30,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Skeleton } from "@/components/ui/skeleton"
 import { cn } from "@/lib/utils"
 import type { OccupancyPoint } from "@/lib/venue/metrics"
-import { formatMinor } from "@halisaha/shared/domain"
+import { formatMinor } from "@onpitch/shared/domain"
 
 export interface OccupancyChartProps {
   points: readonly OccupancyPoint[]

@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest"
 
-import { API_ERROR_CODES } from "@halisaha/shared/domain"
+import { API_ERROR_CODES } from "@onpitch/shared/domain"
 
 import { ApiRouteError, fail, handleRoute, ok } from "../api-response"
 
@@ -275,7 +275,7 @@ describe("handleRoute — redaction", () => {
 
   it("answers a generic 500 for a bare exception and never leaks its message or stack", async () => {
     const response = await handleRoute(async () => {
-      throw new Error("postgres://halisaha:hunter2@db.internal:5432/prod timed out")
+      throw new Error("postgres://onpitch:hunter2@db.internal:5432/prod timed out")
     })
     expect(response.status).toBe(500)
     const wire = await text(response)

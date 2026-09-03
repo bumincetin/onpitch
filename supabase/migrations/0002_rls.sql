@@ -1,5 +1,5 @@
 -- =============================================================================
--- Halisaha — 0002_rls.sql
+-- OnPitch — 0002_rls.sql
 -- Row Level Security layer: private helper predicates, privilege reset,
 -- per-command policies for 16 of the 19 public tables (three are deliberately
 -- left policy-less, see section 4.8), the avatars storage bucket, and the

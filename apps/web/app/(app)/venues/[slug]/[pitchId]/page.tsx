@@ -31,7 +31,7 @@ import { dateKeysFrom, isDateKey, todayKey } from "@/lib/booking/availability"
 import { CANCELLATION_WINDOW_HOURS, LATE_CANCELLATION_REFUND_BPS } from "@/lib/payments"
 import { getSessionUser } from "@/lib/rbac"
 import { createClient } from "@/lib/supabase/server"
-import { DEFAULT_CURRENCY, formatMinor } from "@halisaha/shared/domain"
+import { DEFAULT_CURRENCY, formatMinor } from "@onpitch/shared/domain"
 
 export const dynamic = "force-dynamic"
 

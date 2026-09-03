@@ -48,14 +48,14 @@
 
 import type { SupabaseClient } from "@supabase/supabase-js"
 
-import type { Database, Enums, Tables } from "@halisaha/shared/database"
+import type { Database, Enums, Tables } from "@onpitch/shared/database"
 import {
   DEFAULT_CURRENCY,
   asMinor,
   type MinorUnits,
   type NextPayout,
   type VenueDashboardMetrics,
-} from "@halisaha/shared/domain"
+} from "@onpitch/shared/domain"
 
 /* ========================================================================== */
 /*  Constants                                                                 */

@@ -52,7 +52,7 @@ import {
   toRangeLiteral,
   type OwnerVenue,
 } from "@/lib/venue/metrics"
-import { formatMinor } from "@halisaha/shared/domain"
+import { formatMinor } from "@onpitch/shared/domain"
 
 export const dynamic = "force-dynamic"
 

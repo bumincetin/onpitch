@@ -50,8 +50,8 @@ import { z } from "zod"
 import type { SupabaseClient } from "@supabase/supabase-js"
 
 import { createAdminClient } from "@/lib/supabase/admin"
-import type { Database, Enums, Json, TablesUpdate } from "@halisaha/shared/database"
-import { asMinor, DEFAULT_CURRENCY, type MinorUnits } from "@halisaha/shared/domain"
+import type { Database, Enums, Json, TablesUpdate } from "@onpitch/shared/database"
+import { asMinor, DEFAULT_CURRENCY, type MinorUnits } from "@onpitch/shared/domain"
 
 type Client = SupabaseClient<Database>
 

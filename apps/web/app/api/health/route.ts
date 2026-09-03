@@ -28,7 +28,7 @@ export const dynamic = "force-dynamic"
 
 export interface HealthPayload {
   status: "ok"
-  service: "halisaha-web"
+  service: "onpitch-web"
   /** Server clock, ISO 8601 with offset. Lets a client spot a badly skewed device clock. */
   time: string
   /** Seconds this server process has been running. Small numbers mean it keeps restarting. */
@@ -39,7 +39,7 @@ export async function GET(): Promise<Response> {
   return handleRoute<HealthPayload>(async () =>
     ok<HealthPayload>({
       status: "ok",
-      service: "halisaha-web",
+      service: "onpitch-web",
       time: new Date().toISOString(),
       uptimeSeconds: Math.round(process.uptime()),
     }),

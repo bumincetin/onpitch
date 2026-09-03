@@ -37,8 +37,8 @@ import {
 import { requireRole } from "@/lib/rbac"
 import { createClient } from "@/lib/supabase/server"
 import { resolveDashboardVenue } from "@/lib/venue/metrics"
-import type { Enums, Tables } from "@halisaha/shared/database"
-import { formatMinor } from "@halisaha/shared/domain"
+import type { Enums, Tables } from "@onpitch/shared/database"
+import { formatMinor } from "@onpitch/shared/domain"
 
 export const dynamic = "force-dynamic"
 

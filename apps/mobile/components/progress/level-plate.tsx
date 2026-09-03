@@ -3,7 +3,7 @@ import { View } from 'react-native'
 
 import { Text } from '@/components/ui'
 import { useTheme } from '@/lib/theme'
-import { formatXp, levelProgress, rankForLevel } from '@halisaha/shared/gamification'
+import { formatXp, levelProgress, rankForLevel } from '@onpitch/shared/gamification'
 
 import { Eyebrow, HairlineBar, Measure } from './primitives'
 

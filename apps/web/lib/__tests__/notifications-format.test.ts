@@ -125,7 +125,7 @@ describe("formatNotification", () => {
   it("renders an unknown type as a readable row instead of a blank one", () => {
     const view = formatNotification(row({ type: "league.relegated", title: "", body: null }))
     expect(view.title).toBe("Güncelleme")
-    expect(view.body).toBe("Neyin değiştiğini görmek için Halısaha'yı aç.")
+    expect(view.body).toBe("Neyin değiştiğini görmek için OnPitch'yı aç.")
     expect(view.group).toBe("other")
     expect(view.tone).toBe("neutral")
     expect(view.href).toBeNull()

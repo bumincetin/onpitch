@@ -7,7 +7,7 @@
  * of them touch storage or the DOM, so they are testable in node.
  */
 
-import type { TeamSide } from "@halisaha/shared/domain"
+import type { TeamSide } from "@onpitch/shared/domain"
 import {
   defaultFormationFor,
   planRotations,
@@ -20,7 +20,7 @@ import {
   type PreMatchPlan,
   type RotationFairness,
   type RotationResult,
-} from "@halisaha/shared/matchday"
+} from "@onpitch/shared/matchday"
 
 /* -------------------------------------------------------------------------- */
 /*  Ids                                                                       */

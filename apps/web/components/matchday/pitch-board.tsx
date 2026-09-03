@@ -14,7 +14,7 @@
 
 import type { PointerEvent as ReactPointerEvent } from "react"
 
-import type { Formation, LineupAssignment, Player } from "@halisaha/shared/matchday"
+import type { Formation, LineupAssignment, Player } from "@onpitch/shared/matchday"
 import { cn } from "@/lib/utils"
 
 export interface PitchBoardProps {

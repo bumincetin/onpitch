@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { toast } from "@/lib/use-toast"
-import { formatXp, type ChallengeState } from "@halisaha/shared/gamification"
+import { formatXp, type ChallengeState } from "@onpitch/shared/gamification"
 
 /**
  * This week's objectives, with the claim button.

@@ -4,12 +4,12 @@
  * Enum values, in the words a customer uses.
  *
  * One module so the search filter, the venue card and the pitch header cannot disagree about
- * what `seven_a_side` is called. `FORMAT_TEAM_SIZE` comes from @halisaha/shared/balance rather
+ * what `seven_a_side` is called. `FORMAT_TEAM_SIZE` comes from @onpitch/shared/balance rather
  * than being retyped, which means a new format is a compile error here instead of a blank chip.
  */
 
-import { FORMAT_TEAM_SIZE } from '@halisaha/shared/balance'
-import { Constants, type Enums } from '@halisaha/shared/database'
+import { FORMAT_TEAM_SIZE } from '@onpitch/shared/balance'
+import { Constants, type Enums } from '@onpitch/shared/database'
 
 /** Every format, in the order a picker should show them. */
 export const MATCH_FORMATS: readonly Enums<'match_format'>[] = Constants.public.Enums.match_format

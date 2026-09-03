@@ -1,4 +1,4 @@
-"""FastAPI surface for the Halisaha anomaly sidecar.
+"""FastAPI surface for the OnPitch anomaly sidecar.
 
 Endpoints
 ---------
@@ -117,7 +117,7 @@ def configure_logging(level: str) -> None:
         uvicorn_logger.propagate = False
 
 
-logger = logging.getLogger("halisaha.anomaly")
+logger = logging.getLogger("onpitch.anomaly")
 
 
 # --------------------------------------------------------------------------- #
@@ -331,7 +331,7 @@ def _parse_json(raw: bytes, model: type[Any]) -> Any:
 # --------------------------------------------------------------------------- #
 
 app = FastAPI(
-    title="Halisaha anomaly service",
+    title="OnPitch anomaly service",
     version=SERVICE_VERSION,
     description=(
         "Isolation Forest scoring for match-integrity signals. Advisory only: the platform "

@@ -39,14 +39,14 @@ import { z } from "zod"
 import { fail, handleRoute, ok } from "@/lib/api-response"
 import { requireRole } from "@/lib/rbac"
 import { createClient } from "@/lib/supabase/server"
-import type { Tables, TablesInsert, TablesUpdate } from "@halisaha/shared/database"
+import type { Tables, TablesInsert, TablesUpdate } from "@onpitch/shared/database"
 import {
   API_ERROR_CODES,
   createPitchSchema,
   updatePitchSchema,
   type CreatePitchInput,
   type UpdatePitchInput,
-} from "@halisaha/shared/domain"
+} from "@onpitch/shared/domain"
 
 export const runtime = "nodejs"
 export const dynamic = "force-dynamic"
@@ -133,7 +133,7 @@ export async function POST(request: Request): Promise<Response> {
     // documents closing_time as one that "may sort before opening_time for venues open past
     // midnight", and `assertWithinOpeningHours` in lib/payments.ts prices such a pitch by
     // projecting the window onto a continuous [open, close + 24h) axis. Rejecting it here made a
-    // halisaha open past midnight impossible to model at all.
+    // onpitch open past midnight impossible to model at all.
 
     const supabase = await createClient()
 

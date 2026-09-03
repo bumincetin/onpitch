@@ -80,8 +80,8 @@ import { formatDayLabel, formatMinor, formatRelative, formatTimeRange } from '@/
 import { consentBlockReason } from '@/lib/gdpr'
 import { supabase, useSession } from '@/lib/supabase'
 import { useTheme } from '@/lib/theme'
-import type { Enums } from '@halisaha/shared/database'
-import { API_ERROR_CODES, DEFAULT_CURRENCY } from '@halisaha/shared/domain'
+import type { Enums } from '@onpitch/shared/database'
+import { API_ERROR_CODES, DEFAULT_CURRENCY } from '@onpitch/shared/domain'
 
 /** What the last checkout attempt has to say for itself. */
 interface AttemptNotice {

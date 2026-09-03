@@ -4,7 +4,7 @@
  * The only way this app talks to `/api/**` on the Next.js server.
  *
  * Every route handler over there answers with the `ApiResponse<T>` envelope from
- * @halisaha/shared/domain: `{ ok: true, data }` or `{ ok: false, error: { code, message } }`.
+ * @onpitch/shared/domain: `{ ok: true, data }` or `{ ok: false, error: { code, message } }`.
  * `apiFetch` unwraps the success case and throws `ApiError` for the failure case, so a caller
  * writes the happy path and catches once, instead of branching on `ok` at every call site.
  *
@@ -14,7 +14,7 @@
  * a `Cannot read property 'x' of undefined` three screens later.
  */
 
-import { API_ERROR_CODES } from '@halisaha/shared/domain'
+import { API_ERROR_CODES } from '@onpitch/shared/domain'
 import { z } from 'zod'
 
 import { env } from '@/lib/env'
@@ -175,7 +175,7 @@ export async function apiFetch<T>(path: string, init: ApiFetchOptions = {}): Pro
   // The one unchecked widening in the app. `T` is the caller's claim about a payload the server
   // owns: the envelope around it has been verified, the payload itself has not. When the shape
   // matters — money, ids you are about to write back — re-parse it with a zod schema from
-  // @halisaha/shared/domain rather than trusting this line.
+  // @onpitch/shared/domain rather than trusting this line.
   return envelope.data.data as T
 }
 

@@ -30,7 +30,7 @@ import {
   LEADERBOARD_SCOPE_LABELS,
   type LeaderboardEntry,
   type LeaderboardScope,
-} from '@halisaha/shared/gamification'
+} from '@onpitch/shared/gamification'
 
 const SCOPE_BLURB: Record<LeaderboardScope, string> = {
   xp: 'Toplam tecrübe puanı. Oynamak, kazanmak, gol atmak ve sonucu bildirmek puan kazandırır.',

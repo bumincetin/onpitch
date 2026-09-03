@@ -170,9 +170,9 @@ function isBareHttpOrigin(candidate) {
 
 /**
  * MOBILE_ALLOWED_ORIGINS — comma separated, e.g.
- *   MOBILE_ALLOWED_ORIGINS="http://localhost:8081,https://app.halisaha.example"
+ *   MOBILE_ALLOWED_ORIGINS="http://localhost:8081,https://app.onpitch.example"
  *
- * Custom schemes (`halisaha://`) are not origins a browser will ever send and are rejected here;
+ * Custom schemes (`onpitch://`) are not origins a browser will ever send and are rejected here;
  * a native build needs no entry at all.
  */
 function readMobileAllowedOrigins() {
@@ -245,10 +245,10 @@ const mobileCorsHeaderRules = mobileAllowedOrigins.map((origin) => ({
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // @halisaha/shared ships TypeScript source, so Next has to compile it rather than
+  // @onpitch/shared ships TypeScript source, so Next has to compile it rather than
   // consume a prebuilt bundle. This is what keeps the TrueSkill engine and the realtime
   // topic strings identical between web and mobile instead of forked per app.
-  transpilePackages: ["@halisaha/shared"],
+  transpilePackages: ["@onpitch/shared"],
   reactStrictMode: true,
   poweredByHeader: false,
   experimental: {

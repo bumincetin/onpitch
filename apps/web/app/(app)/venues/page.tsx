@@ -51,8 +51,8 @@ import { getSessionUser } from "@/lib/rbac"
 import { createAdminClient } from "@/lib/supabase/admin"
 import { createClient } from "@/lib/supabase/server"
 import { parseRange, toRangeLiteral, type Interval } from "@/lib/venue/metrics"
-import { Constants, type Enums } from "@halisaha/shared/database"
-import { DEFAULT_CURRENCY, fromMinor } from "@halisaha/shared/domain"
+import { Constants, type Enums } from "@onpitch/shared/database"
+import { DEFAULT_CURRENCY, fromMinor } from "@onpitch/shared/domain"
 
 export const dynamic = "force-dynamic"
 

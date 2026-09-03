@@ -354,7 +354,7 @@ export function SignupForm({ nextPath, className }: SignupFormProps) {
       <div className="flex items-start justify-between gap-4">
         <div className="space-y-1">
           <Label htmlFor="signup-marketing" className={cn(isMinorSignup && "text-muted-foreground")}>
-            Ara sıra Halısaha e-postası gönderin
+            Ara sıra OnPitch e-postası gönderin
           </Label>
           <p className="text-xs text-muted-foreground">
             {isMinorSignup

@@ -1,5 +1,5 @@
 -- =============================================================================
--- Halisaha — 0005_integrity_consensus.sql
+-- OnPitch — 0005_integrity_consensus.sql
 --
 -- Result-integrity layer: anti-collusion heuristics, anomaly-detection plumbing
 -- for the external Isolation Forest microservice, and the cryptographic

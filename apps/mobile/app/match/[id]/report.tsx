@@ -22,7 +22,7 @@
  * THE PREVIEW IS A FORECAST, NOT A PROMISE
  * ---------------------------------------------------------------------------------------------
  *
- * `rateScoreline()` from @halisaha/shared/trueskill is a mirror of `public.trueskill2_update`, so
+ * `rateScoreline()` from @onpitch/shared/trueskill is a mirror of `public.trueskill2_update`, so
  * the number under the steppers is the update the server would run for THIS scoreline with the
  * line-up as it stands. It is computed on the device and stored nowhere. Ratings only move once the
  * result is confirmed — which may be after a consensus round, and may be a different scoreline.
@@ -33,10 +33,10 @@ import * as React from 'react'
 import { View } from 'react-native'
 import { z } from 'zod'
 
-import { isUuid } from '@halisaha/shared/channels'
-import type { Enums } from '@halisaha/shared/database'
-import { SCORE_VERDICTS } from '@halisaha/shared/domain'
-import { defaultRating, rateScoreline, type RatedTeamMember } from '@halisaha/shared/trueskill'
+import { isUuid } from '@onpitch/shared/channels'
+import type { Enums } from '@onpitch/shared/database'
+import { SCORE_VERDICTS } from '@onpitch/shared/domain'
+import { defaultRating, rateScoreline, type RatedTeamMember } from '@onpitch/shared/trueskill'
 
 import {
   ErrorNotice,

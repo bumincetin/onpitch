@@ -25,8 +25,8 @@ import {
   maxPhase,
   type MatchdayPhase,
   type MatchdayRecord,
-} from "@halisaha/shared/matchday"
-import type { Enums } from "@halisaha/shared/database"
+} from "@onpitch/shared/matchday"
+import type { Enums } from "@onpitch/shared/database"
 
 import { MatchdayStorageError, getMatchdayRepository, recordStorageKey } from "./store"
 

@@ -28,7 +28,7 @@ import { createClient as createSupabaseClient } from "@supabase/supabase-js"
 import type { SupabaseClient } from "@supabase/supabase-js"
 
 import { resolveBearerToken } from "@/lib/auth/bearer"
-import type { Database } from "@halisaha/shared/database"
+import type { Database } from "@onpitch/shared/database"
 
 function readPublicEnv(name: "NEXT_PUBLIC_SUPABASE_URL" | "NEXT_PUBLIC_SUPABASE_ANON_KEY"): string {
   const value =
@@ -109,7 +109,7 @@ function createBearerClient(token: string): SupabaseClient<Database> {
           Authorization: `Bearer ${token}`,
           // Attributes a surprising query to this codepath in the Postgres logs during an
           // incident review, the same way `createAdminClient()` tags itself.
-          "x-application-name": "halisaha-bearer",
+          "x-application-name": "onpitch-bearer",
         },
       },
     },

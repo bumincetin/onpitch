@@ -14,8 +14,8 @@ import { z } from "zod"
 
 import { fail, handleRoute, ok } from "@/lib/api-response"
 import { loadLeagueTable } from "@/lib/leagues"
-import { API_ERROR_CODES } from "@halisaha/shared/domain"
-import { DIVISIONS, type Division, type LeagueStanding } from "@halisaha/shared/leagues"
+import { API_ERROR_CODES } from "@onpitch/shared/domain"
+import { DIVISIONS, type Division, type LeagueStanding } from "@onpitch/shared/leagues"
 
 export const runtime = "nodejs"
 export const dynamic = "force-dynamic"

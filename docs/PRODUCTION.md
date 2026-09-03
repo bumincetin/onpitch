@@ -1,4 +1,4 @@
-# Halisaha — Production Deployment
+# OnPitch — Production Deployment
 
 What has been verified in this repository, what has not, and the exact steps to close the gap.
 
@@ -13,11 +13,11 @@ Run in this repository, passing:
 
 | Check | Command | Result |
 |---|---|---|
-| Shared package types | `npm run typecheck --workspace @halisaha/shared` | clean |
-| Web types | `npm run typecheck --workspace @halisaha/web` | clean |
+| Shared package types | `npm run typecheck --workspace @onpitch/shared` | clean |
+| Web types | `npm run typecheck --workspace @onpitch/web` | clean |
 | Mobile types | `npm --prefix apps/mobile run typecheck` | clean |
-| Shared unit tests | `npm run test --workspace @halisaha/shared` | 43 passing |
-| Web unit tests | `npm run test --workspace @halisaha/web` | 77 passing |
+| Shared unit tests | `npm run test --workspace @onpitch/shared` | 43 passing |
+| Web unit tests | `npm run test --workspace @onpitch/web` | 77 passing |
 | Lint | `npm run lint` | clean |
 | Web production build | `npm run build` | 38/38 static pages, no prerender errors |
 | Mobile bundle, Android | `npx expo export --platform android` | 5.3 MB bundle |
@@ -131,7 +131,7 @@ failures people learn to ignore.
 Run it locally against a running Supabase:
 
 ```bash
-docker exec supabase_db_halisaha psql -U postgres -d postgres -tA \
+docker exec supabase_db_onpitch psql -U postgres -d postgres -tA \
   -f /tmp/dump.sql > live-schema.json      # scripts/dump-public-schema.sql
 node scripts/check-schema-drift.mjs live-schema.json
 ```
@@ -341,7 +341,7 @@ script; it adds no dependency). Re-run it after changing the palette. An iOS bui
   lacking the native modules it needs.
 
 `merchantIdentifier` in the `@stripe/stripe-react-native` plugin is still
-`merchant.com.halisaha.app`. Replace it with the real Apple merchant id before enabling Apple
+`merchant.com.onpitch.app`. Replace it with the real Apple merchant id before enabling Apple
 Pay, or the payment sheet will not offer it.
 
 ---
@@ -350,8 +350,8 @@ Pay, or the payment sheet will not offer it.
 
 ```bash
 cd services/anomaly
-docker build -t halisaha-anomaly .
-docker run -e ANOMALY_SERVICE_SECRET=... -p 8000:8000 halisaha-anomaly
+docker build -t onpitch-anomaly .
+docker run -e ANOMALY_SERVICE_SECRET=... -p 8000:8000 onpitch-anomaly
 ```
 
 Keep it on a private network. `ANOMALY_SERVICE_SECRET` must match the web app's, because the

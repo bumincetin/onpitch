@@ -1,6 +1,6 @@
 import Link from "next/link"
 
-import { XP_EVENT_LABELS, formatXp, type XpEvent } from "@halisaha/shared/gamification"
+import { XP_EVENT_LABELS, formatXp, type XpEvent } from "@onpitch/shared/gamification"
 import { cn } from "@/lib/utils"
 
 /**

@@ -1,7 +1,7 @@
 /**
  * lib/format.ts
  *
- * Display formatting. Money comes straight from @halisaha/shared so web and mobile round the same
+ * Display formatting. Money comes straight from @onpitch/shared so web and mobile round the same
  * way; dates are added here because the shared package stays platform-neutral and this is where
  * the app's own conventions live.
  *
@@ -22,8 +22,8 @@ export {
   fromMinor,
   minorUnitExponent,
   toMinor,
-} from '@halisaha/shared/domain'
-export type { MinorUnits } from '@halisaha/shared/domain'
+} from '@onpitch/shared/domain'
+export type { MinorUnits } from '@onpitch/shared/domain'
 
 /** An ISO instant, a millisecond epoch, or a Date. Anything unparseable formats as a dash. */
 export type DateLike = string | number | Date | null | undefined

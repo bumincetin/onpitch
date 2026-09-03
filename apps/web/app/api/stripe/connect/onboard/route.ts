@@ -56,7 +56,7 @@ import { createAdminClient } from "@/lib/supabase/admin"
 import {
   CONNECT_REFRESH_PATH,
   CONNECT_RETURN_PATH,
-  HALISAHA_MCC,
+  ONPITCH_MCC,
   buildSiteUrl,
   connectAccountIdempotencyKey,
   describeStripeError,
@@ -66,8 +66,8 @@ import {
   resolveSiteOrigin,
   stripe,
 } from "@/lib/stripe"
-import type { Tables } from "@halisaha/shared/database"
-import { API_ERROR_CODES, onboardingSchema, type StripeOnboardingLink } from "@halisaha/shared/domain"
+import type { Tables } from "@onpitch/shared/database"
+import { API_ERROR_CODES, onboardingSchema, type StripeOnboardingLink } from "@onpitch/shared/domain"
 
 export const runtime = "nodejs"
 export const dynamic = "force-dynamic"
@@ -186,7 +186,7 @@ export async function POST(request: Request): Promise<Response> {
         },
         business_profile: {
           name: venue?.name ?? profile.display_name ?? profile.full_name ?? undefined,
-          mcc: HALISAHA_MCC,
+          mcc: ONPITCH_MCC,
           // Stripe rejects business_profile.url values it cannot reach, and every localhost or
           // preview origin is unreachable, so send it only when it is plausibly public.
           ...(isPubliclyReachableOrigin(origin)
@@ -196,7 +196,7 @@ export async function POST(request: Request): Promise<Response> {
         metadata: {
           supabase_user_id: user.id,
           venue_id: venue?.id ?? "",
-          platform: "halisaha",
+          platform: "onpitch",
         },
       }
       if (email) params.email = email

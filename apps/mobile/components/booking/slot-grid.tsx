@@ -24,7 +24,7 @@ import {
 } from '@/lib/booking/slots'
 import { formatMinor, formatTime, formatTimeRange } from '@/lib/format'
 import { useTheme, type Theme } from '@/lib/theme'
-import type { AvailabilityDay, TimeSlot } from '@halisaha/shared/domain'
+import type { AvailabilityDay, TimeSlot } from '@onpitch/shared/domain'
 
 export interface SlotGridProps {
   /** The day to render. Null renders the "nothing for this day" state. */

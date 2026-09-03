@@ -16,7 +16,7 @@ import Link from "next/link"
 
 export const metadata: Metadata = {
   title: "Şartlar",
-  description: "Halısaha'da saha tutma, maç oynama ve ödeme alma kuralları.",
+  description: "OnPitch'da saha tutma, maç oynama ve ödeme alma kuralları.",
 }
 
 interface Section {
@@ -26,9 +26,9 @@ interface Section {
 
 const SECTIONS: readonly Section[] = [
   {
-    heading: "Halısaha nedir",
+    heading: "OnPitch nedir",
     body: [
-      "Halisaha is a marketplace. Venues list their pitches and set their own prices; players book and pay for a slot. The pitch, and everything that happens on it, is the venue's responsibility and the players' — not ours.",
+      "OnPitch is a marketplace. Venues list their pitches and set their own prices; players book and pay for a slot. The pitch, and everything that happens on it, is the venue's responsibility and the players' — not ours.",
     ],
   },
   {
@@ -64,7 +64,7 @@ export default function TermsPage() {
   return (
     <main id="main" className="mx-auto w-full max-w-3xl px-4 py-10 sm:py-16">
       <Link href="/" className="text-sm text-muted-foreground underline underline-offset-4">
-        Halısaha&apos;ya dön
+        OnPitch&apos;ya dön
       </Link>
 
       <h1 className="mt-6 text-3xl font-bold tracking-tight">Kullanım şartları</h1>

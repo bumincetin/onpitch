@@ -19,7 +19,7 @@ import {
   type Player,
   type PlayerStatus,
   type Position,
-} from "@halisaha/shared/matchday"
+} from "@onpitch/shared/matchday"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"

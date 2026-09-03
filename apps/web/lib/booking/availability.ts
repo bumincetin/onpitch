@@ -49,7 +49,7 @@ import {
   zonedWallClockToUtc,
   type Interval,
 } from "@/lib/venue/metrics"
-import type { Enums, Tables } from "@halisaha/shared/database"
+import type { Enums, Tables } from "@onpitch/shared/database"
 import {
   asMinor,
   DEFAULT_CURRENCY,
@@ -58,7 +58,7 @@ import {
   type MinorUnits,
   type SlotUnavailableReason,
   type TimeSlot,
-} from "@halisaha/shared/domain"
+} from "@onpitch/shared/domain"
 
 /* ========================================================================== */
 /*  Bounds                                                                    */

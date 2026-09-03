@@ -1,8 +1,8 @@
 {
-  "name": "@halisaha/mobile",
+  "name": "@onpitch/mobile",
   "version": "0.1.0",
   "private": true,
-  "description": "Expo client for Halisaha — book a pitch, run a match, report the score",
+  "description": "Expo client for OnPitch — book a pitch, run a match, report the score",
   "main": "expo-router/entry",
   "scripts": {
     "start": "expo start",
@@ -15,7 +15,7 @@
   "dependencies": {
     "@expo/metro-runtime": "~57.0.14",
     "@expo/ui": "~57.0.14",
-    "@halisaha/shared": "file:../../packages/shared",
+    "@onpitch/shared": "file:../../packages/shared",
     "@react-native-async-storage/async-storage": "2.2.0",
     "@stripe/stripe-react-native": "0.64.0",
     "@supabase/supabase-js": "^2.112.4",

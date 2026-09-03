@@ -4,7 +4,7 @@
 # two can be kept in sync by hand (the CLI does not push most of these).
 # ==============================================================================
 
-project_id = "halisaha"
+project_id = "onpitch"
 
 [api]
 enabled = true

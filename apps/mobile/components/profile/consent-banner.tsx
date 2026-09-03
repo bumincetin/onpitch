@@ -28,7 +28,7 @@
 import * as React from 'react'
 import { View, type StyleProp, type ViewStyle } from 'react-native'
 
-import type { Enums } from '@halisaha/shared/database'
+import type { Enums } from '@onpitch/shared/database'
 import { z } from 'zod'
 
 import { Button, Field, Notice, Text } from '@/components/ui'

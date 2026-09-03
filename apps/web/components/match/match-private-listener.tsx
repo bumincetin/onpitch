@@ -28,7 +28,7 @@ import { useEffect } from "react"
 import { useRouter } from "next/navigation"
 
 import { createClient } from "@/lib/supabase/client"
-import { SERVER_MATCH_EVENT, isUuid, matchPrivateTopic } from "@halisaha/shared/channels"
+import { SERVER_MATCH_EVENT, isUuid, matchPrivateTopic } from "@onpitch/shared/channels"
 
 export interface MatchPrivateListenerProps {
   matchId: string

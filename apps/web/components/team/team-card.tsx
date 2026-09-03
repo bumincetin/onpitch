@@ -19,7 +19,7 @@ import { TeamRatingInline, type TeamRatingSummary } from "@/components/team/team
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { cn } from "@/lib/utils"
-import type { Enums } from "@halisaha/shared/database"
+import type { Enums } from "@onpitch/shared/database"
 
 export interface TeamCardTeam {
   id: string

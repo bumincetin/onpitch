@@ -35,7 +35,7 @@ import { getSessionUser, type AppRole } from "@/lib/rbac"
 import { describeStripeError, stripe } from "@/lib/stripe"
 import { createAdminClient } from "@/lib/supabase/admin"
 import { enforceRateLimit } from "@/lib/rate-limit"
-import type { Database, Json, Tables } from "@halisaha/shared/database"
+import type { Database, Json, Tables } from "@onpitch/shared/database"
 import type { SupabaseClient } from "@supabase/supabase-js"
 import {
   API_ERROR_CODES,
@@ -43,7 +43,7 @@ import {
   bookingCheckoutSchema,
   type BookingQuote,
   type CheckoutResult,
-} from "@halisaha/shared/domain"
+} from "@onpitch/shared/domain"
 
 export const runtime = "nodejs"
 export const dynamic = "force-dynamic"

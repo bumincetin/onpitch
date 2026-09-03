@@ -66,7 +66,7 @@ import {
 } from "@/lib/payments"
 import { stripe } from "@/lib/stripe"
 import { createAdminClient } from "@/lib/supabase/admin"
-import type { Database, Enums, Json, Tables, TablesUpdate } from "@halisaha/shared/database"
+import type { Database, Enums, Json, Tables, TablesUpdate } from "@onpitch/shared/database"
 import type { SupabaseClient } from "@supabase/supabase-js"
 
 export const runtime = "nodejs"

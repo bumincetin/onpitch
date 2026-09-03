@@ -28,7 +28,7 @@
 import * as React from 'react'
 import { View, type StyleProp, type ViewStyle } from 'react-native'
 
-import type { TablesUpdate } from '@halisaha/shared/database'
+import type { TablesUpdate } from '@onpitch/shared/database'
 
 import { Text, Toggle } from '@/components/ui'
 import { supabase } from '@/lib/supabase'

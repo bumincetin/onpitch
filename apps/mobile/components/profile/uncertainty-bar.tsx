@@ -10,7 +10,7 @@
  * The constants below are the column defaults in 0001_schema.sql and the sigma floor enforced by
  * 0004_trueskill.sql. They are restated here rather than imported so this file renders the same
  * whatever else is in the bundle; if the migration ever changes them, change them here in the
- * same commit. `@halisaha/shared/trueskill` owns the maths, this file owns the pixels.
+ * same commit. `@onpitch/shared/trueskill` owns the maths, this file owns the pixels.
  */
 
 import * as React from 'react'

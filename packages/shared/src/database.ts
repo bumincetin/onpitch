@@ -2124,7 +2124,7 @@ export type Database = {
        * before answering, which is why it is a `plpgsql` function and not a view.
        *
        * The `jsonb` it returns is parsed by `playerProgressSchema` in
-       * `@halisaha/shared/gamification`; use that rather than casting.
+       * `@onpitch/shared/gamification`; use that rather than casting.
        */
       my_progress: {
         Args: Record<PropertyKey, never>
@@ -2171,7 +2171,7 @@ export type Database = {
        * tier. Raises 42501 unless the caller owns the venue or is an admin — SECURITY
        * DEFINER bypasses RLS, so the function makes the check RLS would have made.
        *
-       * Parsed by `venueScorecardSchema` in `@halisaha/shared/gamification`.
+       * Parsed by `venueScorecardSchema` in `@onpitch/shared/gamification`.
        */
       venue_scorecard: {
         Args: { p_venue_id: string; p_days?: number }
@@ -2217,7 +2217,7 @@ export type Database = {
        * Where the caller's own teams stand, in every city they play in. Reads `auth.uid()`
        * itself and ignores `teams.is_public`, because your own team's position is yours to see.
        *
-       * Parsed by `myLeaguesSchema` in `@halisaha/shared/leagues`.
+       * Parsed by `myLeaguesSchema` in `@onpitch/shared/leagues`.
        */
       my_leagues: {
         Args: Record<PropertyKey, never>

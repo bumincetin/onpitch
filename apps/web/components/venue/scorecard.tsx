@@ -1,8 +1,8 @@
 import { Measure, SectionHead } from "@/components/dashboard/night-band"
 import { loadVenueScorecard } from "@/lib/progress"
 import { cn } from "@/lib/utils"
-import { formatMinor } from "@halisaha/shared/domain"
-import { TIER_COLORS, TIER_LABELS } from "@halisaha/shared/gamification"
+import { formatMinor } from "@onpitch/shared/domain"
+import { TIER_COLORS, TIER_LABELS } from "@onpitch/shared/gamification"
 
 /**
  * The venue owner's standing.

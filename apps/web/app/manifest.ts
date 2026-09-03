@@ -3,7 +3,7 @@ import type { MetadataRoute } from "next"
 /**
  * app/manifest.ts
  *
- * What this buys, concretely: a player who adds Halısaha to their home screen gets a standalone
+ * What this buys, concretely: a player who adds OnPitch to their home screen gets a standalone
  * window with the app's own colours instead of a Safari chrome bar, and the two shortcuts below
  * take them straight to the two things anyone opens this app to do — find a slot tonight, or see
  * where they stand.
@@ -21,8 +21,8 @@ import type { MetadataRoute } from "next"
  */
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Halısaha — saha kirala, maç kur, oyna",
-    short_name: "Halısaha",
+    name: "OnPitch — saha kirala, maç kur, oyna",
+    short_name: "OnPitch",
     description:
       "Amatör futbol için saha rezervasyonu, maç organizasyonu ve şehir ligleri. Boş saatleri anında ayırt, ödemeyi güvenle böl, dengeli takımlarla oyna.",
     start_url: "/",

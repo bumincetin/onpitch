@@ -10,7 +10,7 @@ import {
   type LeaderboardScope,
   type PlayerProgress,
   type VenueScorecard,
-} from "@halisaha/shared/gamification"
+} from "@onpitch/shared/gamification"
 
 import { createRouteClient } from "@/lib/supabase/server"
 
@@ -41,7 +41,7 @@ import { createRouteClient } from "@/lib/supabase/server"
  *
  * Nothing here trusts the shape that comes back. The RPCs answer with `jsonb`, which is
  * `Json` on this side — an opaque tree — so each payload is parsed with the schema from
- * `@halisaha/shared/gamification`. A migration that renames a key surfaces as one legible
+ * `@onpitch/shared/gamification`. A migration that renames a key surfaces as one legible
  * failure here instead of as `undefined` in the middle of a render.
  */
 

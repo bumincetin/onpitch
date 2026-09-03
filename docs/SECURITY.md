@@ -1,4 +1,4 @@
-# Halisaha — Security & Compliance Notes
+# OnPitch — Security & Compliance Notes
 
 Companion to [IMPLEMENTATION_PLAN.md](./IMPLEMENTATION_PLAN.md). This file states the trust
 boundaries, the threat model, and the compliance positions the code takes, so a reviewer can

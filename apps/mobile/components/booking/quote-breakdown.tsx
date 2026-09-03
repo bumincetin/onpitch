@@ -92,7 +92,7 @@ export function QuoteBreakdown({
 
       {!feeIsAddedOnTop && platformFeeMinor > 0 ? (
         <Text variant="caption" tone="muted">
-          {`Includes ${formatMinor(platformFeeMinor, currency)} that Halisaha takes from the venue's share. It is not added to your price.`}
+          {`Includes ${formatMinor(platformFeeMinor, currency)} that OnPitch takes from the venue's share. It is not added to your price.`}
         </Text>
       ) : null}
 

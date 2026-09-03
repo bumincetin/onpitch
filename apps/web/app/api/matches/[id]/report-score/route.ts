@@ -55,7 +55,7 @@ import {
   reportScoreSchema,
   type ReportScoreResult,
   type ScoreVerdict,
-} from "@halisaha/shared/domain"
+} from "@onpitch/shared/domain"
 
 export const runtime = "nodejs"
 export const dynamic = "force-dynamic"

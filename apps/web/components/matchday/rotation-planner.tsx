@@ -8,7 +8,7 @@
  * print.
  */
 
-import { type PreMatchPlan } from "@halisaha/shared/matchday"
+import { type PreMatchPlan } from "@onpitch/shared/matchday"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { displayName, formationOf, playerById, rotationOf, slotLabel, withRotations } from "@/lib/matchday/plan"

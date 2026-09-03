@@ -41,7 +41,7 @@ import { headers } from "next/headers"
 import { z } from "zod"
 import type { SupabaseClient, User } from "@supabase/supabase-js"
 
-import type { Database } from "@halisaha/shared/database"
+import type { Database } from "@onpitch/shared/database"
 
 /** Lowercase because `Headers.get()` is case-insensitive but plain object lookups are not. */
 export const AUTHORIZATION_HEADER = "authorization"

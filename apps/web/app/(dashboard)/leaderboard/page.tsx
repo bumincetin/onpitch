@@ -27,7 +27,7 @@ import {
   LEADERBOARD_SCOPES,
   LEADERBOARD_SCOPE_LABELS,
   type LeaderboardScope,
-} from "@halisaha/shared/gamification"
+} from "@onpitch/shared/gamification"
 
 export const dynamic = "force-dynamic"
 

@@ -1,5 +1,5 @@
 {
-  "name": "halisaha",
+  "name": "onpitch",
   "version": "0.1.0",
   "private": true,
   "description": "Amateur football platform - pitch booking, split payments, TrueSkill matchmaking",
@@ -8,10 +8,10 @@
     "packages/*"
   ],
   "scripts": {
-    "dev": "npm run dev --workspace @halisaha/web",
+    "dev": "npm run dev --workspace @onpitch/web",
     "dev:mobile": "npm --prefix apps/mobile run start",
-    "build": "npm run build --workspace @halisaha/web",
-    "lint": "npm run lint --workspace @halisaha/web",
+    "build": "npm run build --workspace @onpitch/web",
+    "lint": "npm run lint --workspace @onpitch/web",
     "typecheck": "npm run typecheck --workspaces --if-present && npm --prefix apps/mobile run typecheck",
     "test": "npm run test --workspaces --if-present",
     "verify": "npm run typecheck && npm run lint && npm run test",

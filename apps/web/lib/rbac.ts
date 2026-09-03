@@ -29,8 +29,8 @@ import { createRouteClient } from "@/lib/supabase/server"
 import { hasAuthorizationHeader, resolveBearerToken, verifyBearerToken } from "@/lib/auth/bearer"
 import { ApiRouteError } from "@/lib/api-response"
 import { PATHNAME_HEADER } from "@/lib/supabase/middleware"
-import { API_ERROR_CODES } from "@halisaha/shared/domain"
-import type { Tables } from "@halisaha/shared/database"
+import { API_ERROR_CODES } from "@onpitch/shared/domain"
+import type { Tables } from "@onpitch/shared/database"
 
 export type AppRole = "admin" | "venue_owner" | "player"
 

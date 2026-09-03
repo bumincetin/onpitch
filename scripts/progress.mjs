@@ -1,11 +1,11 @@
 #!/usr/bin/env node
-// Live build dashboard for the Halisaha MVP.
+// Live build dashboard for the OnPitch MVP.
 //
 //   node scripts/progress.mjs          -> serves http://localhost:4321 (auto-refreshing)
 //   node scripts/progress.mjs --once   -> prints an ASCII snapshot and exits
 //
 // Reads real state off disk on every request: the agent workflow journals, the repo tree,
-// and .halisaha-progress.json. Nothing is cached, so a refresh always shows the truth.
+// and .onpitch-progress.json. Nothing is cached, so a refresh always shows the truth.
 
 import { createServer } from 'node:http'
 import { readFileSync, readdirSync, statSync, existsSync, openSync, readSync, closeSync } from 'node:fs'
@@ -16,10 +16,10 @@ const REPO = join(fileURLToPath(new URL('.', import.meta.url)), '..')
 const PORT = Number(process.env.PORT || 4321)
 
 const WORKFLOWS =
-  process.env.HALISAHA_WORKFLOWS ||
+  process.env.ONPITCH_WORKFLOWS ||
   join(
     process.env.USERPROFILE || process.env.HOME || '',
-    '.claude/projects/c--Users-bumin-Desktop-halisaha',
+    '.claude/projects/c--Users-bumin-Desktop-onpitch',
     '58da4564-c6b2-4ef6-a951-bb35ca9d3ab0/subagents/workflows'
   )
 
@@ -166,7 +166,7 @@ function readWorkflows() {
 
 function readOverrides() {
   try {
-    return JSON.parse(readFileSync(join(REPO, '.halisaha-progress.json'), 'utf8'))
+    return JSON.parse(readFileSync(join(REPO, '.onpitch-progress.json'), 'utf8'))
   } catch {
     return {}
   }
@@ -251,7 +251,7 @@ function bar(pct, width = 34) {
 function ascii(s) {
   const L = []
   L.push('')
-  L.push('  HALISAHA — build progress')
+  L.push('  ONPITCH — build progress')
   L.push('  ' + '─'.repeat(58))
   for (const st of s.stages) {
     const mark = st.pct === 100 ? '✔' : st.pct > 0 ? '▸' : ' '
@@ -308,7 +308,7 @@ function html(s) {
 
   return `<!doctype html><html><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Halisaha — build progress</title>
+<title>OnPitch — build progress</title>
 <style>
   :root{--bg:#faf9f7;--fg:#1a1a19;--muted:#8a8780;--line:#e5e2dc;--card:#fff;
         --accent:#16a34a;--accent2:#22c55e;--run:#d97706;--shadow:0 1px 3px rgba(0,0,0,.06)}
@@ -364,7 +364,7 @@ function html(s) {
   .foot{color:var(--muted);font-size:11px;text-align:center;margin-top:24px}
 </style></head><body>
 <div class="wrap">
-  <h1>Halisaha</h1>
+  <h1>OnPitch</h1>
   <div class="sub">amateur football platform · MVP build</div>
 
   <div class="card">
@@ -422,5 +422,5 @@ createServer((req, res) => {
   res.writeHead(200, { 'content-type': 'text/html; charset=utf-8', 'cache-control': 'no-store' })
   res.end(html(s))
 }).listen(PORT, () => {
-  console.log(`\n  Halisaha progress dashboard -> http://localhost:${PORT}\n`)
+  console.log(`\n  OnPitch progress dashboard -> http://localhost:${PORT}\n`)
 })

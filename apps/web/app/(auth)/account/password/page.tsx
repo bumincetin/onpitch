@@ -21,7 +21,7 @@ export const dynamic = "force-dynamic"
 
 export const metadata: Metadata = {
   title: "Yeni bir şifre seç",
-  description: "Halısaha hesabın için yeni bir şifre belirle.",
+  description: "OnPitch hesabın için yeni bir şifre belirle.",
 }
 
 export default function UpdatePasswordPage() {

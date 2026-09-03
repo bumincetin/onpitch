@@ -52,7 +52,7 @@ export interface PitchDims {
 }
 
 /**
- * Halısaha markings, drawn to scale.
+ * OnPitch markings, drawn to scale.
  *
  * These are the Turkish small-sided markings rather than the eleven-a-side ones: no rectangular
  * penalty box, but a six-metre D struck from the centre of each goal line, a three-metre centre

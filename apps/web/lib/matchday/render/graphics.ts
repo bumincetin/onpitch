@@ -24,7 +24,7 @@ import {
   type Player,
   type PostMatchDebrief,
   type PreMatchPlan,
-} from "@halisaha/shared/matchday"
+} from "@onpitch/shared/matchday"
 
 import { displayName, formationOf } from "../plan"
 import {

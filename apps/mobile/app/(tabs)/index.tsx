@@ -23,7 +23,7 @@ import * as React from 'react'
 import { FlatList, Pressable, RefreshControl, View } from 'react-native'
 import { z } from 'zod'
 
-import { matchFormatSchema, matchStatusSchema } from '@halisaha/shared/domain'
+import { matchFormatSchema, matchStatusSchema } from '@onpitch/shared/domain'
 
 import { MatchCard, describeErrorText, type MatchCardMatch } from '@/components/match'
 import { EmptyState, Screen, Spinner, Text } from '@/components/ui'
@@ -40,7 +40,7 @@ type Lane = 'open' | 'mine'
 
 /**
  * `GET /api/matches` answers with a `MatchListItem[]` declared inside the route handler rather
- * than in @halisaha/shared, so it is parsed here. `apiFetch` verifies the envelope; the payload
+ * than in @onpitch/shared, so it is parsed here. `apiFetch` verifies the envelope; the payload
  * inside it is still the server's claim until something checks it.
  */
 const discoveryItemSchema = z.object({

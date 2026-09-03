@@ -17,16 +17,16 @@
  * stop this module being pulled into a client bundle for a rating preview.
  */
 
-export * from "@halisaha/shared/trueskill"
-export * from "@halisaha/shared/balance"
-export * from "@halisaha/shared/quality"
+export * from "@onpitch/shared/trueskill"
+export * from "@onpitch/shared/balance"
+export * from "@onpitch/shared/quality"
 
 import { ApiRouteError } from "@/lib/api-response"
 import { isMinor } from "@/lib/gdpr"
-import { API_ERROR_CODES, type MatchQuality } from "@halisaha/shared/domain"
-import type { Tables } from "@halisaha/shared/database"
+import { API_ERROR_CODES, type MatchQuality } from "@onpitch/shared/domain"
+import type { Tables } from "@onpitch/shared/database"
 
-import { defaultRating, matchQualityForStorage, outcomeProbabilities, type Rating } from "@halisaha/shared/trueskill"
+import { defaultRating, matchQualityForStorage, outcomeProbabilities, type Rating } from "@onpitch/shared/trueskill"
 
 /* ========================================================================== */
 /*  1. A loosely-typed view of the Supabase client                            */

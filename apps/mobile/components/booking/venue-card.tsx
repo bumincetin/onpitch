@@ -20,7 +20,7 @@ import { Badge, Card, Text } from '@/components/ui'
 import { formatDistanceKm } from '@/lib/booking/slots'
 import { formatMinor } from '@/lib/format'
 import { useTheme } from '@/lib/theme'
-import type { Enums } from '@halisaha/shared/database'
+import type { Enums } from '@onpitch/shared/database'
 
 import { formatShortLabel, placeLabel } from './labels'
 

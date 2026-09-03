@@ -1,5 +1,5 @@
 -- =============================================================================
--- Halisaha — 0003_auth_rbac_gdpr.sql
+-- OnPitch — 0003_auth_rbac_gdpr.sql
 --
 -- Auth wiring, RBAC claims and GDPR compliance, implemented in the database so
 -- that no application bug can route around it.
@@ -1051,7 +1051,7 @@ begin
   -- Deterministic, non-reversible pseudonym. The input is the random v4 user id
   -- (122 bits of entropy) plus a domain separator, so the digest cannot be
   -- brute-forced back to an identity the way a hash of an email or phone could.
-  v_pseudonym := encode(extensions.digest(v_uid::text || '|halisaha:erasure:v1', 'sha256'), 'hex');
+  v_pseudonym := encode(extensions.digest(v_uid::text || '|onpitch:erasure:v1', 'sha256'), 'hex');
   v_short     := left(v_pseudonym, 12);
 
   select count(*)::integer into v_bookings from public.bookings b where b.booked_by = v_uid;

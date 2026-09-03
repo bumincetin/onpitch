@@ -40,7 +40,7 @@ import { parseRange } from '@/lib/booking/slots'
 import { formatDayLabel, formatMinor, formatTimeRange } from '@/lib/format'
 import { supabase, useSession } from '@/lib/supabase'
 import { useTheme } from '@/lib/theme'
-import type { Enums } from '@halisaha/shared/database'
+import type { Enums } from '@onpitch/shared/database'
 
 /** How many bookings each tab loads. Past this the answer is a date filter, not a page 2. */
 const ROW_LIMIT = 100

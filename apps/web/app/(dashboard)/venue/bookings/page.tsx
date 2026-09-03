@@ -39,8 +39,8 @@ import { requireRole } from "@/lib/rbac"
 import { createClient } from "@/lib/supabase/server"
 import { cn } from "@/lib/utils"
 import { resolveDashboardVenue, toRangeLiteral } from "@/lib/venue/metrics"
-import { Constants, type Enums } from "@halisaha/shared/database"
-import { formatMinor } from "@halisaha/shared/domain"
+import { Constants, type Enums } from "@onpitch/shared/database"
+import { formatMinor } from "@onpitch/shared/domain"
 
 export const dynamic = "force-dynamic"
 

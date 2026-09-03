@@ -14,7 +14,7 @@
  * Three rules it follows:
  *
  *   1. The stored `title`/`body` win. A producer wrote copy for a specific event ("A payout to
- *      Yesilkoy Halisaha could not be completed") and a generic per-type string cannot beat it.
+ *      Yesilkoy OnPitch could not be completed") and a generic per-type string cannot beat it.
  *      The descriptor table is the FALLBACK, for rows written before a producer had copy and
  *      for types this build has never heard of.
  *   2. `data` is untrusted input. It is jsonb, so it can be an array, a number, or an object
@@ -32,7 +32,7 @@
 
 import { z } from "zod"
 
-import type { Tables } from "@halisaha/shared/database"
+import type { Tables } from "@onpitch/shared/database"
 import type { AppRole } from "@/lib/rbac"
 
 /* ========================================================================== */
@@ -255,7 +255,7 @@ function descriptorFor(type: string): TypeDescriptor {
 
   return {
     title: "Güncelleme",
-    body: "Neyin değiştiğini görmek için Halısaha'yı aç.",
+    body: "Neyin değiştiğini görmek için OnPitch'yı aç.",
     group: GROUP_BY_PREFIX[prefixOf(type)] ?? "other",
     tone: "neutral",
   }

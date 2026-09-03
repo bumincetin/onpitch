@@ -41,7 +41,7 @@ import { requireRole } from "@/lib/rbac"
 import { createClient } from "@/lib/supabase/server"
 import { describeStripeError, emptyOnboardingState, resolveSiteOrigin, stripe } from "@/lib/stripe"
 import { loadNextPayout, resolveDashboardVenue, type OwnerVenue } from "@/lib/venue/metrics"
-import { isApiOk, type ApiResponse, type StripeOnboardingState } from "@halisaha/shared/domain"
+import { isApiOk, type ApiResponse, type StripeOnboardingState } from "@onpitch/shared/domain"
 
 export const dynamic = "force-dynamic"
 
@@ -257,10 +257,10 @@ function VenueStripeFootnote({
         <>
           {venue.name} için{" "}
           <code className="font-mono">{maskAccountId(accountId)}</code> bağlı hesabına ödenir.
-          Banka bilgileri ve kimlik belgeleri Stripe&apos;ta durur, Halısaha&apos;da hiç saklanmaz.
+          Banka bilgileri ve kimlik belgeleri Stripe&apos;ta durur, OnPitch&apos;da hiç saklanmaz.
         </>
       ) : (
-        <>Banka bilgileri ve kimlik belgeleri Stripe&apos;ta durur, Halısaha&apos;da hiç saklanmaz.</>
+        <>Banka bilgileri ve kimlik belgeleri Stripe&apos;ta durur, OnPitch&apos;da hiç saklanmaz.</>
       )}{" "}
       Ulaşma tarihleri Stripe tahminidir; bankalar zaman zaman bir gün önce ya da sonra
       hesaba geçirir.

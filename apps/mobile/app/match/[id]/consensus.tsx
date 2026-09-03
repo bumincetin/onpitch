@@ -35,8 +35,8 @@ import { Redirect, Stack, useLocalSearchParams, useRouter } from 'expo-router'
 import * as React from 'react'
 import { z } from 'zod'
 
-import { isUuid } from '@halisaha/shared/channels'
-import { API_ERROR_CODES } from '@halisaha/shared/domain'
+import { isUuid } from '@onpitch/shared/channels'
+import { API_ERROR_CODES } from '@onpitch/shared/domain'
 
 import {
   CanonicalizationError,

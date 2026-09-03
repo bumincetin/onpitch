@@ -8,7 +8,7 @@ import {
   rankForLevel,
   type LeaderboardEntry,
   type LeaderboardScope,
-} from '@halisaha/shared/gamification'
+} from '@onpitch/shared/gamification'
 
 /**
  * One line of the ranking.

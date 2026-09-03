@@ -27,8 +27,8 @@ import { Separator } from "@/components/ui/separator"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { cn } from "@/lib/utils"
-import type { Enums } from "@halisaha/shared/database"
-import { formatMinor, type NextPayout } from "@halisaha/shared/domain"
+import type { Enums } from "@onpitch/shared/database"
+import { formatMinor, type NextPayout } from "@onpitch/shared/domain"
 
 /** Normalised `settings.payouts.schedule` from a Stripe connected account. */
 export interface PayoutScheduleInfo {

@@ -11,8 +11,8 @@
 import Link from "next/link"
 import { ClipboardList, Radio, Share2, Sparkles } from "lucide-react"
 
-import type { Enums } from "@halisaha/shared/database"
-import { MATCHDAY_PHASE_LABEL } from "@halisaha/shared/matchday"
+import type { Enums } from "@onpitch/shared/database"
+import { MATCHDAY_PHASE_LABEL } from "@onpitch/shared/matchday"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"

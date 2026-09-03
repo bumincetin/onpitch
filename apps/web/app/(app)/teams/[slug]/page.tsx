@@ -36,7 +36,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { getSessionUser } from "@/lib/rbac"
 import { createClient } from "@/lib/supabase/server"
 import { isTeamSlug } from "@/lib/teams/slug"
-import type { Enums } from "@halisaha/shared/database"
+import type { Enums } from "@onpitch/shared/database"
 
 export const dynamic = "force-dynamic"
 

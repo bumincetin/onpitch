@@ -52,7 +52,7 @@ import {
 import { Skeleton } from "@/components/ui/skeleton"
 import { toast } from "@/lib/use-toast"
 import { cn } from "@/lib/utils"
-import { API_ERROR_CODES, formatMinor } from "@halisaha/shared/domain"
+import { API_ERROR_CODES, formatMinor } from "@onpitch/shared/domain"
 
 /* ========================================================================== */
 /*  Wire parsing — the API is a trust boundary like any other                 */

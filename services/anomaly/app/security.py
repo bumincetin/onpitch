@@ -10,8 +10,8 @@ THE SIGNING SCHEME
 ------------------------------------------------------------------------------
 Every authenticated request carries two headers::
 
-    X-Halisaha-Timestamp: 1756500000                 # Unix seconds, integer
-    X-Halisaha-Signature: 3f2a...c91                 # lowercase hex, 64 chars
+    X-OnPitch-Timestamp: 1756500000                 # Unix seconds, integer
+    X-OnPitch-Signature: 3f2a...c91                 # lowercase hex, 64 chars
 
 with::
 
@@ -57,9 +57,9 @@ from collections import OrderedDict, deque
 from dataclasses import dataclass
 from typing import Deque
 
-SIGNATURE_HEADER = "X-Halisaha-Signature"
-TIMESTAMP_HEADER = "X-Halisaha-Timestamp"
-ADMIN_TOKEN_HEADER = "X-Halisaha-Admin-Token"
+SIGNATURE_HEADER = "X-OnPitch-Signature"
+TIMESTAMP_HEADER = "X-OnPitch-Timestamp"
+ADMIN_TOKEN_HEADER = "X-OnPitch-Admin-Token"
 REQUEST_ID_HEADER = "X-Request-Id"
 
 DEFAULT_MAX_SKEW_SECONDS = 300

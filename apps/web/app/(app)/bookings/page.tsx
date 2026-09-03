@@ -34,7 +34,7 @@ import { getSessionUser } from "@/lib/rbac"
 import { createClient } from "@/lib/supabase/server"
 import { parseRange } from "@/lib/venue/metrics"
 import { cn } from "@/lib/utils"
-import { DEFAULT_CURRENCY, formatMinor } from "@halisaha/shared/domain"
+import { DEFAULT_CURRENCY, formatMinor } from "@onpitch/shared/domain"
 
 export const dynamic = "force-dynamic"
 

@@ -1,7 +1,7 @@
 # Anomaly sidecar
 
 An advisory Isolation Forest service that scores match-integrity feature
-vectors for Halisaha. FastAPI + scikit-learn, HMAC-signed, no database access
+vectors for OnPitch. FastAPI + scikit-learn, HMAC-signed, no database access
 in the request path.
 
 **It is advisory, and every caller is written to survive its absence.**
@@ -33,12 +33,12 @@ That is a supported state — see
 Docker:
 
 ```bash
-docker build -t halisaha-anomaly services/anomaly
+docker build -t onpitch-anomaly services/anomaly
 docker run --rm -p 8000:8000 \
   -e ANOMALY_SERVICE_SECRET="$ANOMALY_SERVICE_SECRET" \
   -e ANOMALY_ALLOWED_ORIGINS="https://app.example.com" \
   -v "$PWD/artifacts:/srv/anomaly/artifacts:ro" \
-  halisaha-anomaly
+  onpitch-anomaly
 ```
 
 Tests:
@@ -58,7 +58,7 @@ pytest -q
 | `POST` | `/score/batch` | HMAC signature | Score up to `ANOMALY_MAX_BATCH_SIZE` vectors |
 | `GET` | `/healthz` | none | Liveness, and which scorer is active |
 | `GET` | `/model/info` | HMAC signature | Model + training metadata |
-| `POST` | `/model/reload` | `X-Halisaha-Admin-Token` | Re-read the artefact directory |
+| `POST` | `/model/reload` | `X-OnPitch-Admin-Token` | Re-read the artefact directory |
 
 `/healthz` is open so an orchestrator can probe it; it reveals nothing an
 attacker who can already reach the port would not learn from one failed
@@ -159,8 +159,8 @@ Every non-2xx has one shape, so callers branch on a slug rather than on prose:
 ## 3. Request signing
 
 ```
-X-Halisaha-Timestamp: 1756500000                 # Unix seconds
-X-Halisaha-Signature: 3f2a…c91                   # lowercase hex, 64 chars
+X-OnPitch-Timestamp: 1756500000                 # Unix seconds
+X-OnPitch-Signature: 3f2a…c91                   # lowercase hex, 64 chars
 
 signature = hex( HMAC_SHA256( secret, `${timestamp}.${rawBody}` ) )
 ```
@@ -193,8 +193,8 @@ const res = await fetch(`${process.env.ANOMALY_SERVICE_URL}/score`, {
   method: "POST",
   headers: {
     "Content-Type": "application/json",
-    "X-Halisaha-Timestamp": ts,
-    "X-Halisaha-Signature": sig,
+    "X-OnPitch-Timestamp": ts,
+    "X-OnPitch-Signature": sig,
   },
   body,                                              // the SAME string
   signal: AbortSignal.timeout(2500),
@@ -211,8 +211,8 @@ SIG=$(printf '%s.%s' "$TS" "$BODY" | openssl dgst -sha256 -hmac "$SECRET" -r | c
 
 curl -sS localhost:8000/score \
   -H "Content-Type: application/json" \
-  -H "X-Halisaha-Timestamp: $TS" \
-  -H "X-Halisaha-Signature: $SIG" \
+  -H "X-OnPitch-Timestamp: $TS" \
+  -H "X-OnPitch-Signature: $SIG" \
   --data-raw "$BODY"
 ```
 
@@ -222,7 +222,7 @@ A `GET` has no body, so the signed string is `"${TS}."` over an empty payload:
 TS=$(date +%s)
 SIG=$(printf '%s.' "$TS" | openssl dgst -sha256 -hmac "$SECRET" -r | cut -d' ' -f1)
 curl -sS localhost:8000/model/info \
-  -H "X-Halisaha-Timestamp: $TS" -H "X-Halisaha-Signature: $SIG"
+  -H "X-OnPitch-Timestamp: $TS" -H "X-OnPitch-Signature: $SIG"
 ```
 
 ---
@@ -432,7 +432,7 @@ Ship it without a restart:
 
 ```bash
 curl -sS -X POST localhost:8000/model/reload \
-  -H "X-Halisaha-Admin-Token: $ANOMALY_ADMIN_TOKEN"
+  -H "X-OnPitch-Admin-Token: $ANOMALY_ADMIN_TOKEN"
 ```
 
 The replacement snapshot is built in full before the swap, so a reload never

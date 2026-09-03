@@ -48,7 +48,7 @@ import { formatDayLabel } from '@/lib/format'
 import { consentBlockReason } from '@/lib/gdpr'
 import { supabase, useSession } from '@/lib/supabase'
 import { useTheme } from '@/lib/theme'
-import type { Enums } from '@halisaha/shared/database'
+import type { Enums } from '@onpitch/shared/database'
 
 /** How many pitches get a live free-slot count. Beyond this the card says to open it. */
 const AVAILABILITY_PROBE_LIMIT = 8

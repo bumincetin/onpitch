@@ -59,7 +59,7 @@ import {
 } from "@/components/ui/table"
 import { Textarea } from "@/components/ui/textarea"
 import { toast } from "@/lib/use-toast"
-import { Constants, type Enums } from "@halisaha/shared/database"
+import { Constants, type Enums } from "@onpitch/shared/database"
 
 /**
  * The role union comes from the generated schema constants, not from `@/lib/rbac`. That module

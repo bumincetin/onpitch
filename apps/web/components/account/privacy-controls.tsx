@@ -41,7 +41,7 @@ import {
   isApiOk,
   type ApiResponse,
   type ProfileVisibility,
-} from "@halisaha/shared/domain"
+} from "@onpitch/shared/domain"
 
 export interface PrivacyControlsProps {
   /** Effective values, already run through `enforcePrivacyDefaults()` on the server. */
@@ -245,7 +245,7 @@ export function PrivacyControls({
             htmlFor={id("marketing")}
             className={cn(locked("marketing_opt_in") && "text-muted-foreground")}
           >
-            Ara sıra Halısaha e-postası
+            Ara sıra OnPitch e-postası
           </Label>
           <p id={id("marketing-hint")} className="text-sm text-muted-foreground">
             Yılda birkaç kez yakınındaki yeni sahalar ve ürün haberleri. Rezervasyon onayları, iadeler ve maç uyarıları pazarlama değildir ve her hâlükârda gelmeye devam eder.

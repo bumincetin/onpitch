@@ -3,7 +3,7 @@ import { View } from 'react-native'
 
 import { Text } from '@/components/ui'
 import { useTheme } from '@/lib/theme'
-import { XP_EVENT_LABELS, formatXp, type XpEvent } from '@halisaha/shared/gamification'
+import { XP_EVENT_LABELS, formatXp, type XpEvent } from '@onpitch/shared/gamification'
 
 /**
  * One line of the XP ledger.

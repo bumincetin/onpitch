@@ -35,8 +35,8 @@ import * as Sharing from 'expo-sharing'
 import * as React from 'react'
 import { RefreshControl, View } from 'react-native'
 
-import type { TablesUpdate } from '@halisaha/shared/database'
-import { gdprErasureSchema, type ProfileVisibility } from '@halisaha/shared/domain'
+import type { TablesUpdate } from '@onpitch/shared/database'
+import { gdprErasureSchema, type ProfileVisibility } from '@onpitch/shared/domain'
 import { z } from 'zod'
 
 import {
@@ -79,7 +79,7 @@ const CONSENT_LABEL: Readonly<Record<string, string>> = {
 }
 
 function exportFilename(): string {
-  return `halisaha-data-export-${new Date().toISOString().slice(0, 10)}.json`
+  return `onpitch-data-export-${new Date().toISOString().slice(0, 10)}.json`
 }
 
 export default function PrivacyScreen(): React.ReactElement {
@@ -173,7 +173,7 @@ export default function PrivacyScreen(): React.ReactElement {
         await Sharing.shareAsync(file.uri, {
           mimeType: 'application/json',
           UTI: 'public.json',
-          dialogTitle: 'Your Halisaha data export',
+          dialogTitle: 'Your OnPitch data export',
         })
       } else {
         setExportError(

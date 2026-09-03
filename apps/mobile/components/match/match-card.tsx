@@ -14,8 +14,8 @@
 import * as React from 'react'
 import { View } from 'react-native'
 
-import { FORMAT_TEAM_SIZE } from '@halisaha/shared/balance'
-import type { Enums } from '@halisaha/shared/database'
+import { FORMAT_TEAM_SIZE } from '@onpitch/shared/balance'
+import type { Enums } from '@onpitch/shared/database'
 
 import { Badge, Card, Text, type BadgeTone } from '@/components/ui'
 import { formatKickoff, formatRelative } from '@/lib/format'
@@ -90,7 +90,7 @@ export const MATCH_FORMAT_LABEL: Record<Enums<'match_format'>, string> = {
 /**
  * Players per side for a format.
  *
- * Delegates to `FORMAT_TEAM_SIZE` in @halisaha/shared/balance — the same table the balancer and
+ * Delegates to `FORMAT_TEAM_SIZE` in @onpitch/shared/balance — the same table the balancer and
  * `POST /api/matches` use — so a capacity shown here can never disagree with the capacity the
  * server enforces.
  */

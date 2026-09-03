@@ -1,5 +1,5 @@
 -- =============================================================================
--- Halisaha — 0009_leagues.sql
+-- OnPitch — 0009_leagues.sql
 -- City leagues: five divisions, seasons, promotion and relegation.
 --
 -- WHAT THIS FILE OWNS
@@ -947,15 +947,15 @@ begin
     return;
   end if;
 
-  perform cron.unschedule('halisaha-league-rollover')
-    where exists (select 1 from cron.job where jobname = 'halisaha-league-rollover');
+  perform cron.unschedule('onpitch-league-rollover')
+    where exists (select 1 from cron.job where jobname = 'onpitch-league-rollover');
   perform cron.schedule(
-    'halisaha-league-rollover',
+    'onpitch-league-rollover',
     '40 3 * * *',
     $job$select public.roll_over_seasons();$job$
   );
 
-  raise notice '0009: cron job halisaha-league-rollover scheduled.';
+  raise notice '0009: cron job onpitch-league-rollover scheduled.';
 exception
   when others then
     raise notice '0009: cron scheduling skipped (%).', sqlerrm;

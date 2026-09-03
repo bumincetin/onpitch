@@ -49,14 +49,14 @@ import {
 } from "@/components/ui/select"
 import { Switch } from "@/components/ui/switch"
 import { cn } from "@/lib/utils"
-import { Constants, type Enums, type Tables } from "@halisaha/shared/database"
+import { Constants, type Enums, type Tables } from "@onpitch/shared/database"
 import {
   DEFAULT_CURRENCY,
   fromMinor,
   isApiOk,
   toMinor,
   type ApiResponse,
-} from "@halisaha/shared/domain"
+} from "@onpitch/shared/domain"
 
 type Pitch = Tables<"pitches">
 

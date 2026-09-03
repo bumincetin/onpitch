@@ -164,12 +164,12 @@ export default function ParentalConsentPage({
         </CardHeader>
         <CardContent className="space-y-4">
           <p className="text-sm text-muted-foreground">
-            &ldquo;Çocuğunuzun Halısaha hesabını onaylayın&rdquo; başlıklı e-postayı aç ve içindeki düğmeyi kullan. Bulamıyorsan gencin hesap ayarlarından yenisini göndermesini iste.
+            &ldquo;Çocuğunuzun OnPitch hesabını onaylayın&rdquo; başlıklı e-postayı aç ve içindeki düğmeyi kullan. Bulamıyorsan gencin hesap ayarlarından yenisini göndermesini iste.
           </p>
         </CardContent>
         <CardFooter>
           <Link href="/" className="text-sm underline underline-offset-4">
-            Halısaha&apos;ya dön
+            OnPitch&apos;ya dön
           </Link>
         </CardFooter>
       </Card>
@@ -182,7 +182,7 @@ export default function ParentalConsentPage({
       <CardHeader>
         <CardTitle>Bu hesabı onaylıyor musun?</CardTitle>
         <CardDescription>
-          Someone under {DIGITAL_CONSENT_AGE} has asked to join Halisaha and named you as their
+          Someone under {DIGITAL_CONSENT_AGE} has asked to join OnPitch and named you as their
           parent or guardian.
         </CardDescription>
       </CardHeader>
@@ -190,7 +190,7 @@ export default function ParentalConsentPage({
       <CardContent className="space-y-4">
         <div className="space-y-2 text-sm">
           <p>
-            Halisaha is an app for booking five- and seven-a-side pitches and organising amateur
+            OnPitch is an app for booking five- and seven-a-side pitches and organising amateur
             matches. Because they told us they are under {DIGITAL_CONSENT_AGE}, GDPR Article 8
             requires your approval before we may process their data.
           </p>

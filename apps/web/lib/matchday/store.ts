@@ -25,7 +25,7 @@ import {
   playerSchema,
   type MatchdayRecord,
   type Player,
-} from "@halisaha/shared/matchday"
+} from "@onpitch/shared/matchday"
 import { z } from "zod"
 
 /* -------------------------------------------------------------------------- */
@@ -41,8 +41,8 @@ export interface MatchdayRepository {
   writeSquad(teamKey: string, squad: Player[]): void
 }
 
-const RECORD_PREFIX = "halisaha:matchday:v1:"
-const SQUAD_PREFIX = "halisaha:matchday:squad:v1:"
+const RECORD_PREFIX = "onpitch:matchday:v1:"
+const SQUAD_PREFIX = "onpitch:matchday:squad:v1:"
 
 export function recordStorageKey(matchId: string): string {
   return `${RECORD_PREFIX}${matchId}`

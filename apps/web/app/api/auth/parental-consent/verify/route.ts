@@ -23,9 +23,9 @@
 import { NextResponse, type NextRequest } from "next/server"
 
 import { createAdminClient } from "@/lib/supabase/admin"
-import { API_ERROR_CODES, parentalConsentVerifySchema } from "@halisaha/shared/domain"
-import type { ApiResponse } from "@halisaha/shared/domain"
-import type { Database } from "@halisaha/shared/database"
+import { API_ERROR_CODES, parentalConsentVerifySchema } from "@onpitch/shared/domain"
+import type { ApiResponse } from "@onpitch/shared/domain"
+import type { Database } from "@onpitch/shared/database"
 
 export const runtime = "nodejs"
 export const dynamic = "force-dynamic"

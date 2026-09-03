@@ -61,7 +61,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
       <footer className="border-t border-foreground/15">
         <div className="mx-auto flex w-full max-w-6xl flex-col gap-3 px-4 py-6 sm:flex-row sm:items-center sm:justify-between sm:px-6">
           <p className="label-eyebrow">
-            Halısaha
+            OnPitch
             <span className="mx-2 text-gold">·</span>
             İki kale, tek saha
           </p>

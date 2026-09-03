@@ -3,7 +3,7 @@ import {
   TIER_LABELS,
   formatXp,
   type AchievementState,
-} from "@halisaha/shared/gamification"
+} from "@onpitch/shared/gamification"
 
 import { cn } from "@/lib/utils"
 

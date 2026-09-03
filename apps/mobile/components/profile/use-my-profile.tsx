@@ -22,7 +22,7 @@
  * THE CAST BELOW, AND WHY IT IS NOT A HOLE
  * ----------------------------------------
  * `my_profile()` is missing from the generated `Database['public']['Functions']` map in
- * @halisaha/shared/database, and this package may not edit that file. `SupabaseClient.rpc()`
+ * @onpitch/shared/database, and this package may not edit that file. `SupabaseClient.rpc()`
  * constrains its first argument to that map, so the call is made through a minimal structural view
  * of the client. The cast buys a call signature and nothing else: the response comes back as
  * `unknown` and is parsed with zod below, so a schema drift or a PostgREST error shape lands as a
@@ -31,8 +31,8 @@
 
 import * as React from 'react'
 
-import { Constants, type Expect, type Tables } from '@halisaha/shared/database'
-import { profileVisibilitySchema } from '@halisaha/shared/domain'
+import { Constants, type Expect, type Tables } from '@onpitch/shared/database'
+import { profileVisibilitySchema } from '@onpitch/shared/domain'
 import { z } from 'zod'
 
 import { supabase, useSession } from '@/lib/supabase'

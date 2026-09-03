@@ -22,7 +22,7 @@ import {
   TIER_LABELS,
   formatXp,
   type AchievementTier,
-} from "@halisaha/shared/gamification"
+} from "@onpitch/shared/gamification"
 
 export const dynamic = "force-dynamic"
 

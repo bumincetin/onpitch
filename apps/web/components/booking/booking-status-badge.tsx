@@ -16,7 +16,7 @@
 
 import { Badge, type BadgeProps } from "@/components/ui/badge"
 import { cn } from "@/lib/utils"
-import type { Enums } from "@halisaha/shared/database"
+import type { Enums } from "@onpitch/shared/database"
 
 type BadgeVariant = NonNullable<BadgeProps["variant"]>
 

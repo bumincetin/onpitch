@@ -47,8 +47,8 @@ import {
   defaultRating,
   type Rating,
 } from "@/lib/matchmaking"
-import { API_ERROR_CODES, joinMatchSchema, type MatchQuality, type TeamSide } from "@halisaha/shared/domain"
-import type { Tables } from "@halisaha/shared/database"
+import { API_ERROR_CODES, joinMatchSchema, type MatchQuality, type TeamSide } from "@onpitch/shared/domain"
+import type { Tables } from "@onpitch/shared/database"
 
 export const runtime = "nodejs"
 export const dynamic = "force-dynamic"

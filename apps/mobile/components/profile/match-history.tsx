@@ -15,8 +15,8 @@ import { useRouter } from 'expo-router'
 import * as React from 'react'
 import { View, type StyleProp, type ViewStyle } from 'react-native'
 
-import type { Enums } from '@halisaha/shared/database'
-import type { TeamSide } from '@halisaha/shared/domain'
+import type { Enums } from '@onpitch/shared/database'
+import type { TeamSide } from '@onpitch/shared/domain'
 
 import { Badge, Card, EmptyState, Separator, Spinner, Text, type BadgeTone } from '@/components/ui'
 import { formatKickoff } from '@/lib/format'

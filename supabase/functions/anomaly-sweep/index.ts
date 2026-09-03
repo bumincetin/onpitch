@@ -86,8 +86,8 @@ const DEFAULT_LIMIT = 50
 const MAX_LIMIT = 200
 
 /** Signature headers. Identical to the Next.js bridge and to `services/anomaly/`. */
-const SIGNATURE_HEADER = "X-Halisaha-Signature"
-const TIMESTAMP_HEADER = "X-Halisaha-Timestamp"
+const SIGNATURE_HEADER = "X-OnPitch-Signature"
+const TIMESTAMP_HEADER = "X-OnPitch-Timestamp"
 
 /** Camel-cased feature vector, field-for-field `AnomalyFeatureVector`. */
 interface FeatureVector {
@@ -222,8 +222,8 @@ Deno.serve((request: Request) =>
 /**
  * HMAC-sign and POST one feature vector.
  *
- *     X-Halisaha-Timestamp: <unix seconds>
- *     X-Halisaha-Signature: hex(hmac_sha256(secret, `${timestamp}.${body}`))
+ *     X-OnPitch-Timestamp: <unix seconds>
+ *     X-OnPitch-Signature: hex(hmac_sha256(secret, `${timestamp}.${body}`))
  *
  * The timestamp is inside the signed material so the sidecar can enforce its
  * 300s skew window; signing the body alone would leave a captured request

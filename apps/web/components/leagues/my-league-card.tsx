@@ -7,7 +7,7 @@ import {
   daysLeft,
   zoneFor,
   type MyLeagueEntry,
-} from "@halisaha/shared/leagues"
+} from "@onpitch/shared/leagues"
 
 /**
  * One of the caller's teams, and where it stands.

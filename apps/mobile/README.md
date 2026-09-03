@@ -1,4 +1,4 @@
-# @halisaha/mobile
+# @onpitch/mobile
 
 The Expo client. It signs in against the same Supabase project as the web app and calls the same
 `/api/**` route handlers. The TrueSkill engine, domain schemas and realtime topic strings are
@@ -26,7 +26,7 @@ scan the QR code.
 `apps/mobile` is not one of the root npm workspaces. It keeps its own `package-lock.json` so the
 Expo SDK can pin React Native's dependency graph, and the root `postinstall` installs it with
 `npm --prefix apps/mobile install`. `packages/shared` arrives as a `file:` dependency, symlinked
-into `apps/mobile/node_modules/@halisaha/shared`, which is why the root install has to run first.
+into `apps/mobile/node_modules/@onpitch/shared`, which is why the root install has to run first.
 
 `EXPO_PUBLIC_API_URL` has to be an address the phone can reach. On a device
 `http://localhost:3000` resolves to the phone itself, not to your laptop:
@@ -48,7 +48,7 @@ one is off, `npx expo install --check` reconciles them with the SDK.
 `metro.config.js` overrides four Metro defaults. Left at their defaults, each one produces a red
 screen that points somewhere other than the resolution problem causing it:
 
-1. **`watchFolders = [workspaceRoot]`** — `@halisaha/shared` is a symlink into
+1. **`watchFolders = [workspaceRoot]`** — `@onpitch/shared` is a symlink into
    `packages/shared`. Metro only reads files under the project root plus the watch folders, so
    without this every shared import fails to resolve and edits to the shared code never trigger a
    reload.
@@ -59,8 +59,8 @@ screen that points somewhere other than the resolution problem causing it:
    it a file in `packages/shared/src` can resolve `react` against a stray
    `packages/shared/node_modules`, the app loads two Reacts, and every hook throws
    "Invalid hook call" while pointing at the wrong component.
-4. **`resolver.unstable_enablePackageExports = true`** — `@halisaha/shared` ships TypeScript
-   source with no build step. `@halisaha/shared/domain` resolves only through the subpath exports
+4. **`resolver.unstable_enablePackageExports = true`** — `@onpitch/shared` ships TypeScript
+   source with no build step. `@onpitch/shared/domain` resolves only through the subpath exports
    map in its `package.json`; there is no file at the package root to fall back to.
 
 Metro compiles the shared TypeScript itself, the same way Next compiles it through
@@ -75,7 +75,7 @@ Screens import from these and do not redefine them.
 | `@/lib/supabase` | `supabase`, `SessionProvider`, `useSession()`, `useProfile()`, `Profile` |
 | `@/lib/api` | `apiFetch<T>()`, `ApiError`, `isApiError()` |
 | `@/lib/theme` | `theme`, `darkTheme`, `useTheme()`, `useIsDark()`, `ThemeColors`, `Theme` |
-| `@/lib/format` | `formatKickoff`, `formatRelative`, `formatTime`, `formatTimeRange`, `formatDayLabel`, `formatDuration`, plus the money helpers re-exported from `@halisaha/shared/domain` (`formatMinor`, `toMinor`, `fromMinor`, `asMinor`, `minorUnitExponent`, `DEFAULT_CURRENCY`) |
+| `@/lib/format` | `formatKickoff`, `formatRelative`, `formatTime`, `formatTimeRange`, `formatDayLabel`, `formatDuration`, plus the money helpers re-exported from `@onpitch/shared/domain` (`formatMinor`, `toMinor`, `fromMinor`, `asMinor`, `minorUnitExponent`, `DEFAULT_CURRENCY`) |
 | `@/lib/data-error` | `DataError`, `dataError()`, `isDataError()` — the shape screens throw for a failed Supabase read |
 | `@/lib/gdpr` | `assessAge()`, `hasTransactingConsent()`, `consentBlockReason()`, `MINOR_PRIVACY_EXPLANATIONS`, the age constants |
 | `@/lib/env` | `env` — the four `EXPO_PUBLIC_*` values, validated once at import |
@@ -122,12 +122,12 @@ app/
     book.tsx             Book
     profile.tsx          Profile
   match/[id]/
-    index.tsx            match detail        <- halisaha://match/<uuid>
+    index.tsx            match detail        <- onpitch://match/<uuid>
     live.tsx             live score, broadcast + Postgres Changes
     report.tsx           file a scoreline
     consensus.tsx        peer-consensus vote, when requires_consensus is set
-  booking/[id].tsx       booking detail      <- halisaha://booking/<uuid>
-  player/[id].tsx        player profile      <- halisaha://player/<uuid>
+  booking/[id].tsx       booking detail      <- onpitch://booking/<uuid>
+  player/[id].tsx        player profile      <- onpitch://player/<uuid>
   venue/[slug].tsx       venue, pitch list
   venue/[slug]/[pitchId].tsx   slot grid for one pitch
   bookings.tsx           the signed-in user's bookings
@@ -143,16 +143,16 @@ The `(tabs)` filenames are fixed by `(tabs)/_layout.tsx`, and the three deep-lin
 
 ## Deep links
 
-Scheme is `halisaha`, declared in `app.json` and mirrored in the Android intent filter.
+Scheme is `onpitch`, declared in `app.json` and mirrored in the Android intent filter.
 `app/+native-intent.tsx` normalises every incoming link before expo-router matches it:
 
 ```
-halisaha://match/<uuid>     ->  /match/<uuid>
-halisaha://booking/<uuid>   ->  /booking/<uuid>
-halisaha://player/<uuid>    ->  /player/<uuid>
+onpitch://match/<uuid>     ->  /match/<uuid>
+onpitch://booking/<uuid>   ->  /booking/<uuid>
+onpitch://player/<uuid>    ->  /player/<uuid>
 ```
 
-`https://halisaha.app/<segment>/<uuid>` and a bare `/<segment>/<uuid>` normalise to the same
+`https://onpitch.app/<segment>/<uuid>` and a bare `/<segment>/<uuid>` normalise to the same
 routes. Anything else falls through unchanged, so in-app navigation is unaffected.
 
 The id is checked against the uuid shape first. A malformed one goes to `/` rather than to a
@@ -165,7 +165,7 @@ returns to the app instead of stranding the customer in a browser tab.
 Test one without a build:
 
 ```bash
-npx uri-scheme open "halisaha://match/00000000-0000-4000-8000-000000000000" --android
+npx uri-scheme open "onpitch://match/00000000-0000-4000-8000-000000000000" --android
 ```
 
 ## The age gate

@@ -1,18 +1,18 @@
 # syntax=docker/dockerfile:1
 #
-# Halisaha anomaly sidecar.
+# OnPitch anomaly sidecar.
 #
-#   docker build -t halisaha-anomaly services/anomaly
+#   docker build -t onpitch-anomaly services/anomaly
 #   docker run --rm -p 8000:8000 \
 #     -e ANOMALY_SERVICE_SECRET="$ANOMALY_SERVICE_SECRET" \
 #     -e ANOMALY_ALLOWED_ORIGINS="https://app.example.com" \
 #     -v "$PWD/artifacts:/srv/anomaly/artifacts:ro" \
-#     halisaha-anomaly
+#     onpitch-anomaly
 #
 # The image also runs the training job, so a retrain needs no second build:
 #   docker run --rm -e ANOMALY_TRAINING_DATABASE_URL=... \
 #     -v "$PWD/artifacts:/srv/anomaly/artifacts" \
-#     halisaha-anomaly python train.py --source db --limit 50000
+#     onpitch-anomaly python train.py --source db --limit 50000
 #
 # Keep this container on a private network. It is a server-to-server sidecar
 # and has no business being reachable from the internet, HMAC or not.

@@ -53,7 +53,7 @@ import {
   anomalyVerdictResponseSchema,
   type AnomalyFeatureVector,
   type AnomalyVerdict,
-} from "@halisaha/shared/domain"
+} from "@onpitch/shared/domain"
 
 export const runtime = "nodejs"
 export const dynamic = "force-dynamic"
@@ -65,8 +65,8 @@ const SIDECAR_TIMEOUT_MS = 2500
 const DEFAULT_THRESHOLD = 0.62
 
 /** Signature headers. Mirrored byte-for-byte in `services/anomaly/`. */
-const SIGNATURE_HEADER = "X-Halisaha-Signature"
-const TIMESTAMP_HEADER = "X-Halisaha-Timestamp"
+const SIGNATURE_HEADER = "X-OnPitch-Signature"
+const TIMESTAMP_HEADER = "X-OnPitch-Timestamp"
 
 export async function POST(request: Request): Promise<Response> {
   return handleRoute<AnomalyVerdict>(async () => {
@@ -190,8 +190,8 @@ interface SidecarVerdict {
  *
  * Signature scheme, identical to the FastAPI verifier:
  *
- *     X-Halisaha-Timestamp: <unix seconds>
- *     X-Halisaha-Signature: hex(hmac_sha256(secret, `${timestamp}.${body}`))
+ *     X-OnPitch-Timestamp: <unix seconds>
+ *     X-OnPitch-Signature: hex(hmac_sha256(secret, `${timestamp}.${body}`))
  *
  * The timestamp is inside the signed material, which is what makes replay
  * protection possible: the sidecar rejects anything outside a 300s window with

@@ -10,7 +10,7 @@ import {
   type LeagueCityRow,
   type LeagueStanding,
   type MyLeagueEntry,
-} from "@halisaha/shared/leagues"
+} from "@onpitch/shared/leagues"
 
 import { createRouteClient } from "@/lib/supabase/server"
 

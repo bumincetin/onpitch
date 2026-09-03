@@ -51,8 +51,8 @@ import {
   type Rating,
   type SeekerContext,
 } from "@/lib/matchmaking"
-import { API_ERROR_CODES, matchFormatSchema, type MatchmakingCandidate } from "@halisaha/shared/domain"
-import type { Enums } from "@halisaha/shared/database"
+import { API_ERROR_CODES, matchFormatSchema, type MatchmakingCandidate } from "@onpitch/shared/domain"
+import type { Enums } from "@onpitch/shared/database"
 import { z } from "zod"
 
 export const runtime = "nodejs"

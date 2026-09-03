@@ -48,7 +48,7 @@
 
 import { z } from 'zod'
 
-import { Constants, type Enums } from '@halisaha/shared/database'
+import { Constants, type Enums } from '@onpitch/shared/database'
 import {
   asMinor,
   DEFAULT_CURRENCY,
@@ -59,7 +59,7 @@ import {
   type MinorUnits,
   type SlotUnavailableReason,
   type TimeSlot,
-} from '@halisaha/shared/domain'
+} from '@onpitch/shared/domain'
 
 const MINUTE_MS = 60_000
 const DAY_MINUTES = 24 * 60

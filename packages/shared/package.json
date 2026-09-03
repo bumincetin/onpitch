@@ -1,5 +1,5 @@
 {
-  "name": "@halisaha/shared",
+  "name": "@onpitch/shared",
   "version": "0.1.0",
   "private": true,
   "description": "Types, schemas, TrueSkill engine, matchmaking and realtime topics shared by the web and mobile apps",

@@ -1,5 +1,5 @@
 -- =============================================================================
--- Halisaha — 0004_trueskill.sql
+-- OnPitch — 0004_trueskill.sql
 -- TrueSkill 2 team rating engine (PL/pgSQL, PostgreSQL 15 compatible).
 --
 -- WHAT THIS FILE OWNS

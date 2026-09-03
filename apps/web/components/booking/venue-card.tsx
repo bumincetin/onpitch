@@ -21,8 +21,8 @@ import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { PITCH_FORMAT_LABELS } from "@/components/booking/pitch-card"
 import { cn } from "@/lib/utils"
-import type { Enums } from "@halisaha/shared/database"
-import { formatMinor } from "@halisaha/shared/domain"
+import type { Enums } from "@onpitch/shared/database"
+import { formatMinor } from "@onpitch/shared/domain"
 
 /** Mirrors `images.remotePatterns` in next.config.mjs. Keep the two in step. */
 function isRenderableImage(rawUrl: string | null | undefined): rawUrl is string {

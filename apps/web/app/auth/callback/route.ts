@@ -22,7 +22,7 @@ import { NextResponse, type NextRequest } from "next/server"
 
 import { createClient } from "@/lib/supabase/server"
 import { assessAge, issueGuardianConsent, maskEmail } from "@/lib/gdpr"
-import type { Database, Tables } from "@halisaha/shared/database"
+import type { Database, Tables } from "@onpitch/shared/database"
 import type { SupabaseClient, User } from "@supabase/supabase-js"
 
 export const runtime = "nodejs"

@@ -8,7 +8,7 @@
  * shared, and a 1080×1920 PNG is what a phone lock screen and an Instagram story both expect.
  */
 
-import type { Formation, LineupAssignment, Player } from "@halisaha/shared/matchday"
+import type { Formation, LineupAssignment, Player } from "@onpitch/shared/matchday"
 
 /* -------------------------------------------------------------------------- */
 /*  Palette — the app's editorial colours, at contrast levels a lock screen needs */

@@ -1,5 +1,5 @@
 {
-  "name": "@halisaha/web",
+  "name": "@onpitch/web",
   "version": "0.1.0",
   "private": true,
   "engines": {
@@ -15,7 +15,7 @@
     "test:watch": "vitest"
   },
   "dependencies": {
-    "@halisaha/shared": "*",
+    "@onpitch/shared": "*",
     "@radix-ui/react-dialog": "^1.1.1",
     "@radix-ui/react-label": "^2.1.0",
     "@radix-ui/react-select": "^2.1.1",

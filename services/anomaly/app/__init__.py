@@ -1,4 +1,4 @@
-"""Halisaha anomaly sidecar.
+"""OnPitch anomaly sidecar.
 
 An advisory Isolation Forest service that scores match-integrity feature
 vectors. The platform finalises matches whether or not this service answers --

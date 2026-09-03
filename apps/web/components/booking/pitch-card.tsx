@@ -13,8 +13,8 @@ import Link from "next/link"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { cn } from "@/lib/utils"
-import type { Enums } from "@halisaha/shared/database"
-import { formatMinor } from "@halisaha/shared/domain"
+import type { Enums } from "@onpitch/shared/database"
+import { formatMinor } from "@onpitch/shared/domain"
 
 /* -------------------------------------------------------------------------- */
 /*  Shared vocabulary                                                          */

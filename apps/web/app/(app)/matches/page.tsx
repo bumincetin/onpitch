@@ -35,7 +35,7 @@ import { MatchCard, type MatchCardMatch } from "@/components/match/match-card"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { cn } from "@/lib/utils"
-import type { Enums } from "@halisaha/shared/database"
+import type { Enums } from "@onpitch/shared/database"
 
 export const dynamic = "force-dynamic"
 

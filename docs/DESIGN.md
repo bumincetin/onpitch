@@ -1,6 +1,6 @@
-# Halısaha — Design
+# OnPitch — Design
 
-The product is set at a floodlit halısaha at night. That is not a theme on the landing page; it is
+The product is set at a floodlit onpitch at night. That is not a theme on the landing page; it is
 the ground the whole app stands on.
 
 ---
@@ -8,7 +8,7 @@ the ground the whole app stands on.
 ## The two halves of one palette
 
 The design system came out of an editorial reference whose own tokens name `#1b2230` "white" and
-`#f6f1e7` "obsidian" — it is a dark theme inverted onto paper. Halısaha uses both halves:
+`#f6f1e7` "obsidian" — it is a dark theme inverted onto paper. OnPitch uses both halves:
 
 | | Ground | Ink | Accent |
 |---|---|---|---|

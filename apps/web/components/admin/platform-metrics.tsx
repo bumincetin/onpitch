@@ -19,7 +19,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { cn } from "@/lib/utils"
 import { ADMIN_WINDOW_CHOICES, type PlatformMetrics } from "@/lib/admin/metrics"
-import { formatMinor } from "@halisaha/shared/domain"
+import { formatMinor } from "@onpitch/shared/domain"
 
 export interface PlatformMetricsProps {
   metrics: PlatformMetrics

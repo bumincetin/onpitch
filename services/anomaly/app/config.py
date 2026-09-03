@@ -23,7 +23,7 @@ from .model import (
 )
 from .security import DEFAULT_MAX_SKEW_SECONDS
 
-SERVICE_NAME = "halisaha-anomaly"
+SERVICE_NAME = "onpitch-anomaly"
 
 #: Bumped by hand when the HTTP surface changes. Tracked separately from
 #: MODEL_VERSION so that a retrain does not read as a deploy.

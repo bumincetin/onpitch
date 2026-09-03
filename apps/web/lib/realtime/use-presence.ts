@@ -52,7 +52,7 @@
 import { useMemo } from "react"
 
 import { useMatchChannel } from "@/lib/realtime/use-match-channel"
-import type { MatchPresencePayload, RealtimeConnection } from "@halisaha/shared/channels"
+import type { MatchPresencePayload, RealtimeConnection } from "@onpitch/shared/channels"
 
 export type { MatchPresencePayload }
 

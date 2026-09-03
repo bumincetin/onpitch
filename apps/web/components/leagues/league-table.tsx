@@ -8,7 +8,7 @@ import {
   zoneFor,
   type Division,
   type LeagueStanding,
-} from "@halisaha/shared/leagues"
+} from "@onpitch/shared/leagues"
 
 /**
  * A division's standings, set as a printed table.

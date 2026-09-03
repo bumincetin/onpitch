@@ -32,7 +32,7 @@ import { requireRole } from "@/lib/rbac"
 import { createClient } from "@/lib/supabase/server"
 import { emptyOnboardingState, resolveSiteOrigin } from "@/lib/stripe"
 import { resolveDashboardVenue } from "@/lib/venue/metrics"
-import { isApiOk, type ApiResponse, type StripeOnboardingState } from "@halisaha/shared/domain"
+import { isApiOk, type ApiResponse, type StripeOnboardingState } from "@onpitch/shared/domain"
 
 export const dynamic = "force-dynamic"
 

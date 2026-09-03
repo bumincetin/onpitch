@@ -60,7 +60,7 @@ export default function SignInScreen(): React.ReactElement {
     <Screen scroll edges={['top', 'left', 'right', 'bottom']}>
       <View style={{ gap: theme.spacing.sm, marginTop: theme.spacing.xxl }}>
         <Text variant="display" tone="primary">
-          Halısaha
+          OnPitch
         </Text>
         <Text variant="body" tone="muted">
           Saha tut, kadroyu doldur, skoru karara bağla.

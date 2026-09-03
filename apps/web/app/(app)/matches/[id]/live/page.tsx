@@ -18,7 +18,7 @@ import { notFound } from "next/navigation"
 
 import { getSessionUser } from "@/lib/rbac"
 import { createClient } from "@/lib/supabase/server"
-import { isUuid, type MatchPresencePayload } from "@halisaha/shared/channels"
+import { isUuid, type MatchPresencePayload } from "@onpitch/shared/channels"
 import { LiveCompanion } from "@/components/matchday/live-companion"
 import type { RosterPlayer } from "@/components/match/roster"
 import { formatKickoff } from "@/components/match/match-card"

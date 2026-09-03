@@ -1,8 +1,8 @@
-# Halisaha — API Reference
+# OnPitch — API Reference
 
 Every route handler lives in `apps/web/app/api/**`, runs on the Node runtime
 (`export const runtime = 'nodejs'`), is `force-dynamic`, parses its input with a zod schema from
-`packages/shared/src/domain.ts` (imported as `@halisaha/shared/domain`), and returns the
+`packages/shared/src/domain.ts` (imported as `@onpitch/shared/domain`), and returns the
 `ApiResponse<T>` discriminated union:
 
 ```ts
@@ -230,7 +230,7 @@ route instead of reading the tables directly.
   "nextFixture": { "matchId": "…", "kickoffAt": "…", "timezone": "Europe/Istanbul", /* … */ } }
 ```
 
-Parse with `playerProgressSchema` from `@halisaha/shared/gamification`; the RPC answers with
+Parse with `playerProgressSchema` from `@onpitch/shared/gamification`; the RPC answers with
 `jsonb`, which is opaque on the wire.
 
 ### `POST /api/challenges/[id]/claim`
@@ -504,14 +504,14 @@ session-derived or configuration-derived values.
 The Expo app pings it on cold start and after a network error, to tell "the API is unreachable"
 apart from "your session expired".
 
-→ `{ status: 'ok', service: 'halisaha-web', time, uptimeSeconds }`
+→ `{ status: 'ok', service: 'onpitch-web', time, uptimeSeconds }`
 
 ---
 
 ## Realtime channels
 
 Not HTTP, but part of the public surface. Topics are built in `packages/shared/src/channels.ts`
-(`@halisaha/shared/channels`) and authorised by `realtime.messages` policies. Web and mobile
+(`@onpitch/shared/channels`) and authorised by `realtime.messages` policies. Web and mobile
 import the same builders, so a topic string cannot drift between the two clients.
 
 | Topic | Transport | Who |

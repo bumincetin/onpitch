@@ -11,8 +11,8 @@
 import { fail, handleRoute, ok } from "@/lib/api-response"
 import { getSessionUser } from "@/lib/rbac"
 import { loadLeagueCities, loadMyLeagues, type LeagueCity } from "@/lib/leagues"
-import { API_ERROR_CODES } from "@halisaha/shared/domain"
-import type { MyLeagueEntry } from "@halisaha/shared/leagues"
+import { API_ERROR_CODES } from "@onpitch/shared/domain"
+import type { MyLeagueEntry } from "@onpitch/shared/leagues"
 
 export const runtime = "nodejs"
 export const dynamic = "force-dynamic"

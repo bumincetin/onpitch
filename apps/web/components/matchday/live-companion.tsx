@@ -17,14 +17,14 @@ import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { ArrowRightLeft, CheckCircle2, Flag, Play, ShieldCheck, Square } from "lucide-react"
 
-import type { TeamSide } from "@halisaha/shared/domain"
+import type { TeamSide } from "@onpitch/shared/domain"
 import {
   blockAtMinute,
   nextSwapBlock,
   type LiveEvent,
   type LiveEventType,
   type LiveSession,
-} from "@halisaha/shared/matchday"
+} from "@onpitch/shared/matchday"
 import { LiveScoreboard, type LiveScoreboardProps } from "@/components/match/live-scoreboard"
 import type { LiveTally } from "@/lib/realtime/use-match-channel"
 import { Badge } from "@/components/ui/badge"

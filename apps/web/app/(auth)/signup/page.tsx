@@ -17,7 +17,7 @@ import { DIGITAL_CONSENT_AGE } from "@/lib/gdpr"
 
 export const metadata: Metadata = {
   title: "Hesap oluştur",
-  description: "Saha tutmak, maç kurmak ve reytingini takip etmek için Halısaha'ya katıl.",
+  description: "Saha tutmak, maç kurmak ve reytingini takip etmek için OnPitch'ya katıl.",
 }
 
 export default function SignupPage({

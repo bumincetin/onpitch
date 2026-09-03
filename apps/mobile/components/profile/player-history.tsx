@@ -18,8 +18,8 @@
  * this returns a rating for a private profile, which is exactly what the player page renders.
  */
 
-import type { Enums } from '@halisaha/shared/database'
-import type { TeamSide } from '@halisaha/shared/domain'
+import type { Enums } from '@onpitch/shared/database'
+import type { TeamSide } from '@onpitch/shared/domain'
 
 import { dataError } from '@/lib/data-error'
 import { supabase } from '@/lib/supabase'

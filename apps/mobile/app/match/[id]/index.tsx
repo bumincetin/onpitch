@@ -1,7 +1,7 @@
 /**
  * app/match/[id]/index.tsx
  *
- * One match, in full. The hub the deep link `halisaha://match/<uuid>` lands on.
+ * One match, in full. The hub the deep link `onpitch://match/<uuid>` lands on.
  *
  * Everything here is read with the USER's client, so `matches_select_involved` is what decides
  * whether this person may see the row at all. A match that does not exist and a match this viewer
@@ -17,13 +17,13 @@ import { Redirect, Stack, useLocalSearchParams, useRouter } from 'expo-router'
 import * as React from 'react'
 import { RefreshControl, View } from 'react-native'
 
-import { isUuid } from '@halisaha/shared/channels'
-import type { Enums, Tables } from '@halisaha/shared/database'
+import { isUuid } from '@onpitch/shared/channels'
+import type { Enums, Tables } from '@onpitch/shared/database'
 import {
   defaultRating,
   outcomeProbabilities,
   type Rating,
-} from '@halisaha/shared/trueskill'
+} from '@onpitch/shared/trueskill'
 
 import {
   MATCH_FORMAT_LABEL,

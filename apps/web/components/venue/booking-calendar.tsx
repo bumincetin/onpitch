@@ -90,7 +90,7 @@ import {
 import { Label } from "@/components/ui/label"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Textarea } from "@/components/ui/textarea"
-import { venueTopic } from "@halisaha/shared/channels"
+import { venueTopic } from "@onpitch/shared/channels"
 import { createClient } from "@/lib/supabase/client"
 import { toast } from "@/lib/use-toast"
 import { cn } from "@/lib/utils"
@@ -103,8 +103,8 @@ import {
   zonedDateKey,
   zonedWallClockToUtc,
 } from "@/lib/venue/metrics"
-import type { Enums } from "@halisaha/shared/database"
-import { formatMinor, isApiOk, type ApiResponse } from "@halisaha/shared/domain"
+import type { Enums } from "@onpitch/shared/database"
+import { formatMinor, isApiOk, type ApiResponse } from "@onpitch/shared/domain"
 
 /* ========================================================================== */
 /*  Public shapes                                                             */

@@ -48,7 +48,7 @@ import { Label } from "@/components/ui/label"
 import { getSessionUser } from "@/lib/rbac"
 import { createClient } from "@/lib/supabase/server"
 import { cn } from "@/lib/utils"
-import type { Enums } from "@halisaha/shared/database"
+import type { Enums } from "@onpitch/shared/database"
 
 export const dynamic = "force-dynamic"
 

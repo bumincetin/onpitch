@@ -44,7 +44,7 @@ import { useCallback, useEffect, useMemo, useState } from "react"
 import Link from "next/link"
 
 import { useMatchChannel, type LiveTally } from "@/lib/realtime/use-match-channel"
-import { CONNECTION_LABEL, type MatchPresencePayload } from "@halisaha/shared/channels"
+import { CONNECTION_LABEL, type MatchPresencePayload } from "@onpitch/shared/channels"
 import { MATCH_FORMAT_LABEL, MATCH_STATUS_META } from "@/components/match/match-card"
 import { Roster, type RosterPlayer } from "@/components/match/roster"
 import { Alert, AlertDescription } from "@/components/ui/alert"
@@ -52,7 +52,7 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { cn } from "@/lib/utils"
-import type { Enums } from "@halisaha/shared/database"
+import type { Enums } from "@onpitch/shared/database"
 
 /* -------------------------------------------------------------------------- */
 

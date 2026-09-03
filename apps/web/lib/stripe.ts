@@ -7,7 +7,7 @@
  * ---------------------------------------------------------------------------
  * WHY CONNECT **EXPRESS**, AND WHAT THE PLATFORM IS LIABLE FOR
  * ---------------------------------------------------------------------------
- * Halisaha is a marketplace: players pay, venue owners get paid, and we keep a percentage. That
+ * OnPitch is a marketplace: players pay, venue owners get paid, and we keep a percentage. That
  * makes every venue owner a *seller of record* whose identity we are legally obliged to verify
  * (KYC), screen (AML/sanctions), and — in most markets — tax-report on. Connect offers three
  * shapes for that obligation:
@@ -62,7 +62,7 @@
 
 import Stripe from "stripe"
 
-import type { StripeOnboardingState } from "@halisaha/shared/domain"
+import type { StripeOnboardingState } from "@onpitch/shared/domain"
 
 /* ========================================================================== */
 /*  1. Environment                                                            */
@@ -110,7 +110,7 @@ export function isLiveMode(): boolean {
  */
 declare global {
   // eslint-disable-next-line no-var
-  var __halisahaStripe__: Stripe | undefined
+  var __onpitchStripe__: Stripe | undefined
 }
 
 function createStripeClient(): Stripe {
@@ -133,7 +133,7 @@ function createStripeClient(): Stripe {
     // The literal must equal `Stripe.LatestApiVersion` for the installed package, or TS will
     // reject it, which is the guard rail you want.
     typescript: true,
-    appInfo: { name: "Halisaha" },
+    appInfo: { name: "OnPitch" },
     // Stripe's own guidance: retries are safe because every mutating call below either is
     // naturally idempotent or carries an explicit idempotency key.
     maxNetworkRetries: 2,
@@ -141,10 +141,10 @@ function createStripeClient(): Stripe {
 }
 
 function getStripeClient(): Stripe {
-  if (!globalThis.__halisahaStripe__) {
-    globalThis.__halisahaStripe__ = createStripeClient()
+  if (!globalThis.__onpitchStripe__) {
+    globalThis.__onpitchStripe__ = createStripeClient()
   }
-  return globalThis.__halisahaStripe__
+  return globalThis.__onpitchStripe__
 }
 
 /**
@@ -318,7 +318,7 @@ export function isPubliclyReachableOrigin(origin: string): boolean {
  * Clubs and Sport Promoters" — is the closest fit for hiring out a football pitch by the hour.
  * Stripe uses it for risk scoring and card-network reporting; a wrong MCC can slow verification.
  */
-export const HALISAHA_MCC = "7941"
+export const ONPITCH_MCC = "7941"
 
 /**
  * Idempotency key for connected-account creation, derived purely from the Supabase user id.
@@ -336,7 +336,7 @@ export function connectAccountIdempotencyKey(userId: string, scope = "default"):
   // PARAMETERS differ, and account-create parameters embed the venue (name, country, metadata).
   // Scoping keeps the double-click guarantee exact while avoiding a spurious idempotency error
   // if the same owner ever onboards a second venue inside the 24h key window.
-  return `halisaha:connect:account:${userId}:${scope}`
+  return `onpitch:connect:account:${userId}:${scope}`
 }
 
 /**

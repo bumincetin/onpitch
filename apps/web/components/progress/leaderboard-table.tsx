@@ -1,6 +1,6 @@
 import Link from "next/link"
 
-import { formatXp, rankForLevel, type LeaderboardEntry, type LeaderboardScope } from "@halisaha/shared/gamification"
+import { formatXp, rankForLevel, type LeaderboardEntry, type LeaderboardScope } from "@onpitch/shared/gamification"
 import { cn } from "@/lib/utils"
 
 /**

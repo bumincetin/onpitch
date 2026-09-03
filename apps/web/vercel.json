@@ -2,7 +2,7 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "//": [
     "Vercel project settings for the web app. Set the project's Root Directory to `apps/web`.",
-    "The install runs from the repository root so the `@halisaha/shared` workspace resolves,",
+    "The install runs from the repository root so the `@onpitch/shared` workspace resolves,",
     "and with --ignore-scripts so the root `postinstall` (which installs apps/mobile on its own",
     "lockfile, several minutes of work the web build never uses) is skipped."
   ],

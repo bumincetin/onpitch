@@ -25,8 +25,8 @@ import { useRouter } from 'expo-router'
 import * as React from 'react'
 import { RefreshControl, View } from 'react-native'
 
-import type { TablesUpdate } from '@halisaha/shared/database'
-import { isUuid } from '@halisaha/shared/channels'
+import type { TablesUpdate } from '@onpitch/shared/database'
+import { isUuid } from '@onpitch/shared/channels'
 import { z } from 'zod'
 
 import { Badge, Button, Card, EmptyState, Notice, Screen, Separator, Text } from '@/components/ui'

@@ -51,8 +51,8 @@ import { Separator } from "@/components/ui/separator"
 import { Textarea } from "@/components/ui/textarea"
 import { toast } from "@/lib/use-toast"
 import { cn } from "@/lib/utils"
-import type { Enums } from "@halisaha/shared/database"
-import { formatMinor } from "@halisaha/shared/domain"
+import type { Enums } from "@onpitch/shared/database"
+import { formatMinor } from "@onpitch/shared/domain"
 
 /* ========================================================================== */
 /*  Props                                                                     */

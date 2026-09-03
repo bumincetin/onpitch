@@ -4,7 +4,7 @@
  * The only way a route handler is allowed to produce a body.
  *
  * Every handler in `app/api/**` returns the `ApiResponse<T>` discriminated union from
- * `@halisaha/shared/domain`, so the client narrows on `ok` instead of guessing. This module is the single
+ * `@onpitch/shared/domain`, so the client narrows on `ok` instead of guessing. This module is the single
  * place that union is serialised, which buys three things:
  *
  *   1. One JSON shape. A sibling cannot accidentally ship `{ error: "..." }` at the top level.
@@ -18,8 +18,8 @@
  * that must abort with a specific code and status from deep inside a helper.
  */
 
-import { API_ERROR_CODES, type ApiError, type ApiResponse } from "@halisaha/shared/domain"
-import type { Json } from "@halisaha/shared/database"
+import { API_ERROR_CODES, type ApiError, type ApiResponse } from "@onpitch/shared/domain"
+import type { Json } from "@onpitch/shared/database"
 
 /* ========================================================================== */
 /*  Headers                                                                   */

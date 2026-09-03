@@ -9,7 +9,7 @@
  * than nowhere. Putting that behind the route the web app already uses means one definition of
  * "where does my team stand", not two.
  *
- * Payloads are parsed with the schemas from `@halisaha/shared/leagues`, the same ones the server
+ * Payloads are parsed with the schemas from `@onpitch/shared/leagues`, the same ones the server
  * validates against. `apiFetch` verifies the envelope; what is inside it is still the server's
  * claim until something checks it.
  */
@@ -23,7 +23,7 @@ import {
   type Division,
   type LeagueStanding,
   type MyLeagueEntry,
-} from '@halisaha/shared/leagues'
+} from '@onpitch/shared/leagues'
 
 import { apiFetch } from '@/lib/api'
 import { DataError } from '@/lib/data-error'

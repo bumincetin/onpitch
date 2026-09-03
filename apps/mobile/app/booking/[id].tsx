@@ -3,7 +3,7 @@
  *
  * One booking: the receipt, where and when, and the two actions that still apply.
  *
- * Also the target of `halisaha://booking/<uuid>` — the confirmation email and the push
+ * Also the target of `onpitch://booking/<uuid>` — the confirmation email and the push
  * notification both land here, so it has to stand on its own with no navigation history behind
  * it.
  *
@@ -51,8 +51,8 @@ import {
 import { formatDayLabel, formatDuration, formatMinor, formatTimeRange } from '@/lib/format'
 import { supabase, useSession } from '@/lib/supabase'
 import { useTheme } from '@/lib/theme'
-import type { Enums } from '@halisaha/shared/database'
-import { API_ERROR_CODES, type CancellationResult } from '@halisaha/shared/domain'
+import type { Enums } from '@onpitch/shared/database'
+import { API_ERROR_CODES, type CancellationResult } from '@onpitch/shared/domain'
 
 /** Statuses `POST /api/bookings/[id]/cancel` still acts on. Mirrors that route's own list. */
 const CANCELLABLE: readonly Enums<'booking_status'>[] = ['pending', 'awaiting_payment', 'confirmed']

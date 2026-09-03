@@ -1,4 +1,4 @@
-# Halısaha — Şehir Ligleri / City Leagues
+# OnPitch — Şehir Ligleri / City Leagues
 
 Reference for `supabase/migrations/0009_leagues.sql` and `packages/shared/src/leagues.ts`.
 
@@ -28,7 +28,7 @@ is not a fixture either side's rivals can be measured against.
 
 `private.division_rank()` reads the enum's own order, so **the enum is append-only**: inserting a
 tier in the middle silently renumbers everything above it. `divisionRank()` /`divisionAt()` in
-`@halisaha/shared/leagues` mirror it, and both ends are pinned — the migration's self-test and
+`@onpitch/shared/leagues` mirror it, and both ends are pinned — the migration's self-test and
 `assertDivisionLadderMatchesSql()` check the same round trip.
 
 ---
@@ -116,7 +116,7 @@ function, which is what stops a captain editing their own points total.
 | Roll over every lapsed season | `select public.roll_over_seasons();` |
 | Open a city's season | `select public.ensure_city_season('İstanbul');` |
 
-One cron job: `halisaha-league-rollover`, daily at 03:40 UTC. On a database without `pg_cron` the
+One cron job: `onpitch-league-rollover`, daily at 03:40 UTC. On a database without `pg_cron` the
 migration still applies and the functions still exist; drive `roll_over_seasons()` from an Edge
 Function, which is why it is granted to `service_role`.
 

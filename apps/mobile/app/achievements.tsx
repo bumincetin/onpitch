@@ -27,7 +27,7 @@ import {
   formatXp,
   type AchievementState,
   type AchievementTier,
-} from '@halisaha/shared/gamification'
+} from '@onpitch/shared/gamification'
 
 const TIER_NUMBER: Record<AchievementTier, string> = {
   bronze: '01',

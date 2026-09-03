@@ -1,5 +1,5 @@
 -- =============================================================================
--- Halisaha — 0001_schema.sql
+-- OnPitch — 0001_schema.sql
 -- Core schema contract: extensions, schemas, enums, tables, constraints,
 -- indexes and updated_at triggers.
 --

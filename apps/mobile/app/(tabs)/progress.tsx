@@ -39,7 +39,7 @@ import { describeErrorText } from '@/components/match'
 import { claimChallenge, loadLeaderboard, loadProgress, type ProgressPayload } from '@/lib/progress'
 import { useSession } from '@/lib/supabase'
 import { useTheme } from '@/lib/theme'
-import { formatXp, rankForLevel, type ChallengeState, type LeaderboardEntry } from '@halisaha/shared/gamification'
+import { formatXp, rankForLevel, type ChallengeState, type LeaderboardEntry } from '@onpitch/shared/gamification'
 
 interface ScreenState {
   data: ProgressPayload | null

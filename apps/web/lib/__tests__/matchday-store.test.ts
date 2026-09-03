@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest"
 
-import { emptyMatchdayRecord, type Player } from "@halisaha/shared/matchday"
+import { emptyMatchdayRecord, type Player } from "@onpitch/shared/matchday"
 
 import {
   addPlayer,

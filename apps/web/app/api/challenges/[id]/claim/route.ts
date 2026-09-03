@@ -17,7 +17,7 @@ import { fail, handleRoute, ok } from "@/lib/api-response"
 import { getSessionUser } from "@/lib/rbac"
 import { createRouteClient } from "@/lib/supabase/server"
 import { enforceRateLimit } from "@/lib/rate-limit"
-import { API_ERROR_CODES } from "@halisaha/shared/domain"
+import { API_ERROR_CODES } from "@onpitch/shared/domain"
 
 export const runtime = "nodejs"
 export const dynamic = "force-dynamic"

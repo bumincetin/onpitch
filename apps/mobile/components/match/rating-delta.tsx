@@ -25,7 +25,7 @@
  * `mu_after`, written by `public.apply_match_rating`.
  *
  * `variant="preview"` renders the same arithmetic run locally by `rate()` from
- * @halisaha/shared/trueskill, which is a line-for-line mirror of `public.trueskill2_update`. It is
+ * @onpitch/shared/trueskill, which is a line-for-line mirror of `public.trueskill2_update`. It is
  * a forecast of one scoreline, computed on the device, and nothing about it is stored — the copy
  * has to keep that plain, because a preview that reads like a result is a promise the server has
  * not made.
@@ -34,7 +34,7 @@
 import * as React from 'react'
 import { View } from 'react-native'
 
-import { RATING_CONFIG, conservativeRating } from '@halisaha/shared/trueskill'
+import { RATING_CONFIG, conservativeRating } from '@onpitch/shared/trueskill'
 
 import { Text } from '@/components/ui'
 import { useTheme } from '@/lib/theme'

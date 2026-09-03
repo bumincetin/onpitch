@@ -34,7 +34,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { cn } from "@/lib/utils"
-import { isApiOk, type ApiResponse } from "@halisaha/shared/domain"
+import { isApiOk, type ApiResponse } from "@onpitch/shared/domain"
 
 /** Must match `gdprErasureSchema`'s literal exactly, including the case. */
 const CONFIRMATION = "DELETE MY ACCOUNT"
@@ -152,7 +152,7 @@ export function DeleteAccountDialog({ className }: { className?: string }) {
         ) : (
           <>
             <DialogHeader>
-              <DialogTitle>Halısaha hesabını sil</DialogTitle>
+              <DialogTitle>OnPitch hesabını sil</DialogTitle>
               <DialogDescription>
                 Bu geri alınamaz ve çıkış yapmakla aynı şey değildir.
               </DialogDescription>

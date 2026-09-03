@@ -30,8 +30,8 @@ import {
 import { Badge } from "@/components/ui/badge"
 import { Skeleton } from "@/components/ui/skeleton"
 import { cn } from "@/lib/utils"
-import type { Enums } from "@halisaha/shared/database"
-import { formatMinor } from "@halisaha/shared/domain"
+import type { Enums } from "@onpitch/shared/database"
+import { formatMinor } from "@onpitch/shared/domain"
 
 /** A booking flattened for display. The page maps PostgREST rows into this. */
 export interface VenueBookingRow {

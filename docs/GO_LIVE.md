@@ -45,10 +45,10 @@ September 2026 — check the vendor page before paying.
 
 1. **Apple Developer Program** → https://developer.apple.com/programs/enroll — pay $99, wait for
    approval. Then in App Store Connect create the app record: name, bundle id
-   `com.halisaha.app` (change it in `apps/mobile/app.json` first if you want another), primary
+   `com.onpitch.app` (change it in `apps/mobile/app.json` first if you want another), primary
    language Turkish.
 2. **Google Play Console** → https://play.google.com/console — pay $25, verify identity, create
-   the app with package `com.halisaha.app`. Fill the Data safety form: the app blocks location,
+   the app with package `com.onpitch.app`. Fill the Data safety form: the app blocks location,
    camera and microphone (see `android.blockedPermissions` in `app.json`), collects account data
    and payment data through Stripe.
 3. **Supabase** → https://supabase.com/dashboard → New project, region **Frankfurt
@@ -85,7 +85,7 @@ Generate the two tokens with `openssl rand -hex 32` (or `node -e "console.log(re
 Keep them: the web app needs the same values.
 
 Authentication → URL configuration: Site URL `https://<your-domain>`, add
-`https://<your-domain>/auth/callback` and `halisaha://` to the redirect allow-list.
+`https://<your-domain>/auth/callback` and `onpitch://` to the redirect allow-list.
 
 ---
 
@@ -250,10 +250,9 @@ and from then on `eas update --channel production` ships a JS-only fix in minute
 
 ## Decisions you still own
 
-- **Name and bundle id.** The store record uses `Halisaha` / `com.halisaha.app` from
-  `apps/mobile/app.json`. If the product ships as *OnPitch*, change `name`, `slug`, `scheme`,
-  `bundleIdentifier`, `package` and the Stripe `merchantIdentifier` **before** the first
-  submission; a bundle id cannot be changed after the app exists in a store.
+- **Bundle id is now permanent-ish.** The store record uses `OnPitch` / `com.onpitch.app`
+  from `apps/mobile/app.json`. Change it only *before* the first submission — a bundle id
+  cannot be changed once the app exists in a store.
 - **Apple Pay / Google Pay.** Off by default. Apple Pay needs a merchant id registered in your
   Apple developer account and entered in `app.json`.
 - **Sidecar.** Ship without it. Turn it on when you have real match data to train on.

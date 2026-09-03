@@ -16,7 +16,7 @@ import { notFound } from "next/navigation"
 
 import { getSessionUser } from "@/lib/rbac"
 import { createClient } from "@/lib/supabase/server"
-import { isUuid } from "@halisaha/shared/channels"
+import { isUuid } from "@onpitch/shared/channels"
 import {
   MATCH_FORMAT_LABEL,
   MATCH_FORMAT_PLAYERS_PER_SIDE,

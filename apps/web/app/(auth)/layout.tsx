@@ -26,7 +26,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
       <header className="relative z-10 border-b border-foreground/15">
         <div className="mx-auto flex h-16 w-full max-w-6xl items-center gap-2.5 px-6">
           <Link href="/" className="flex items-baseline gap-2.5">
-            <span className="text-base font-medium uppercase tracking-[0.18em]">Halısaha</span>
+            <span className="text-base font-medium uppercase tracking-[0.18em]">OnPitch</span>
             <span aria-hidden="true" className="hidden text-gold sm:inline">
               ·
             </span>

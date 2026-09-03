@@ -43,16 +43,16 @@ jobs:
       # apps/mobile is not a workspace (see the note in package.json), and its install is
       # slow and irrelevant here, so skip the postinstall hook that pulls it in.
       - run: npm ci --ignore-scripts
-      - run: npm run typecheck --workspace @halisaha/shared
-      - run: npm run typecheck --workspace @halisaha/web
-      - run: npm run lint --workspace @halisaha/web
+      - run: npm run typecheck --workspace @onpitch/shared
+      - run: npm run typecheck --workspace @onpitch/web
+      - run: npm run lint --workspace @onpitch/web
       # The shared package's suite pins the TrueSkill golden vector, the XP level curve and the
       # division ladder against the SQL that owns each of them; the web suite pins the
       # permission matrix, the response envelope's redaction and the notification formatter.
       # Both run before the build, so a broken invariant fails in seconds rather than minutes.
-      - run: npm run test --workspace @halisaha/shared
-      - run: npm run test --workspace @halisaha/web
-      - run: npm run build --workspace @halisaha/web
+      - run: npm run test --workspace @onpitch/shared
+      - run: npm run test --workspace @onpitch/web
+      - run: npm run build --workspace @onpitch/web
 
   mobile:
     name: Mobile · typecheck · Metro bundle

@@ -38,8 +38,8 @@ import { Label } from "@/components/ui/label"
 import { CONSENT_TOKEN_TTL_DAYS, DIGITAL_CONSENT_AGE } from "@/lib/gdpr"
 import { toast } from "@/lib/use-toast"
 import { cn } from "@/lib/utils"
-import type { Enums } from "@halisaha/shared/database"
-import { isApiOk, type ApiResponse } from "@halisaha/shared/domain"
+import type { Enums } from "@onpitch/shared/database"
+import { isApiOk, type ApiResponse } from "@onpitch/shared/domain"
 
 export interface ConsentStatusProps {
   status: Enums<"consent_status">

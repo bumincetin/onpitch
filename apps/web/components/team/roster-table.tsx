@@ -65,7 +65,7 @@ import {
 } from "@/components/ui/table"
 import { toast } from "@/lib/use-toast"
 import { cn } from "@/lib/utils"
-import { Constants, type Enums } from "@halisaha/shared/database"
+import { Constants, type Enums } from "@onpitch/shared/database"
 
 type TeamRole = Enums<"team_member_role">
 

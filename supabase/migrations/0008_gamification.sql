@@ -1,5 +1,5 @@
 -- =============================================================================
--- Halisaha — 0008_gamification.sql
+-- OnPitch — 0008_gamification.sql
 -- Progression, streaks, achievements, weekly challenges and leaderboards.
 --
 -- WHAT THIS FILE OWNS
@@ -123,7 +123,7 @@ as $$
 $$;
 
 comment on function private.xp_for_level(integer) is
-  'Cumulative XP required to reach a level. Mirrored by xpForLevel() in @halisaha/shared/gamification.';
+  'Cumulative XP required to reach a level. Mirrored by xpForLevel() in @onpitch/shared/gamification.';
 
 -- The inverse. The closed form is L = floor((1 + sqrt(1 + xp/12.5)) / 2), but
 -- float64 makes that unreliable exactly ON a boundary — the one place it is
@@ -1771,24 +1771,24 @@ begin
   end if;
 
   -- Monday 00:05 UTC: open the new week's objectives.
-  perform cron.unschedule('halisaha-weekly-challenges')
-    where exists (select 1 from cron.job where jobname = 'halisaha-weekly-challenges');
+  perform cron.unschedule('onpitch-weekly-challenges')
+    where exists (select 1 from cron.job where jobname = 'onpitch-weekly-challenges');
   perform cron.schedule(
-    'halisaha-weekly-challenges',
+    'onpitch-weekly-challenges',
     '5 0 * * 1',
     $job$select public.ensure_weekly_challenges();$job$
   );
 
   -- Daily 03:20 UTC: end streaks that lapsed, and warn the ones about to.
-  perform cron.unschedule('halisaha-streak-expiry')
-    where exists (select 1 from cron.job where jobname = 'halisaha-streak-expiry');
+  perform cron.unschedule('onpitch-streak-expiry')
+    where exists (select 1 from cron.job where jobname = 'onpitch-streak-expiry');
   perform cron.schedule(
-    'halisaha-streak-expiry',
+    'onpitch-streak-expiry',
     '20 3 * * *',
     $job$select public.expire_play_streaks();$job$
   );
 
-  raise notice '0008: cron jobs halisaha-weekly-challenges and halisaha-streak-expiry scheduled.';
+  raise notice '0008: cron jobs onpitch-weekly-challenges and onpitch-streak-expiry scheduled.';
 exception
   when others then
     raise notice '0008: cron scheduling skipped (%).', sqlerrm;

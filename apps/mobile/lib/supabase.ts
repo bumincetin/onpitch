@@ -32,7 +32,7 @@ import { createClient, type Session, type SupabaseClient, type User } from '@sup
 import * as React from 'react'
 import { AppState, type AppStateStatus } from 'react-native'
 
-import type { Database, Tables } from '@halisaha/shared/database'
+import type { Database, Tables } from '@onpitch/shared/database'
 
 import { env } from '@/lib/env'
 
@@ -52,7 +52,7 @@ export const supabase: SupabaseClient<Database> = createClient<Database>(
       flowType: 'pkce',
     },
     global: {
-      headers: { 'x-client-info': 'halisaha-mobile' },
+      headers: { 'x-client-info': 'onpitch-mobile' },
     },
   },
 )
@@ -115,7 +115,7 @@ interface ProfileRead {
  * The narrow slice of the Supabase client this module needs.
  *
  * `my_profile()` is missing from the generated `Database['public']['Functions']` map in
- * @halisaha/shared/database, and this package may not edit that file, so the call is made through a
+ * @onpitch/shared/database, and this package may not edit that file, so the call is made through a
  * minimal structural view of the client. See components/profile/use-my-profile.tsx for the longer
  * version of this note.
  */

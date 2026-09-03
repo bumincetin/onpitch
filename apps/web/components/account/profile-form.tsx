@@ -30,7 +30,7 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { toast } from "@/lib/use-toast"
 import { cn } from "@/lib/utils"
-import { isApiOk, type ApiResponse } from "@halisaha/shared/domain"
+import { isApiOk, type ApiResponse } from "@onpitch/shared/domain"
 
 /** Field -> max length, mirroring `optionalText(n)` in the route. */
 const LIMITS = {

@@ -11,7 +11,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react"
 import { Copy, Download, MessageCircle, Share2 } from "lucide-react"
 
-import { debriefShareText, type LiveEvent, type Player, type PostMatchDebrief, type PreMatchPlan } from "@halisaha/shared/matchday"
+import { debriefShareText, type LiveEvent, type Player, type PostMatchDebrief, type PreMatchPlan } from "@onpitch/shared/matchday"
 import { Button } from "@/components/ui/button"
 import { toast } from "@/lib/use-toast"
 import { EXPORT_OUTCOME_MESSAGE, canvasToPngBlob, copyImage, downloadBlob, exportImage, shareText, type ExportOutcome } from "@/lib/matchday/export"

@@ -19,9 +19,9 @@
 import { NextResponse } from "next/server"
 
 import { createRouteClient } from "@/lib/supabase/server"
-import { API_ERROR_CODES, gdprErasureSchema } from "@halisaha/shared/domain"
-import type { ApiResponse } from "@halisaha/shared/domain"
-import type { Database, Json } from "@halisaha/shared/database"
+import { API_ERROR_CODES, gdprErasureSchema } from "@onpitch/shared/domain"
+import type { ApiResponse } from "@onpitch/shared/domain"
+import type { Database, Json } from "@onpitch/shared/database"
 
 export const runtime = "nodejs"
 export const dynamic = "force-dynamic"

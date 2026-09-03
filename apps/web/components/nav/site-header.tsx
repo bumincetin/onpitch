@@ -81,7 +81,7 @@ export function SiteHeader({ role = null, displayName, className }: SiteHeaderPr
     >
       <div className="mx-auto flex h-16 w-full max-w-6xl items-center gap-4 px-6">
         <Link href="/" className="flex shrink-0 items-baseline gap-2.5">
-          <span className="text-base font-medium uppercase tracking-[0.18em]">Halısaha</span>
+          <span className="text-base font-medium uppercase tracking-[0.18em]">OnPitch</span>
           <span aria-hidden="true" className="hidden text-gold sm:inline">·</span>
           <span className="label-eyebrow hidden sm:inline">İstanbul</span>
         </Link>

@@ -38,7 +38,7 @@ import {
 } from "@/lib/notifications/format"
 import { toast } from "@/lib/use-toast"
 import { cn } from "@/lib/utils"
-import { isApiOk, type ApiResponse } from "@halisaha/shared/domain"
+import { isApiOk, type ApiResponse } from "@onpitch/shared/domain"
 
 type Filter = "all" | "unread"
 

@@ -4,7 +4,7 @@
  * The age bands and the minors' privacy copy, ported from apps/web/lib/gdpr.ts.
  *
  * The web module cannot be imported here — it pulls in `server-only` and the Next cookie store —
- * and @halisaha/shared does not carry it, so the rules are restated. Keep the two in step: the
+ * and @onpitch/shared does not carry it, so the rules are restated. Keep the two in step: the
  * numbers below are the same ones `private.is_minor_dob()`, `profiles_minor_privacy_locked_check`
  * and `assert_consented()` enforce in Postgres.
  *
@@ -13,7 +13,7 @@
  * everyone else the explanation before they reach the error code.
  */
 
-import type { Enums } from '@halisaha/shared/database'
+import type { Enums } from '@onpitch/shared/database'
 
 /** GDPR Art. 8(1) — under this age, a guardian consents on the child's behalf. */
 export const DIGITAL_CONSENT_AGE = 16
@@ -95,7 +95,7 @@ export function assessAge(
       requiresGuardianConsent: false,
       blocked: true,
       message:
-        `You need to be at least ${MINIMUM_SIGNUP_AGE} to have a Halisaha account. Booking a ` +
+        `You need to be at least ${MINIMUM_SIGNUP_AGE} to have a OnPitch account. Booking a ` +
         'pitch means card payments and your name in a public fixture list, and we cannot do that ' +
         'responsibly for younger players. Ask a parent or guardian to book from their own account.',
     }

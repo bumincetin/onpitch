@@ -21,7 +21,7 @@
  * is never referenced from client code, so bundlers drop it from the browser graph.
  */
 
-import type { Enums, Tables } from "@halisaha/shared/database"
+import type { Enums, Tables } from "@onpitch/shared/database"
 
 /* ========================================================================== */
 /*  1. Age thresholds                                                         */
@@ -169,7 +169,7 @@ export function assessAge(
       requiresGuardianConsent: false,
       blocked: true,
       message:
-        `We're sorry — you need to be at least ${MINIMUM_SIGNUP_AGE} to have a Halisaha account. ` +
+        `We're sorry — you need to be at least ${MINIMUM_SIGNUP_AGE} to have a OnPitch account. ` +
         "Booking a pitch involves card payments and publishing your name in a fixture list, and " +
         "we can't do that responsibly for younger players. Ask a parent or guardian to book on " +
         "your behalf from their own account.",
@@ -410,7 +410,7 @@ export function maskEmail(email: string): string {
 }
 
 function renderSubject(): string {
-  return "Approve your child's Halisaha account"
+  return "Approve your child's OnPitch account"
 }
 
 function renderText(message: GuardianConsentEmail): string {
@@ -420,11 +420,11 @@ function renderText(message: GuardianConsentEmail): string {
   return [
     greeting,
     "",
-    `${child} has asked to join Halisaha, an amateur football app for booking pitches and`,
+    `${child} has asked to join OnPitch, an amateur football app for booking pitches and`,
     "organising matches. They told us they are under 16, so European data protection law",
     "(GDPR Article 8) requires your approval before we may process their data.",
     "",
-    "If you're happy for them to use Halisaha, confirm here:",
+    "If you're happy for them to use OnPitch, confirm here:",
     message.consentUrl,
     "",
     `This link expires on ${message.expiresAt.toUTCString()} and can only be used once.`,
@@ -438,7 +438,7 @@ function renderText(message: GuardianConsentEmail): string {
     "If you weren't expecting this email, you can ignore it — the link will simply expire, and",
     "the account stays blocked from booking and playing.",
     "",
-    "Halisaha",
+    "OnPitch",
   ].join("\n")
 }
 
@@ -448,7 +448,7 @@ function renderHtml(message: GuardianConsentEmail): string {
 
   return `<!doctype html><html><body style="font-family:system-ui,-apple-system,Segoe UI,sans-serif;line-height:1.6;color:#0f172a">
 <p>${greeting}</p>
-<p>${child} has asked to join <strong>Halisaha</strong>, an amateur football app for booking pitches and organising matches. They told us they are under 16, so European data protection law (GDPR Article&nbsp;8) requires your approval before we may process their data.</p>
+<p>${child} has asked to join <strong>OnPitch</strong>, an amateur football app for booking pitches and organising matches. They told us they are under 16, so European data protection law (GDPR Article&nbsp;8) requires your approval before we may process their data.</p>
 <p><a href="${escapeHtml(message.consentUrl)}" style="display:inline-block;padding:12px 20px;background:#15803d;color:#fff;border-radius:8px;text-decoration:none;font-weight:600">Bu hesabı onayla</a></p>
 <p style="font-size:13px;color:#475569">This link expires on ${escapeHtml(message.expiresAt.toUTCString())} and can only be used once.</p>
 <p><strong>16 yaş altı her hesap için, onaylasan da onaylamasan da:</strong></p>
@@ -458,7 +458,7 @@ function renderHtml(message: GuardianConsentEmail): string {
 <li>hiçbir zaman pazarlama e-postası gönderilmez.</li>
 </ul>
 <p>Sen onaylayana kadar hesap saha tutamaz ve maça katılamaz. Bu e-postayı beklemiyorduysan görmezden gelebilirsin — bağlantının süresi kendiliğinden dolar ve hesap kapalı kalır.</p>
-<p style="color:#475569">— Halisaha</p>
+<p style="color:#475569">— OnPitch</p>
 </body></html>`
 }
 
@@ -475,7 +475,7 @@ function fromAddress(): string {
   return (
     process.env.RESEND_FROM_EMAIL ??
     process.env.EMAIL_FROM ??
-    "Halisaha <onboarding@resend.dev>"
+    "OnPitch <onboarding@resend.dev>"
   )
 }
 

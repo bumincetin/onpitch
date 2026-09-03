@@ -4,7 +4,7 @@ import { z } from "zod"
 
 import { fail } from "@/lib/api-response"
 import { createRouteClient } from "@/lib/supabase/server"
-import { API_ERROR_CODES } from "@halisaha/shared/domain"
+import { API_ERROR_CODES } from "@onpitch/shared/domain"
 
 /**
  * lib/rate-limit.ts

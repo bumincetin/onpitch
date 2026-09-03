@@ -13,7 +13,7 @@
 import { useCallback, useEffect, useState } from "react"
 import { Copy, Download, Printer, Share2 } from "lucide-react"
 
-import type { PreMatchPlan } from "@halisaha/shared/matchday"
+import type { PreMatchPlan } from "@onpitch/shared/matchday"
 import { Button } from "@/components/ui/button"
 import { toast } from "@/lib/use-toast"
 import {

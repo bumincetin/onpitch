@@ -30,8 +30,8 @@ import { Redirect, Stack, useLocalSearchParams, useRouter } from 'expo-router'
 import * as React from 'react'
 import { View } from 'react-native'
 
-import { isUuid, type MatchPresencePayload } from '@halisaha/shared/channels'
-import type { Enums } from '@halisaha/shared/database'
+import { isUuid, type MatchPresencePayload } from '@onpitch/shared/channels'
+import type { Enums } from '@onpitch/shared/database'
 
 import { MATCH_STATUS_META, Scoreboard, describeErrorText } from '@/components/match'
 import { Avatar, Badge, Button, EmptyState, Notice, Screen, Text } from '@/components/ui'

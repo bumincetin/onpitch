@@ -29,7 +29,7 @@
 import Link from "next/link"
 
 import { usePresence } from "@/lib/realtime/use-presence"
-import type { MatchPresencePayload } from "@halisaha/shared/channels"
+import type { MatchPresencePayload } from "@onpitch/shared/channels"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"

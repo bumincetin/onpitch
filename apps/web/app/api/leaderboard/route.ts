@@ -15,8 +15,8 @@ import { z } from "zod"
 
 import { fail, handleRoute, ok } from "@/lib/api-response"
 import { loadLeaderboard } from "@/lib/progress"
-import { API_ERROR_CODES } from "@halisaha/shared/domain"
-import { LEADERBOARD_SCOPES, type LeaderboardEntry } from "@halisaha/shared/gamification"
+import { API_ERROR_CODES } from "@onpitch/shared/domain"
+import { LEADERBOARD_SCOPES, type LeaderboardEntry } from "@onpitch/shared/gamification"
 
 export const runtime = "nodejs"
 export const dynamic = "force-dynamic"

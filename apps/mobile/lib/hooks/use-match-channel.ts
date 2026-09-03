@@ -86,7 +86,7 @@ import {
   type RosterChangePayload,
   type ScoreUpdatePayload,
   type StatusChangePayload,
-} from '@halisaha/shared/channels'
+} from '@onpitch/shared/channels'
 
 import { supabase } from '@/lib/supabase'
 

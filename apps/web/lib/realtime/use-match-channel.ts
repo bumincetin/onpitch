@@ -50,7 +50,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import type { RealtimeChannel, SupabaseClient } from "@supabase/supabase-js"
 
 import { createClient } from "@/lib/supabase/client"
-import type { Database } from "@halisaha/shared/database"
+import type { Database } from "@onpitch/shared/database"
 import {
   CONNECTION_LABEL,
   MATCH_EVENT,
@@ -68,7 +68,7 @@ import {
   type RosterChangePayload,
   type ScoreUpdatePayload,
   type StatusChangePayload,
-} from "@halisaha/shared/channels"
+} from "@onpitch/shared/channels"
 
 export { CONNECTION_LABEL }
 

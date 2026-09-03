@@ -45,7 +45,7 @@ import {
 } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { cn } from "@/lib/utils"
-import { isApiOk, type ApiResponse, type StripeOnboardingLink, type StripeOnboardingState } from "@halisaha/shared/domain"
+import { isApiOk, type ApiResponse, type StripeOnboardingLink, type StripeOnboardingState } from "@onpitch/shared/domain"
 
 export interface ConnectOnboardingCardProps {
   state: StripeOnboardingState
@@ -116,7 +116,7 @@ export function ConnectOnboardingCard({
           <div>
             <CardTitle>Hakediş hesabı</CardTitle>
             <CardDescription>
-              Stripe kimliğini doğrular ve banka bilgilerini tutar. Halısaha&apos;da hassas hiçbir veri saklanmaz.
+              Stripe kimliğini doğrular ve banka bilgilerini tutar. OnPitch&apos;da hassas hiçbir veri saklanmaz.
             </CardDescription>
           </div>
           <OnboardingBadge state={state} />

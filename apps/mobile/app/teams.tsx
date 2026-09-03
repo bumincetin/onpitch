@@ -18,7 +18,7 @@ import { useRouter } from 'expo-router'
 import * as React from 'react'
 import { RefreshControl, View } from 'react-native'
 
-import type { Enums } from '@halisaha/shared/database'
+import type { Enums } from '@onpitch/shared/database'
 
 import { Avatar, Badge, Card, EmptyState, Notice, Screen, Text } from '@/components/ui'
 import { ScreenHeader } from '@/components/profile'

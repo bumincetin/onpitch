@@ -38,7 +38,7 @@ import { loadStripe, type Stripe } from "@stripe/stripe-js"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Button } from "@/components/ui/button"
 import { Skeleton } from "@/components/ui/skeleton"
-import { formatMinor } from "@halisaha/shared/domain"
+import { formatMinor } from "@onpitch/shared/domain"
 
 /**
  * `loadStripe` injects a script tag and must not run per render. One promise per publishable
@@ -207,7 +207,7 @@ function PaymentFields({ bookingId, amountMinor, currency, returnPath }: Payment
       </Button>
 
       <p className="text-center text-xs text-muted-foreground">
-        Ödemeler Stripe üzerinden alınır. Kart bilgilerin Stripe&apos;ın kendi formuna girilir ve Halısaha&apos;ya hiç ulaşmaz.
+        Ödemeler Stripe üzerinden alınır. Kart bilgilerin Stripe&apos;ın kendi formuna girilir ve OnPitch&apos;ya hiç ulaşmaz.
       </p>
     </form>
   )

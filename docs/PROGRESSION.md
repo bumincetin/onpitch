@@ -1,4 +1,4 @@
-# Halısaha — Progression
+# OnPitch — Progression
 
 Reference for `supabase/migrations/0008_gamification.sql` and
 `packages/shared/src/gamification.ts`.
@@ -201,8 +201,8 @@ things in the same vocabulary.
 | End lapsed streaks by hand | `select public.expire_play_streaks();` |
 | Re-run one match's progression | `select public.apply_match_progression('<match uuid>');` — idempotent |
 
-Two cron jobs are scheduled by the migration: `halisaha-weekly-challenges` (Mondays 00:05 UTC) and
-`halisaha-streak-expiry` (daily 03:20 UTC). On a database without `pg_cron` the migration still
+Two cron jobs are scheduled by the migration: `onpitch-weekly-challenges` (Mondays 00:05 UTC) and
+`onpitch-streak-expiry` (daily 03:20 UTC). On a database without `pg_cron` the migration still
 applies and the functions still exist; drive them from an Edge Function or an external scheduler,
 which is why both are granted to `service_role`.
 

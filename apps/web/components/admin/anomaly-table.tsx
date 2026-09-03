@@ -35,7 +35,7 @@ import {
 } from "@/components/ui/table"
 import { cn } from "@/lib/utils"
 import { formatDateTime, StatusBadge } from "@/components/admin/dispute-queue"
-import type { Enums } from "@halisaha/shared/database"
+import type { Enums } from "@onpitch/shared/database"
 
 export interface AnomalyRow {
   flagId: string

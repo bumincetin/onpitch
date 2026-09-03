@@ -7,7 +7,7 @@
  * THE AGGREGATION RULE IS NOT A CHOICE
  * ---------------------------------------------------------------------------------------------
  * A team's belief is the sum of its players' beliefs. `rate()` and `matchQuality()` in
- * `@halisaha/shared/trueskill` both build a side the same way, and this file copies that exactly:
+ * `@onpitch/shared/trueskill` both build a side the same way, and this file copies that exactly:
  *
  *     muTeam    = sum(mu_i)
  *     sigmaTeam = sqrt(sum(sigma_i^2))          // variances add, standard deviations do not
@@ -37,8 +37,8 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { cn } from "@/lib/utils"
-import type { RatingSnapshot } from "@halisaha/shared/domain"
-import { conservativeRating, defaultRating, type Rating } from "@halisaha/shared/trueskill"
+import type { RatingSnapshot } from "@onpitch/shared/domain"
+import { conservativeRating, defaultRating, type Rating } from "@onpitch/shared/trueskill"
 
 /* ========================================================================== */
 /*  Aggregation                                                               */

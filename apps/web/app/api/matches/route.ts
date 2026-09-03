@@ -54,8 +54,8 @@ import {
   createMatchSchema,
   matchListQuerySchema,
   type MatchQuality,
-} from "@halisaha/shared/domain"
-import type { Enums, Tables } from "@halisaha/shared/database"
+} from "@onpitch/shared/domain"
+import type { Enums, Tables } from "@onpitch/shared/database"
 
 export const runtime = "nodejs"
 export const dynamic = "force-dynamic"

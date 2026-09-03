@@ -45,8 +45,8 @@ import { createClient } from "@/lib/supabase/server"
 import { emptyOnboardingState, resolveSiteOrigin } from "@/lib/stripe"
 import { cn } from "@/lib/utils"
 import { resolveDashboardVenue } from "@/lib/venue/metrics"
-import type { TablesInsert } from "@halisaha/shared/database"
-import { isApiOk, type ApiResponse, type StripeOnboardingState } from "@halisaha/shared/domain"
+import type { TablesInsert } from "@onpitch/shared/database"
+import { isApiOk, type ApiResponse, type StripeOnboardingState } from "@onpitch/shared/domain"
 
 export const dynamic = "force-dynamic"
 

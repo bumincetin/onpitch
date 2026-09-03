@@ -41,8 +41,8 @@ import {
 } from "@/lib/payments"
 import { getSessionUser } from "@/lib/rbac"
 import { createClient } from "@/lib/supabase/server"
-import type { Enums } from "@halisaha/shared/database"
-import { DEFAULT_CURRENCY } from "@halisaha/shared/domain"
+import type { Enums } from "@onpitch/shared/database"
+import { DEFAULT_CURRENCY } from "@onpitch/shared/domain"
 
 export const dynamic = "force-dynamic"
 

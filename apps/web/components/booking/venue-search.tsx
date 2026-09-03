@@ -31,8 +31,8 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { PITCH_FORMAT_LABELS, PITCH_SURFACE_LABELS } from "@/components/booking/pitch-card"
-import { Constants } from "@halisaha/shared/database"
-import { DEFAULT_CURRENCY, fromMinor, minorUnitExponent, toMinor } from "@halisaha/shared/domain"
+import { Constants } from "@onpitch/shared/database"
+import { DEFAULT_CURRENCY, fromMinor, minorUnitExponent, toMinor } from "@onpitch/shared/domain"
 
 const ANY = "any"
 

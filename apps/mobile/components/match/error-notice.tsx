@@ -28,7 +28,7 @@
 
 import * as React from 'react'
 
-import { API_ERROR_CODES } from '@halisaha/shared/domain'
+import { API_ERROR_CODES } from '@onpitch/shared/domain'
 
 import { Notice, type NoticeTone } from '@/components/ui'
 import { ApiError } from '@/lib/api'

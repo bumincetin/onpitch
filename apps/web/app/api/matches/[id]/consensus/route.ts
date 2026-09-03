@@ -57,7 +57,7 @@ import {
   type ConsensusPayload,
   type ConsensusRound,
   type TeamSide,
-} from "@halisaha/shared/domain"
+} from "@onpitch/shared/domain"
 
 export const runtime = "nodejs"
 export const dynamic = "force-dynamic"

@@ -64,8 +64,8 @@ function PaymentsProvider({ children }: React.PropsWithChildren): React.ReactEle
   return (
     <StripeProvider
       publishableKey={key}
-      merchantIdentifier="merchant.com.halisaha.app"
-      urlScheme="halisaha"
+      merchantIdentifier="merchant.com.onpitch.app"
+      urlScheme="onpitch"
     >
       <>{children}</>
     </StripeProvider>
@@ -115,7 +115,7 @@ function Splash(): React.ReactElement {
     <Screen edges={['top', 'left', 'right', 'bottom']} padded={false}>
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', gap: theme.spacing.sm }}>
         <Text variant="display" tone="primary">
-          Halısaha
+          OnPitch
         </Text>
         <Text variant="label" tone="muted">
           Hesabın yükleniyor

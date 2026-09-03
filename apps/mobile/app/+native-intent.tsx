@@ -5,9 +5,9 @@
  * before it tries to match a route, which makes this the one place the link vocabulary is
  * defined:
  *
- *   halisaha://match/<uuid>     ->  /match/<uuid>
- *   halisaha://booking/<uuid>   ->  /booking/<uuid>
- *   halisaha://player/<uuid>    ->  /player/<uuid>
+ *   onpitch://match/<uuid>     ->  /match/<uuid>
+ *   onpitch://booking/<uuid>   ->  /booking/<uuid>
+ *   onpitch://player/<uuid>    ->  /player/<uuid>
  *
  * The first two are the links that leave the app: a push notification about a score report, and
  * the booking confirmation email. The third is the player page a roster row opens, listed here so
@@ -21,7 +21,7 @@
  * user can actually act.
  */
 
-/** Same pattern as `isUuid` in @halisaha/shared/channels. Any RFC 4122 version, case-insensitive. */
+/** Same pattern as `isUuid` in @onpitch/shared/channels. Any RFC 4122 version, case-insensitive. */
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
 
 /** The link prefixes this app publishes, mapped to the route that renders them. */
@@ -50,11 +50,11 @@ export function redirectSystemPath({ path }: { path: string; initial: boolean })
 }
 
 /**
- * Turns `halisaha://match/<id>`, `https://halisaha.app/match/<id>` and `/match/<id>` into
+ * Turns `onpitch://match/<id>`, `https://onpitch.app/match/<id>` and `/match/<id>` into
  * `match/<id>`.
  *
  * Hand-parsed rather than handed to `new URL()`: a custom scheme with no authority parses
- * inconsistently across platforms — `halisaha://match/x` puts `match` in the host on one and in
+ * inconsistently across platforms — `onpitch://match/x` puts `match` in the host on one and in
  * the path on the other — and getting that wrong drops the first segment of every link.
  */
 function stripScheme(path: string): string {

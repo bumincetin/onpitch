@@ -24,7 +24,7 @@ import { Badge } from "@/components/ui/badge"
 import { cn } from "@/lib/utils"
 import { formatDateTime } from "@/components/admin/dispute-queue"
 import type { AuditEntry } from "@/lib/admin/metrics"
-import type { Json } from "@halisaha/shared/database"
+import type { Json } from "@onpitch/shared/database"
 
 export interface AuditTrailProps {
   entries: readonly AuditEntry[]

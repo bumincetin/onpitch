@@ -31,8 +31,8 @@
 import type Stripe from "stripe"
 
 import { calculatePlatformFee, PLATFORM_FEE_BPS } from "@/lib/stripe"
-import type { Enums, Tables } from "@halisaha/shared/database"
-import { asMinor, DEFAULT_CURRENCY, type BookingQuote, type MinorUnits } from "@halisaha/shared/domain"
+import type { Enums, Tables } from "@onpitch/shared/database"
+import { asMinor, DEFAULT_CURRENCY, type BookingQuote, type MinorUnits } from "@onpitch/shared/domain"
 
 /* ========================================================================== */
 /*  Tunables                                                                  */
@@ -398,7 +398,7 @@ export function buildPaymentIntentParams(input: PaymentIntentBuildInput): Paymen
     // Let the Payment Element decide what to offer (cards, wallets, local methods) instead of
     // hard-coding payment_method_types — Stripe then honours the dashboard configuration.
     automatic_payment_methods: { enabled: true },
-    description: `Halisaha pitch booking ${bookingId}`,
+    description: `OnPitch pitch booking ${bookingId}`,
     metadata: {
       booking_id: bookingId,
       pitch_id: quote.pitchId,

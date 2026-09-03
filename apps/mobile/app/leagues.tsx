@@ -33,7 +33,7 @@ import {
   type Division,
   type LeagueStanding,
   type MyLeagueEntry,
-} from '@halisaha/shared/leagues'
+} from '@onpitch/shared/leagues'
 
 export default function LeaguesScreen(): React.ReactElement {
   const theme = useTheme()

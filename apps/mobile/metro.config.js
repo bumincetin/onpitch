@@ -15,9 +15,9 @@ const workspaceRoot = path.resolve(projectRoot, '..', '..')
 const config = getDefaultConfig(projectRoot)
 
 // 1. WATCH THE WORKSPACE ROOT.
-//    @halisaha/shared is a symlink in node_modules pointing at ../../packages/shared. Metro only
+//    @onpitch/shared is a symlink in node_modules pointing at ../../packages/shared. Metro only
 //    reads files inside projectRoot plus watchFolders, so without this the bundler reports
-//    "Unable to resolve module @halisaha/shared/domain", and edits to the shared TrueSkill engine
+//    "Unable to resolve module @onpitch/shared/domain", and edits to the shared TrueSkill engine
 //    never trigger a reload because nothing is watching those files.
 config.watchFolders = [workspaceRoot]
 
@@ -40,7 +40,7 @@ config.resolver.nodeModulesPaths = [
 config.resolver.disableHierarchicalLookup = true
 
 // 4. HONOUR THE "exports" MAP IN package.json.
-//    @halisaha/shared has no build step and no files at its package root; "@halisaha/shared/domain"
+//    @onpitch/shared has no build step and no files at its package root; "@onpitch/shared/domain"
 //    only resolves through the subpath exports map that points at src/domain.ts. Metro enables
 //    package exports by default at this version, but the flag is set explicitly because turning it
 //    off — or a future default flip — breaks every shared import at once with a resolution error

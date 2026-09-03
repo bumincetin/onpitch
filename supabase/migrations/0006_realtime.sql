@@ -1,5 +1,5 @@
 -- =============================================================================
--- Halisaha — 0006_realtime.sql
+-- OnPitch — 0006_realtime.sql
 -- Secure Realtime / WAL configuration.
 --
 -- Depends on: 0001_schema.sql (tables), 0002_rls.sql (the SELECT policies that

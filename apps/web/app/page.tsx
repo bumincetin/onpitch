@@ -10,7 +10,7 @@ import { cn } from "@/lib/utils"
 /**
  * Marketing landing page — "Gece Sahası".
  *
- * The page is one continuous camera move through a floodlit halısaha complex, cut into chapters.
+ * The page is one continuous camera move through a floodlit onpitch complex, cut into chapters.
  * A fixed WebGL layer holds the world; everything here is the type laid over it. The `data-shot`
  * attributes are the contract between the two: each numbered section owns one waypoint on the
  * camera spline, and `components/three/scene.ts` reads them from the DOM rather than keeping a
@@ -256,7 +256,7 @@ export default async function HomePage() {
                 className="fade-rise max-w-xl text-pretty text-lg font-light leading-relaxed text-foreground/85 lg:col-span-7"
                 style={{ animationDelay: "820ms" }}
               >
-                Bir sahanın iki kalesi vardır, bir pazarın iki tarafı. Halısaha oyuncularla saha
+                Bir sahanın iki kalesi vardır, bir pazarın iki tarafı. OnPitch oyuncularla saha
                 işletmelerini aynı yerde buluşturur: boş saat anında rezerve edilir, ödeme aynı
                 işlemde bölünür, takımlar beceriye göre kurulur ve skor kimsenin tek başına
                 değiştiremeyeceği şekilde onaylanır.
@@ -481,7 +481,7 @@ export default async function HomePage() {
 
             <div className="rule mt-14 pt-6">
               <p className="label-eyebrow">
-                Halısaha · İstanbul
+                OnPitch · İstanbul
                 <span className="mx-3 text-gold">·</span>
                 İki kale, tek saha
               </p>

@@ -25,7 +25,7 @@ export default function GlobalError({
 }) {
   React.useEffect(() => {
     // Server-side errors are already logged by the runtime; this catches the client half.
-    console.error("[halisaha] unhandled error", error.digest ?? error.message)
+    console.error("[onpitch] unhandled error", error.digest ?? error.message)
   }, [error])
 
   return (

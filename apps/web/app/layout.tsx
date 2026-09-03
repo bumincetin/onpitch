@@ -35,19 +35,19 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Halısaha — saha kirala, maç kur, oyna",
-    template: "%s · Halısaha",
+    default: "OnPitch — saha kirala, maç kur, oyna",
+    template: "%s · OnPitch",
   },
   description:
     "Amatör futbol için çift taraflı pazar yeri: oyuncular boş saatleri anında rezerve eder, işletmeler takvimini ve ödemelerini tek panelden yönetir.",
-  applicationName: "Halısaha",
-  keywords: ["halisaha", "saha kiralama", "amator futbol", "mac organizasyonu", "rezervasyon"],
+  applicationName: "OnPitch",
+  keywords: ["onpitch", "halisaha", "saha kiralama", "amator futbol", "mac organizasyonu", "rezervasyon"],
   openGraph: {
     type: "website",
     locale: "tr_TR",
     url: siteUrl,
-    siteName: "Halısaha",
-    title: "Halısaha — saha kirala, maç kur, oyna",
+    siteName: "OnPitch",
+    title: "OnPitch — saha kirala, maç kur, oyna",
     description:
       "Boş saatleri anında rezerve et, ödemeyi güvenle böl, dengeli takımlarla oyna.",
   },
@@ -78,7 +78,7 @@ export const viewport: Viewport = {
  * key. This runs synchronously in <head>, so the page never paints light and then flips, which
  * is the flash every provider-based setup spends a client bundle to avoid.
  */
-const themeBootstrap = `(function(){try{var t=localStorage.getItem("halisaha-theme");var d=t==="dark"||(t!=="light"&&window.matchMedia("(prefers-color-scheme: dark)").matches);document.documentElement.classList.toggle("dark",d);}catch(e){}})();`
+const themeBootstrap = `(function(){try{var t=localStorage.getItem("onpitch-theme");var d=t==="dark"||(t!=="light"&&window.matchMedia("(prefers-color-scheme: dark)").matches);document.documentElement.classList.toggle("dark",d);}catch(e){}})();`
 
 export default function RootLayout({
   children,

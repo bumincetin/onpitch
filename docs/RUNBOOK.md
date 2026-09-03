@@ -1,4 +1,4 @@
-# Halisaha — Runbook
+# OnPitch — Runbook
 
 Setup, operations, and the commands for both. Companion to
 [IMPLEMENTATION_PLAN.md](./IMPLEMENTATION_PLAN.md).
@@ -40,12 +40,12 @@ supabase start                           # boots Postgres, GoTrue, Realtime, Sto
 supabase db reset                        # replays supabase/migrations/0001…0007 in order
 npm run db:types                         # writes packages/shared/src/database.ts
 
-npm run dev                              # @halisaha/web, http://localhost:3000
+npm run dev                              # @onpitch/web, http://localhost:3000
 ```
 
 `next dev` runs with `apps/web` as its working directory, which is where Next reads `.env.local`
 from. `npm run db:types` wraps `supabase gen types typescript --local`; the generated `Database`
-type is imported by both apps as `@halisaha/shared/database`, so regenerate it after every
+type is imported by both apps as `@onpitch/shared/database`, so regenerate it after every
 migration rather than editing it.
 
 In a second terminal:
@@ -237,7 +237,7 @@ call handles at most 200 reservations, oldest first, and reports
 
 ## 9. Deployment
 
-**App → Vercel.** Build `@halisaha/web`. Set every server env var (no `NEXT_PUBLIC_` prefix on
+**App → Vercel.** Build `@onpitch/web`. Set every server env var (no `NEXT_PUBLIC_` prefix on
 secrets), point `DATABASE_URL` at port 6543, and set `NEXT_PUBLIC_SITE_URL` to the production
 origin so Stripe return URLs resolve. `MOBILE_ALLOWED_ORIGINS` is read at build time, so a change
 to it needs a redeploy. The webhook route must stay on the Node runtime.

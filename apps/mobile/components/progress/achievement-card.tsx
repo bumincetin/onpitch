@@ -8,7 +8,7 @@ import {
   TIER_LABELS,
   formatXp,
   type AchievementState,
-} from '@halisaha/shared/gamification'
+} from '@onpitch/shared/gamification'
 
 import { Eyebrow, HairlineBar } from './primitives'
 

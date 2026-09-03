@@ -31,7 +31,7 @@ import "server-only"
 import { createClient as createSupabaseClient } from "@supabase/supabase-js"
 import type { SupabaseClient } from "@supabase/supabase-js"
 
-import type { Database } from "@halisaha/shared/database"
+import type { Database } from "@onpitch/shared/database"
 
 /**
  * Builds a fresh service-role client.
@@ -77,7 +77,7 @@ export function createAdminClient(): SupabaseClient<Database> {
       headers: {
         // Shows up in Postgres logs / pg_stat_statements, so a surprising service-role query is
         // attributable to this codepath during an incident review.
-        "x-application-name": "halisaha-admin",
+        "x-application-name": "onpitch-admin",
       },
     },
   })

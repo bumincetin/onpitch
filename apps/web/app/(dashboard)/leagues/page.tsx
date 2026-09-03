@@ -26,7 +26,7 @@ import {
   LEAGUE_RULES,
   daysLeft,
   type Division,
-} from "@halisaha/shared/leagues"
+} from "@onpitch/shared/leagues"
 import Link from "next/link"
 
 export const dynamic = "force-dynamic"

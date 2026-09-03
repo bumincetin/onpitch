@@ -19,8 +19,8 @@ import { NextResponse } from "next/server"
 
 import { createRouteClient } from "@/lib/supabase/server"
 import { issueGuardianConsent } from "@/lib/gdpr"
-import { API_ERROR_CODES, parentalConsentRequestSchema } from "@halisaha/shared/domain"
-import type { ApiResponse } from "@halisaha/shared/domain"
+import { API_ERROR_CODES, parentalConsentRequestSchema } from "@onpitch/shared/domain"
+import type { ApiResponse } from "@onpitch/shared/domain"
 
 export const runtime = "nodejs"
 export const dynamic = "force-dynamic"

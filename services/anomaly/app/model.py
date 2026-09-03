@@ -1,4 +1,4 @@
-"""Isolation Forest scoring for Halisaha match-integrity signals.
+"""Isolation Forest scoring for OnPitch match-integrity signals.
 
 This module is deliberately dependency-light at import time: only the standard
 library is imported at module scope. ``numpy``, ``scikit-learn`` and ``joblib``

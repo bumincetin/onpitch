@@ -18,7 +18,7 @@ import * as React from 'react'
 
 import { env } from '@/lib/env'
 import { useTheme } from '@/lib/theme'
-import type { CheckoutResult } from '@halisaha/shared/domain'
+import type { CheckoutResult } from '@onpitch/shared/domain'
 
 /** What happened in the sheet. `cancelled` is a normal outcome, not an error. */
 export type CheckoutOutcome =
@@ -52,13 +52,13 @@ export function useCheckoutSheet(): CheckoutSheet {
         await initStripe({
           publishableKey: checkout.publishableKey,
           // Must match `scheme` in app.json, or a 3-D Secure challenge cannot come back here.
-          urlScheme: 'halisaha',
-          merchantIdentifier: 'merchant.com.halisaha.app',
+          urlScheme: 'onpitch',
+          merchantIdentifier: 'merchant.com.onpitch.app',
         })
       }
 
       const prepared = await initPaymentSheet({
-        merchantDisplayName: 'Halisaha',
+        merchantDisplayName: 'OnPitch',
         paymentIntentClientSecret: checkout.clientSecret,
         // A pitch is used at a fixed time. A method that settles in three days cannot confirm a
         // booking for tonight, so the sheet does not offer one.

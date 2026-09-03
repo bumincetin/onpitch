@@ -27,7 +27,7 @@ import { useLocalSearchParams, useRouter } from 'expo-router'
 import * as React from 'react'
 import { RefreshControl, View } from 'react-native'
 
-import { isUuid } from '@halisaha/shared/channels'
+import { isUuid } from '@onpitch/shared/channels'
 
 import { Avatar, Badge, Button, Card, EmptyState, Notice, Screen, Text } from '@/components/ui'
 import {

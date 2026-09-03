@@ -41,7 +41,7 @@ import { Button } from "@/components/ui/button"
 import { getSessionUser } from "@/lib/rbac"
 import { loadLeaderboard, loadMyProgress, loadNextFixture, loadRecentForm } from "@/lib/progress"
 import { loadMyLeagues } from "@/lib/leagues"
-import { formatXp, rankForLevel } from "@halisaha/shared/gamification"
+import { formatXp, rankForLevel } from "@onpitch/shared/gamification"
 
 export const dynamic = "force-dynamic"
 

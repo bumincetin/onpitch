@@ -44,7 +44,7 @@
 
 import * as React from 'react'
 
-import type { Tables } from '@halisaha/shared/database'
+import type { Tables } from '@onpitch/shared/database'
 import { z } from 'zod'
 
 import { supabase, useSession } from '@/lib/supabase'

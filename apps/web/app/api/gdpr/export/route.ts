@@ -19,8 +19,8 @@ import { NextResponse } from "next/server"
 
 import { createRouteClient } from "@/lib/supabase/server"
 import { consumeRateLimit } from "@/lib/rate-limit"
-import { API_ERROR_CODES } from "@halisaha/shared/domain"
-import type { ApiResponse } from "@halisaha/shared/domain"
+import { API_ERROR_CODES } from "@onpitch/shared/domain"
+import type { ApiResponse } from "@onpitch/shared/domain"
 
 export const runtime = "nodejs"
 export const dynamic = "force-dynamic"
@@ -93,7 +93,7 @@ export async function GET(request: Request): Promise<NextResponse> {
   // form; a 200 KB single-line JSON blob is machine-readable but not human-readable, and this
   // file exists to be read by both.
   const document = JSON.stringify(data ?? {}, null, 2)
-  const filename = `halisaha-data-export-${new Date().toISOString().slice(0, 10)}.json`
+  const filename = `onpitch-data-export-${new Date().toISOString().slice(0, 10)}.json`
 
   return new NextResponse(document, {
     status: 200,

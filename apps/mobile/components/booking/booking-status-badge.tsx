@@ -14,7 +14,7 @@
 import * as React from 'react'
 
 import { Badge, type BadgeTone } from '@/components/ui'
-import type { Enums } from '@halisaha/shared/database'
+import type { Enums } from '@onpitch/shared/database'
 
 export interface BookingStatusBadgeProps {
   status: Enums<'booking_status'>

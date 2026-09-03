@@ -1,5 +1,5 @@
 -- =============================================================================
--- Halisaha — 0010_hardening.sql
+-- OnPitch — 0010_hardening.sql
 -- Rate limiting that survives a serverless deployment.
 --
 -- WHAT THIS FILE OWNS
@@ -213,15 +213,15 @@ begin
     return;
   end if;
 
-  perform cron.unschedule('halisaha-purge-rate-limits')
-    where exists (select 1 from cron.job where jobname = 'halisaha-purge-rate-limits');
+  perform cron.unschedule('onpitch-purge-rate-limits')
+    where exists (select 1 from cron.job where jobname = 'onpitch-purge-rate-limits');
   perform cron.schedule(
-    'halisaha-purge-rate-limits',
+    'onpitch-purge-rate-limits',
     '50 3 * * *',
     $job$select public.purge_rate_limits();$job$
   );
 
-  raise notice '0010: cron job halisaha-purge-rate-limits scheduled.';
+  raise notice '0010: cron job onpitch-purge-rate-limits scheduled.';
 exception
   when others then
     raise notice '0010: cron scheduling skipped (%).', sqlerrm;

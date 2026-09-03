@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next"
 import { createClient } from "@supabase/supabase-js"
 
-import type { Database } from "@halisaha/shared/database"
+import type { Database } from "@onpitch/shared/database"
 
 import { siteOrigin } from "@/lib/site-url"
 

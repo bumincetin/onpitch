@@ -21,10 +21,10 @@ import { NextResponse, type NextRequest } from "next/server"
 import { createServerClient } from "@supabase/ssr"
 import type { SupabaseClient, User } from "@supabase/supabase-js"
 
-import type { Database, Enums } from "@halisaha/shared/database"
+import type { Database, Enums } from "@onpitch/shared/database"
 
 /** Request header the middleware stamps so Server Components can learn their own pathname. */
-export const PATHNAME_HEADER = "x-halisaha-pathname"
+export const PATHNAME_HEADER = "x-onpitch-pathname"
 
 export type AppRoleClaim = Enums<"app_role">
 export type ConsentStatusClaim = Enums<"consent_status">

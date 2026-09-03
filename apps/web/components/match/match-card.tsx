@@ -15,7 +15,7 @@ import Link from "next/link"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { cn } from "@/lib/utils"
-import type { Enums } from "@halisaha/shared/database"
+import type { Enums } from "@onpitch/shared/database"
 
 /* ========================================================================== */
 /*  Shared vocabulary                                                         */
