@@ -267,6 +267,42 @@ npm run dev:mobile                              # terminal 2: expo start
 `npm run dev:mobile` runs `expo start` in that workspace: press `a` for Android, `i` for iOS, or
 scan the QR code. `npm run install:mobile` reinstalls it on its own lockfile.
 
+### Seeing it without a device: the browser preview
+
+The fastest way to look at the app is the browser. `metro.config.js` §5 swaps
+`@stripe/stripe-react-native` for `lib/stripe-web-shim.tsx` on `platform === 'web'`, which is the
+only reason a web bundle builds at all — the real package imports `codegenNativeComponent`, which
+has no web implementation.
+
+```bash
+npx supabase start                                  # Postgres + GoTrue + Realtime, applies migrations
+node scripts/seed-dev.mjs                           # needs SUPABASE_SERVICE_ROLE_KEY from `supabase status`
+npm run dev                                         # terminal 1: Next.js on :3000, serves /api/**
+npm --prefix apps/mobile exec -- expo start --web   # terminal 2: Metro on :8081, opens a browser
+```
+
+Sign in with any seeded account; the password is printed at the end of the seed run.
+
+Web is a **review surface, not a target**. Payments deliberately fail there — the shim returns an
+error rather than pretending — so a web preview can never be mistaken for a working checkout.
+
+Two things that will waste your afternoon if you do not know them:
+
+* **Changing `apps/mobile/.env` needs `expo start --clear`.** Babel inlines every `EXPO_PUBLIC_*`
+  value, and `app.json` is serialised into the bundle through `expo-constants`. Both live in
+  Metro's transform cache, so a warm cache keeps serving the old app name, scheme and API URL long
+  after you changed them.
+* **A phone cannot reach `localhost`.** For a real device on the same Wi-Fi, point
+  `EXPO_PUBLIC_API_URL` and `EXPO_PUBLIC_SUPABASE_URL` at this machine's LAN address. Both
+  services already listen on `0.0.0.0`, so nothing else needs configuring. Expo Go is not enough
+  on a device, though: it has no Stripe native module, so `_layout.tsx` fails at the
+  `StripeProvider` import. A device needs the `development` EAS profile — see
+  [GO_LIVE.md](./GO_LIVE.md) §5.
+
+The pre-match planner, the live companion and the debrief wizard are **web-app** features
+(`/matches/[id]/plan`, `/live`, `/debrief`); see [MATCHDAY.md](./MATCHDAY.md). The Expo client
+covers booking, matches, live score, leagues and progression.
+
 ### Environment
 
 Four values, all `EXPO_PUBLIC_*` because Babel inlines them into the bundle at build time. None
