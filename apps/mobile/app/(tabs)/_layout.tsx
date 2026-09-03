@@ -37,6 +37,7 @@ import { View, type ColorValue } from 'react-native'
 
 import { Screen, Spinner } from '@/components/ui'
 import { useUnreadNotifications } from '@/lib/hooks/use-notifications'
+import { useUnreadConversations } from '@/lib/messaging'
 import { useSession } from '@/lib/supabase'
 import { useTheme } from '@/lib/theme'
 
@@ -48,6 +49,7 @@ export default function TabsLayout(): React.ReactElement {
   const theme = useTheme()
   // Before the early returns below: hooks cannot be called conditionally.
   const unread = useUnreadNotifications()
+  const unreadThreads = useUnreadConversations()
 
   const badge =
     unread.count === 0
@@ -55,6 +57,13 @@ export default function TabsLayout(): React.ReactElement {
       : unread.count > BADGE_CEILING
         ? `${BADGE_CEILING}+`
         : unread.count
+
+  const messagesBadge =
+    unreadThreads.count === 0
+      ? undefined
+      : unreadThreads.count > BADGE_CEILING
+        ? `${BADGE_CEILING}+`
+        : unreadThreads.count
 
   if (loading) {
     return (
@@ -75,7 +84,7 @@ export default function TabsLayout(): React.ReactElement {
         headerTintColor: theme.colors.foreground,
         headerTitleStyle: { color: theme.colors.foreground, fontWeight: '600' },
         headerShadowVisible: false,
-        tabBarActiveTintColor: theme.colors.primary,
+        tabBarActiveTintColor: theme.colors.user,
         tabBarInactiveTintColor: theme.colors.mutedForeground,
         tabBarStyle: {
           backgroundColor: theme.colors.card,
@@ -104,6 +113,19 @@ export default function TabsLayout(): React.ReactElement {
         options={{
           title: 'Saha',
           tabBarIcon: ({ color, focused }) => <CalendarIcon color={color} focused={focused} />,
+        }}
+      />
+      <Tabs.Screen
+        name="messages"
+        options={{
+          title: 'Mesajlar',
+          tabBarIcon: ({ color, focused }) => <BubbleIcon color={color} focused={focused} />,
+          tabBarBadge: messagesBadge,
+          tabBarBadgeStyle: {
+            backgroundColor: theme.colors.user,
+            color: '#05070C',
+            fontSize: 11,
+          },
         }}
       />
       <Tabs.Screen
@@ -193,6 +215,38 @@ function CalendarIcon({ color, focused }: IconProps): React.ReactElement {
       >
         <View style={{ height: 5, backgroundColor: color, opacity: focused ? 1 : 0.45 }} />
       </View>
+    </View>
+  )
+}
+
+/** A speech bubble: a rounded frame with a tail, filled when the tab is active. */
+function BubbleIcon({ color, focused }: IconProps): React.ReactElement {
+  return (
+    <View style={{ width: 22, height: 22, alignItems: 'center', justifyContent: 'center' }}>
+      <View
+        style={{
+          width: 20,
+          height: 15,
+          borderRadius: 6,
+          borderWidth: 2,
+          borderColor: color,
+          backgroundColor: focused ? color : 'transparent',
+        }}
+      />
+      <View
+        style={{
+          position: 'absolute',
+          bottom: 1,
+          left: 5,
+          width: 6,
+          height: 6,
+          borderLeftWidth: 2,
+          borderBottomWidth: 2,
+          borderColor: color,
+          backgroundColor: focused ? color : 'transparent',
+          transform: [{ rotate: '-20deg' }],
+        }}
+      />
     </View>
   )
 }

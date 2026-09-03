@@ -103,5 +103,18 @@ reports/hour. The same numbers are listed in `lib/rate-limit.ts` so the policy r
 | `/account/privacy` | who may write to you; the block list |
 | venue page, booking page, match roster | "Mesaj gönder" where a relationship exists |
 
-The Expo client does not have messaging yet. It shares the types (`@onpitch/shared/messaging`)
-and the same `/api/messages/*` route handlers are bearer-authenticated, so it is UI work only.
+### On the phone
+
+The Expo client has the same three things, built on the same RPCs called directly (they carry
+the whole rule set, so a route handler would add nothing):
+
+| Where | What |
+|---|---|
+| `lib/accent.tsx` + `lib/theme.ts` | `AccentProvider` reads `profiles.accent_color`; `useTheme()` folds it into `colors.user`. The tab tint, avatar rings, the level plate's rank and own bubbles use it. |
+| `components/profile/profile-card.tsx` | The card. No WebGL on the phone: the six shots are pitch markings drawn from borders on the night ground, tinted with the accent. |
+| `app/settings/style.tsx` | The card editor with the live preview. |
+| `app/(tabs)/messages.tsx` | The inbox tab, with its own badge. |
+| `app/messages/[id].tsx` | A thread: inverted list, optimistic send, long-press to unsend or report, mute/block/leave behind the avatar. |
+| `app/messages/with/[userId].tsx` | The target of every "Mesaj gönder" button; replaces itself with the thread. |
+| `lib/messaging.ts` | The hooks (`useConversations`, `useThread`, `useUnreadConversations`) and the actions. |
+| `app/settings/privacy.tsx` | Who may write to you; the block list. |

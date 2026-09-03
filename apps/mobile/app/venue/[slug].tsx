@@ -47,6 +47,8 @@ import {
 import { formatDayLabel } from '@/lib/format'
 import { consentBlockReason } from '@/lib/gdpr'
 import { supabase, useSession } from '@/lib/supabase'
+import { MessageButton } from '@/components/messaging'
+import { canMessage } from '@/lib/messaging'
 import { useTheme } from '@/lib/theme'
 import type { Enums } from '@onpitch/shared/database'
 
@@ -60,6 +62,7 @@ interface VenueRow {
   id: string
   name: string
   slug: string
+  owner_id: string
   description: string | null
   address_line1: string | null
   city: string | null
@@ -89,7 +92,7 @@ export default function VenueScreen(): React.ReactElement {
   const theme = useTheme()
   const router = useRouter()
   const params = useLocalSearchParams()
-  const { profile, loading: sessionLoading } = useSession()
+  const { user, profile, loading: sessionLoading } = useSession()
 
   const slug = firstParam(params.slug)
   const requestedDate = firstParam(params.date)
@@ -99,6 +102,7 @@ export default function VenueScreen(): React.ReactElement {
   const [loading, setLoading] = React.useState(true)
   const [refreshing, setRefreshing] = React.useState(false)
   const [error, setError] = React.useState<string | null>(null)
+  const [canWriteToOwner, setCanWriteToOwner] = React.useState(false)
 
   /* ---- the venue and its pitches -------------------------------------- */
   const load = React.useCallback(async (): Promise<void> => {
@@ -111,7 +115,7 @@ export default function VenueScreen(): React.ReactElement {
     const { data: venueRow, error: venueError } = await supabase
       .from('venues')
       .select(
-        'id, name, slug, description, address_line1, city, district, phone, photos, amenities, timezone, is_active, charges_enabled',
+        'id, name, slug, owner_id, description, address_line1, city, district, phone, photos, amenities, timezone, is_active, charges_enabled',
       )
       .eq('slug', slug)
       .returns<VenueRow[]>()
@@ -127,6 +131,7 @@ export default function VenueScreen(): React.ReactElement {
       setPitches([])
       return
     }
+    setCanWriteToOwner(venueRow.owner_id !== user?.id && (await canMessage(venueRow.owner_id)))
 
     const { data: pitchRows, error: pitchError } = await supabase
       .from('pitches')
@@ -426,8 +431,13 @@ export default function VenueScreen(): React.ReactElement {
 
             {venue.phone ? (
               <Text variant="caption" tone="muted">
-                {`Venue phone: ${venue.phone}`}
+                {`İşletme telefonu: ${venue.phone}`}
               </Text>
+            ) : null}
+
+            {/* A booking here is a relationship in can_message(); otherwise the owner's policy decides. */}
+            {canWriteToOwner ? (
+              <MessageButton userId={venue.owner_id} title="İşletmeye yaz" variant="outline" fullWidth />
             ) : null}
           </View>
         </ScrollView>

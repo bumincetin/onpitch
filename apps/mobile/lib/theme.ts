@@ -11,7 +11,10 @@
  * Brand hue is 142 — pitch green.
  */
 
+import * as React from 'react'
 import { useColorScheme } from 'react-native'
+
+import { ACCENT_HEX, useAccent } from '@/lib/accent'
 
 export interface ThemeColors {
   /** Page background. */
@@ -52,6 +55,12 @@ export interface ThemeColors {
   teal: string
   vermilion: string
   azure: string
+  /**
+   * The signed-in person's chosen accent (profiles.accent_color), resolved for this scheme by
+   * `useTheme()` from the `AccentProvider`. Gold until a profile has loaded. The web's
+   * `--accent-user`: the tab tint, the avatar ring, the number on the card, own message bubbles.
+   */
+  user: string
   /** Hairline borders and dividers. */
   border: string
   /** Border of a text input at rest. */
@@ -91,6 +100,7 @@ const lightColors: ThemeColors = {
   teal: '#178F9A',
   vermilion: '#CF2734',
   azure: '#1F5FA8',
+  user: '#B8902E',
   border: '#D3D0CA',
   input: '#D3D0CA',
   ring: '#B8902E',
@@ -123,6 +133,7 @@ const darkColors: ThemeColors = {
   teal: '#2FB8BF',
   vermilion: '#E8483F',
   azure: '#4D8FD6',
+  user: '#E0B352',
   border: '#3D4453',
   input: '#3D4453',
   ring: '#D4A838',
@@ -203,7 +214,15 @@ export const darkTheme: Theme = {
  */
 export function useTheme(): Theme {
   const scheme = useColorScheme()
-  return scheme === 'dark' ? darkTheme : theme
+  const { accent } = useAccent()
+  const dark = scheme === 'dark'
+  // Memoised so a screen that puts the theme in a dependency list does not re-run on every
+  // render; the object only changes when the scheme or the person's accent does.
+  return React.useMemo(() => {
+    const base = dark ? darkTheme : theme
+    const user = ACCENT_HEX[accent][dark ? 'dark' : 'light']
+    return user === base.colors.user ? base : { ...base, colors: { ...base.colors, user } }
+  }, [accent, dark])
 }
 
 /** True when the OS is in dark mode. For the status bar and for `KeyboardAvoidingView` styling. */

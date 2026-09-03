@@ -378,6 +378,12 @@ export default function SettingsScreen(): React.ReactElement {
       {/* ----------------------------------------------------------- links -- */}
       <Card>
         <Button
+          title="Kartın: renk, kare, numara"
+          variant="outline"
+          fullWidth
+          onPress={() => router.push('/settings/style')}
+        />
+        <Button
           title="Gizlilik ve veri"
           variant="outline"
           fullWidth

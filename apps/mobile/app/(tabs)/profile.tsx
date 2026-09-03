@@ -36,6 +36,7 @@ import {
   FormStrip,
   HISTORY_LIMIT,
   MatchHistory,
+  ProfileCard,
   RatingCard,
   StatsGrid,
   displayNameOf,
@@ -43,6 +44,7 @@ import {
   useMyProfile,
   type PlayerHistory,
 } from '@/components/profile'
+import { profileStyleOf } from '@onpitch/shared/profile'
 import { useUnreadNotifications } from '@/lib/hooks/use-notifications'
 import { useSession } from '@/lib/supabase'
 import { useTheme } from '@/lib/theme'
@@ -143,30 +145,28 @@ export default function ProfileScreen(): React.ReactElement {
         </Notice>
       ) : null}
 
-      {/* ------------------------------------------------------------ header -- */}
-      <View style={{ flexDirection: 'row', alignItems: 'center', gap: theme.spacing.lg }}>
-        <Avatar uri={profile?.avatar_url ?? null} name={name} size="xl" />
-
-        <View style={{ flex: 1, gap: theme.spacing.xs }}>
-          <Text variant="title" numberOfLines={2}>
-            {name}
-          </Text>
-          <Text variant="caption" tone="muted" numberOfLines={2}>
-            {[profile?.city, profile?.preferred_position].filter(Boolean).join(' · ') ||
-              'No city or position set yet'}
-          </Text>
-          <View style={{ flexDirection: 'row', gap: theme.spacing.sm, flexWrap: 'wrap' }}>
-            <Badge tone="outline" size="sm">
-              {roleLabel(profile?.role ?? null)}
+      {/* ------------------------------------------------------------ the card -- */}
+      <ProfileCard
+        name={name}
+        avatarUrl={profile?.avatar_url ?? null}
+        style={profileStyleOf(profile ?? {})}
+        city={profile?.city}
+        position={profile?.preferred_position}
+        role={profile?.role}
+      >
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: theme.spacing.sm, flexWrap: 'wrap' }}>
+          <Badge tone="outline" size="sm">
+            {roleLabel(profile?.role ?? null)}
+          </Badge>
+          {profile?.is_minor === true ? (
+            <Badge tone="neutral" size="sm">
+              16 yaş altı
             </Badge>
-            {profile?.is_minor === true ? (
-              <Badge tone="neutral" size="sm">
-                16 yaş altı
-              </Badge>
-            ) : null}
-          </View>
+          ) : null}
+          <View style={{ flex: 1 }} />
+          <Button title="Kartını düzenle" size="sm" variant="outline" onPress={() => router.push('/settings/style')} />
         </View>
-      </View>
+      </ProfileCard>
 
       {profile ? (
         <ConsentBanner
@@ -206,6 +206,10 @@ export default function ProfileScreen(): React.ReactElement {
 
       {/* ------------------------------------------------------------- links -- */}
       <Card flush contentStyle={{ gap: 0 }}>
+        <NavRow label="Kartın" hint="Rengin, karen, numaran, sloganın" onPress={() => router.push('/settings/style')} />
+        <Separator inset={theme.spacing.lg} />
+        <NavRow label="Mesajlar" hint="Takım arkadaşların ve işletmelerle" onPress={() => router.push('/(tabs)/messages')} />
+        <Separator inset={theme.spacing.lg} />
         <NavRow label="Takımlarım" hint="Oynadığın kadrolar" onPress={() => router.push('/teams')} />
         <Separator inset={theme.spacing.lg} />
         <NavRow
@@ -233,9 +237,9 @@ export default function ProfileScreen(): React.ReactElement {
 }
 
 function roleLabel(role: string | null): string {
-  if (role === 'admin') return 'Admin'
-  if (role === 'venue_owner') return 'Venue owner'
-  return 'Player'
+  if (role === 'admin') return 'Yönetici'
+  if (role === 'venue_owner') return 'İşletme sahibi'
+  return 'Oyuncu'
 }
 
 interface NavRowProps {

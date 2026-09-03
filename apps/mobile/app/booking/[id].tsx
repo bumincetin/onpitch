@@ -50,6 +50,7 @@ import {
 } from '@/lib/booking/slots'
 import { formatDayLabel, formatDuration, formatMinor, formatTimeRange } from '@/lib/format'
 import { supabase, useSession } from '@/lib/supabase'
+import { MessageButton } from '@/components/messaging'
 import { useTheme } from '@/lib/theme'
 import type { Enums } from '@onpitch/shared/database'
 import { API_ERROR_CODES, type CancellationResult } from '@onpitch/shared/domain'
@@ -100,6 +101,7 @@ interface VenueRow {
   id: string
   name: string
   slug: string
+  owner_id: string
   timezone: string
   address_line1: string | null
   city: string | null
@@ -179,7 +181,7 @@ export default function BookingDetailScreen(): React.ReactElement {
       pitch
         ? supabase
             .from('venues')
-            .select('id, name, slug, timezone, address_line1, city, district, phone')
+            .select('id, name, slug, owner_id, timezone, address_line1, city, district, phone')
             .eq('id', pitch.venue_id)
             .returns<VenueRow[]>()
             .maybeSingle()
@@ -554,6 +556,13 @@ export default function BookingDetailScreen(): React.ReactElement {
               <Text variant="caption" tone="muted">
                 {venue.phone}
               </Text>
+            ) : null}
+            {/* A booking is a relationship in can_message(): booker and owner may always write. */}
+            {user?.id && booking.booked_by === user.id && venue.owner_id !== user.id ? (
+              <MessageButton userId={venue.owner_id} title="İşletmeye yaz" variant="outline" size="sm" />
+            ) : null}
+            {user?.id && venue.owner_id === user.id && booking.booked_by !== user.id ? (
+              <MessageButton userId={booking.booked_by} title="Rezervasyon sahibine yaz" variant="outline" size="sm" />
             ) : null}
           </Card>
         ) : null}

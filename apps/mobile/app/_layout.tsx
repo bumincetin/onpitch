@@ -25,6 +25,7 @@ import { View } from 'react-native'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 
 import { Button, Screen, Text } from '@/components/ui'
+import { AccentProvider } from '@/lib/accent'
 import { env } from '@/lib/env'
 import { SessionProvider, useSession } from '@/lib/supabase'
 import { useIsDark, useTheme } from '@/lib/theme'
@@ -38,7 +39,9 @@ export default function RootLayout(): React.ReactElement {
     <SafeAreaProvider>
       <PaymentsProvider>
         <SessionProvider>
-          <AppShell />
+          <AccentProvider>
+            <AppShell />
+          </AccentProvider>
         </SessionProvider>
       </PaymentsProvider>
     </SafeAreaProvider>

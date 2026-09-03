@@ -153,7 +153,7 @@ export function HairlineBar({
           // would need an onLayout round trip on every row. A percentage string is the one
           // thing React Native accepts here that survives rotation for free.
           width: `${clamped * 100}%`,
-          backgroundColor: color ?? theme.colors.gold,
+          backgroundColor: color ?? theme.colors.user,
         }}
       />
     </View>

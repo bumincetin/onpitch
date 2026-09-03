@@ -51,6 +51,11 @@ import {
   Text,
 } from '@/components/ui'
 import { ConsentBanner, PrivacyToggle, ScreenHeader, useMyProfile } from '@/components/profile'
+import { Avatar } from '@/components/ui'
+import { readBlockedUsers, unblockUser } from '@/lib/messaging'
+import { MESSAGING_POLICIES, MESSAGING_POLICY_LABEL, type MessagingPolicy } from '@onpitch/shared/profile'
+import type { BlockedUser } from '@onpitch/shared/messaging'
+import { Pressable } from 'react-native'
 import { apiFetch, isApiError } from '@/lib/api'
 import { env } from '@/lib/env'
 import { DIGITAL_CONSENT_AGE, MINOR_PRIVACY_EXPLANATIONS, isMinor } from '@/lib/gdpr'
@@ -120,6 +125,47 @@ export default function PrivacyScreen(): React.ReactElement {
     (next: boolean): TablesUpdate<'profiles'> => ({ marketing_opt_in: next }),
     [],
   )
+
+  /* ------------------------------------------------------------ messaging -- */
+
+  const policy: MessagingPolicy = (MESSAGING_POLICIES as readonly string[]).includes(profile?.messaging_policy ?? '')
+    ? (profile?.messaging_policy as MessagingPolicy)
+    : 'teammates'
+  const [policyBusy, setPolicyBusy] = React.useState(false)
+  const [policyError, setPolicyError] = React.useState<string | null>(null)
+  const [blocked, setBlocked] = React.useState<BlockedUser[]>([])
+  const [unblocking, setUnblocking] = React.useState<string | null>(null)
+
+  React.useEffect(() => {
+    if (!profile) return
+    void readBlockedUsers().then(setBlocked)
+  }, [profile])
+
+  const choosePolicy = React.useCallback(
+    async (next: MessagingPolicy): Promise<void> => {
+      if (!profile || next === policy || policyBusy) return
+      setPolicyBusy(true)
+      setPolicyError(null)
+      const { error: writeError } = await supabase.from('profiles').update({ messaging_policy: next }).eq('id', profile.id)
+      setPolicyBusy(false)
+      if (writeError) {
+        setPolicyError(writeError.code === '42501' ? '16 yaşın altındaki hesaplarda mesajlaşma herkese açılamaz.' : writeError.message || 'Ayar kaydedilemedi.')
+        return
+      }
+      patch({ messaging_policy: next })
+    },
+    [patch, policy, policyBusy, profile],
+  )
+
+  const unblock = React.useCallback(async (userEntry: BlockedUser): Promise<void> => {
+    setUnblocking(userEntry.id)
+    try {
+      await unblockUser(userEntry.id)
+      setBlocked((current) => current.filter((entry) => entry.id !== userEntry.id))
+    } finally {
+      setUnblocking(null)
+    }
+  }, [])
 
   /* --------------------------------------------------------------- export -- */
 
@@ -369,6 +415,72 @@ export default function PrivacyScreen(): React.ReactElement {
           lockedReason={minor ? MINOR_PRIVACY_EXPLANATIONS.marketing_opt_in : null}
           onChanged={(next) => patch({ marketing_opt_in: next })}
         />
+      </Card>
+
+      {/* -------------------------------------------------------- messaging -- */}
+      <Card
+        title="Kim sana mesaj gönderebilir"
+        subtitle="Sohbetler yalnızca iki tarafın hesabında durur; bir yıl sonra silinir. Engellediğin biri sana ulaşamaz ve bundan haberi olmaz."
+      >
+        {policyError ? <Notice tone="destructive" title="Kaydedilemedi" description={policyError} live /> : null}
+        <View accessibilityRole="radiogroup" style={{ gap: theme.spacing.xs }}>
+          {MESSAGING_POLICIES.map((option) => {
+            const locked = minor && option === 'everyone'
+            const on = policy === option
+            return (
+              <Pressable
+                key={option}
+                accessibilityRole="radio"
+                accessibilityState={{ checked: on, disabled: locked }}
+                disabled={locked || policyBusy}
+                onPress={() => void choosePolicy(option)}
+                style={{
+                  flexDirection: 'row',
+                  gap: theme.spacing.md,
+                  alignItems: 'flex-start',
+                  minHeight: 44,
+                  padding: theme.spacing.md,
+                  borderRadius: theme.radius.lg,
+                  borderWidth: 1,
+                  borderColor: on ? theme.colors.user : theme.colors.border,
+                  backgroundColor: on ? `${theme.colors.user}22` : 'transparent',
+                  opacity: locked ? 0.55 : 1,
+                }}
+              >
+                <View style={{ width: 12, height: 12, borderRadius: 6, marginTop: 4, borderWidth: 1, borderColor: on ? theme.colors.user : theme.colors.mutedForeground, backgroundColor: on ? theme.colors.user : 'transparent' }} />
+                <View style={{ flex: 1, gap: 2 }}>
+                  <Text variant="body" weight="600">
+                    {MESSAGING_POLICY_LABEL[option].title}
+                  </Text>
+                  <Text variant="caption" tone="muted">
+                    {locked
+                      ? '16 yaşından küçük hesaplarda kapalı. O yaşa kadar yalnızca takım arkadaşların ve rezervasyon yaptığın işletmeler yazabilir.'
+                      : MESSAGING_POLICY_LABEL[option].hint}
+                  </Text>
+                </View>
+              </Pressable>
+            )
+          })}
+        </View>
+
+        <Separator />
+
+        <Text variant="label">{`Engellediklerin · ${blocked.length}`}</Text>
+        {blocked.length === 0 ? (
+          <Text variant="caption" tone="muted">
+            Kimseyi engellemedin. Bir sohbetin menüsünden ya da bir oyuncunun profilinden engelleyebilirsin.
+          </Text>
+        ) : (
+          blocked.map((entry) => (
+            <View key={entry.id} style={{ flexDirection: 'row', alignItems: 'center', gap: theme.spacing.md }}>
+              <Avatar uri={entry.avatarUrl} name={entry.displayName} size="sm" accent={entry.accentColor} />
+              <Text variant="body" numberOfLines={1} style={{ flex: 1 }}>
+                {entry.displayName ?? 'Oyuncu'}
+              </Text>
+              <Button title="Engeli kaldır" size="sm" variant="outline" loading={unblocking === entry.id} onPress={() => void unblock(entry)} />
+            </View>
+          ))
+        )}
       </Card>
 
       {/* ---------------------------------------------------------- consent -- */}

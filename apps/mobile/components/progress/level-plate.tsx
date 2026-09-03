@@ -57,7 +57,7 @@ export function LevelPlate({ xp, level }: LevelPlateProps): React.ReactElement {
           <Text
             variant="caption"
             weight="600"
-            style={{ color: theme.colors.gold, letterSpacing: 1.4, textTransform: 'uppercase' }}
+            style={{ color: theme.colors.user, letterSpacing: 1.4, textTransform: 'uppercase' }}
           >
             {rank.tr}
           </Text>

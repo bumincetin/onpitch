@@ -60,6 +60,14 @@ export const myProfileSchema = z.object({
   city: z.string().nullable().default(null),
   preferred_position: z.string().nullable().default(null),
   bio: z.string().nullable().default(null),
+  // 0011. Parsed leniently: an unknown accent or shot from a newer server falls back rather
+  // than failing the whole profile read.
+  accent_color: z.string().catch('gold'),
+  banner_shot: z.string().catch('stands'),
+  tagline: z.string().nullable().default(null),
+  jersey_number: z.number().int().nullable().default(null),
+  dominant_foot: z.string().nullable().default(null),
+  messaging_policy: z.string().catch('teammates'),
   created_at: z.string(),
 })
 

@@ -25,6 +25,7 @@ export {
   type PlayerHistory,
 } from './player-history'
 export { PrivacyToggle, type PrivacyToggleProps } from './privacy-toggle'
+export { PitchMarkings, ProfileCard, type ProfileCardProps } from './profile-card'
 export { RatingCard, type PlayerRating, type RatingCardProps } from './rating-card'
 export { ScreenHeader, type ScreenHeaderProps } from './screen-header'
 export { StatsGrid, type StatsGridProps } from './stats-grid'
