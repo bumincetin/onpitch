@@ -1,5 +1,8 @@
 import * as React from 'react'
 import { View, type StyleProp, type ViewStyle } from 'react-native'
+import Animated, { ReduceMotion, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
+
+import { EASE_OUT } from '@/lib/motion'
 
 import { Text } from '@/components/ui'
 import { useTheme } from '@/lib/theme'
@@ -141,21 +144,24 @@ export function HairlineBar({
   const theme = useTheme()
   const clamped = Math.max(0, Math.min(1, Number.isFinite(ratio) ? ratio : 0))
 
+  // The fill draws itself in from zero, the way the web's `scroll-tick` draws a rule. Width is
+  // measured once and animated as pixels; the UI thread never sees a percentage string.
+  const width = useSharedValue(0)
+  const fill = useSharedValue(0)
+  React.useEffect(() => {
+    fill.value = withTiming(clamped, { duration: 900, easing: EASE_OUT, reduceMotion: ReduceMotion.System })
+  }, [clamped, fill])
+  const animated = useAnimatedStyle(() => ({ width: width.value * fill.value }))
+
   return (
     <View
       accessible={false}
+      onLayout={(event) => {
+        width.value = event.nativeEvent.layout.width
+      }}
       style={[{ height: 1, backgroundColor: theme.colors.border, overflow: 'hidden' }, style]}
     >
-      <View
-        style={{
-          height: 1,
-          // `flex` cannot express "this fraction of the parent", and a measured pixel width
-          // would need an onLayout round trip on every row. A percentage string is the one
-          // thing React Native accepts here that survives rotation for free.
-          width: `${clamped * 100}%`,
-          backgroundColor: color ?? theme.colors.user,
-        }}
-      />
+      <Animated.View style={[{ height: 1, backgroundColor: color ?? theme.colors.user }, animated]} />
     </View>
   )
 }

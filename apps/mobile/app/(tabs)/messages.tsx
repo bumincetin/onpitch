@@ -11,7 +11,10 @@ import { useRouter } from 'expo-router'
 import * as React from 'react'
 import { FlatList, RefreshControl, View } from 'react-native'
 
+import Animated from 'react-native-reanimated'
+
 import { ConversationRow } from '@/components/messaging'
+import { riseIn } from '@/lib/motion'
 import { EmptyState, NightBand, Screen, Separator, Text } from '@/components/ui'
 import { useConversations } from '@/lib/messaging'
 import { useSession } from '@/lib/supabase'
@@ -44,8 +47,10 @@ export default function MessagesScreen(): React.ReactElement {
       <FlatList
         data={items}
         keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <ConversationRow item={item} viewerId={viewerId} onPress={() => router.push(`/messages/${item.id}`)} />
+        renderItem={({ item, index }) => (
+          <Animated.View entering={riseIn(index)}>
+            <ConversationRow item={item} viewerId={viewerId} onPress={() => router.push(`/messages/${item.id}`)} />
+          </Animated.View>
         )}
         ItemSeparatorComponent={() => <Separator inset={theme.spacing.lg + 40 + theme.spacing.md} />}
         ListHeaderComponent={

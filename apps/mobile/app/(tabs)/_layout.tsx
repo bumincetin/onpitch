@@ -34,6 +34,7 @@
 import { Redirect, Tabs } from 'expo-router'
 import * as React from 'react'
 import { View, type ColorValue } from 'react-native'
+import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated'
 
 import { Screen, Spinner } from '@/components/ui'
 import { useUnreadNotifications } from '@/lib/hooks/use-notifications'
@@ -150,9 +151,22 @@ interface IconProps {
   focused: boolean
 }
 
+/** Lifts an icon a touch when its tab is chosen and settles it back when it is not. */
+function Focus({ focused, children }: { focused: boolean; children: React.ReactNode }): React.ReactElement {
+  const lift = useSharedValue(focused ? 1 : 0)
+  React.useEffect(() => {
+    lift.value = withSpring(focused ? 1 : 0, { damping: 12, stiffness: 220 })
+  }, [focused, lift])
+  const style = useAnimatedStyle(() => ({
+    transform: [{ translateY: -2 * lift.value }, { scale: 1 + 0.1 * lift.value }],
+  }))
+  return <Animated.View style={style}>{children}</Animated.View>
+}
+
 /** A rising step: three marks of increasing height, the same shape the streak strip draws. */
 function ChevronIcon({ color, focused }: IconProps): React.ReactElement {
   return (
+    <Focus focused={focused}>
     <View style={{ width: 22, height: 22, flexDirection: 'row', alignItems: 'flex-end', gap: 2 }}>
       {[8, 13, 18].map((height, i) => (
         <View
@@ -167,12 +181,14 @@ function ChevronIcon({ color, focused }: IconProps): React.ReactElement {
         />
       ))}
     </View>
+    </Focus>
   )
 }
 
 /** A ball: an outlined circle with a filled panel when the tab is active. */
 function BallIcon({ color, focused }: IconProps): React.ReactElement {
   return (
+    <Focus focused={focused}>
     <View
       style={{
         width: 22,
@@ -196,12 +212,14 @@ function BallIcon({ color, focused }: IconProps): React.ReactElement {
         }}
       />
     </View>
+    </Focus>
   )
 }
 
 /** A calendar: a rounded frame with a header rule that fills when the tab is active. */
 function CalendarIcon({ color, focused }: IconProps): React.ReactElement {
   return (
+    <Focus focused={focused}>
     <View style={{ width: 22, height: 22, alignItems: 'center', justifyContent: 'center' }}>
       <View
         style={{
@@ -216,12 +234,14 @@ function CalendarIcon({ color, focused }: IconProps): React.ReactElement {
         <View style={{ height: 5, backgroundColor: color, opacity: focused ? 1 : 0.45 }} />
       </View>
     </View>
+    </Focus>
   )
 }
 
 /** A speech bubble: a rounded frame with a tail, filled when the tab is active. */
 function BubbleIcon({ color, focused }: IconProps): React.ReactElement {
   return (
+    <Focus focused={focused}>
     <View style={{ width: 22, height: 22, alignItems: 'center', justifyContent: 'center' }}>
       <View
         style={{
@@ -248,12 +268,14 @@ function BubbleIcon({ color, focused }: IconProps): React.ReactElement {
         }}
       />
     </View>
+    </Focus>
   )
 }
 
 /** A person: head over shoulders, both filled when the tab is active. */
 function PersonIcon({ color, focused }: IconProps): React.ReactElement {
   return (
+    <Focus focused={focused}>
     <View style={{ width: 22, height: 22, alignItems: 'center', justifyContent: 'flex-end' }}>
       <View
         style={{
@@ -280,5 +302,6 @@ function PersonIcon({ color, focused }: IconProps): React.ReactElement {
         }}
       />
     </View>
+    </Focus>
   )
 }

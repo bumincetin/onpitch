@@ -16,6 +16,7 @@ import { useRouter } from "next/navigation"
 import { Check } from "lucide-react"
 
 import { ProfileCard } from "@/components/profile/profile-card"
+import { TiltCard } from "@/components/profile/tilt-card"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -104,15 +105,17 @@ export function ProfileStyleForm({ name, avatarUrl, city, position, role, initia
 
   return (
     <form onSubmit={submit} className={cn("space-y-6", className)} noValidate>
-      <ProfileCard
-        name={name}
-        avatarUrl={avatarUrl}
-        style={style}
-        city={city}
-        position={position}
-        role={role}
-        size="preview"
-      />
+      <TiltCard maxDegrees={5}>
+        <ProfileCard
+          name={name}
+          avatarUrl={avatarUrl}
+          style={style}
+          city={city}
+          position={position}
+          role={role}
+          size="preview"
+        />
+      </TiltCard>
 
       {error ? (
         <Alert variant="destructive">

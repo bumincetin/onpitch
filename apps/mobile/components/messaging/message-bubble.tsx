@@ -7,6 +7,9 @@
 
 import * as React from 'react'
 import { Pressable, View } from 'react-native'
+import Animated from 'react-native-reanimated'
+
+import { appear } from '@/lib/motion'
 
 import { Text } from '@/components/ui'
 import { formatTime } from '@/lib/format'
@@ -26,7 +29,7 @@ export function MessageBubble({ message, mine, showTime, onLongPress }: MessageB
   const removed = removedMessageLabel(message)
 
   return (
-    <View style={{ alignItems: mine ? 'flex-end' : 'flex-start', maxWidth: '82%', alignSelf: mine ? 'flex-end' : 'flex-start' }}>
+    <Animated.View entering={appear()} style={{ alignItems: mine ? 'flex-end' : 'flex-start', maxWidth: '82%', alignSelf: mine ? 'flex-end' : 'flex-start' }}>
       <Pressable
         accessibilityRole="text"
         accessibilityLabel={removed ?? message.body}
@@ -57,6 +60,6 @@ export function MessageBubble({ message, mine, showTime, onLongPress }: MessageB
           {message.pending ? 'gönderiliyor' : formatTime(message.createdAt, 'Europe/Istanbul')}
         </Text>
       ) : null}
-    </View>
+    </Animated.View>
   )
 }

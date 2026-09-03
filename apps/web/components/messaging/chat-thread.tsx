@@ -414,7 +414,13 @@ export function ChatThread({
                         {run.messages.map((message) => {
                           const removed = removedMessageLabel(message)
                           return (
-                            <li key={message.id} className="group relative max-w-full">
+                            <li
+                              key={message.id}
+                              className={cn(
+                                "group relative max-w-full animate-in fade-in duration-300",
+                                mine ? "slide-in-from-right-2" : "slide-in-from-left-2",
+                              )}
+                            >
                               <div
                                 className={cn(
                                   "rounded-md px-3 py-2 text-sm leading-relaxed",

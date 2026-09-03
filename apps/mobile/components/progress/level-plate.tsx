@@ -2,6 +2,7 @@ import * as React from 'react'
 import { View } from 'react-native'
 
 import { Text } from '@/components/ui'
+import { useCountUp } from '@/lib/motion'
 import { useTheme } from '@/lib/theme'
 import { formatXp, levelProgress, rankForLevel } from '@onpitch/shared/gamification'
 
@@ -28,6 +29,7 @@ export function LevelPlate({ xp, level }: LevelPlateProps): React.ReactElement {
   const theme = useTheme()
   const progress = levelProgress(xp)
   const rank = rankForLevel(level)
+  const shownLevel = useCountUp(level, 700)
 
   return (
     <View
@@ -49,7 +51,7 @@ export function LevelPlate({ xp, level }: LevelPlateProps): React.ReactElement {
               color: theme.colors.foreground,
             }}
           >
-            {level}
+            {shownLevel}
           </Text>
         </View>
 

@@ -15,7 +15,10 @@
 import * as React from 'react'
 import { View, type StyleProp, type ViewStyle } from 'react-native'
 
-import { Avatar, Text } from '@/components/ui'
+import Animated from 'react-native-reanimated'
+
+import { Avatar, Text, Tilt } from '@/components/ui'
+import { riseIn } from '@/lib/motion'
 import { Eyebrow } from '@/components/progress/primitives'
 import { accentHex } from '@/lib/accent'
 import { useIsDark, useTheme } from '@/lib/theme'
@@ -64,19 +67,18 @@ export function ProfileCard({
   const hero = size === 'hero'
 
   return (
+    <Animated.View entering={riseIn(0)} style={containerStyle}>
+    <Tilt maxDegrees={hero ? 7 : 5} highlight={accent}>
     <View
       accessible
       accessibilityLabel={`${name} profil kartı`}
-      style={[
-        {
-          backgroundColor: NIGHT,
-          borderRadius: theme.radius.xl,
-          borderWidth: 1,
-          borderColor: dark ? theme.colors.border : 'rgba(27,34,48,0.25)',
-          overflow: 'hidden',
-        },
-        containerStyle,
-      ]}
+      style={{
+        backgroundColor: NIGHT,
+        borderRadius: theme.radius.xl,
+        borderWidth: 1,
+        borderColor: dark ? theme.colors.border : 'rgba(27,34,48,0.25)',
+        overflow: 'hidden',
+      }}
     >
       <PitchMarkings shot={shot} accent={accent} />
 
@@ -170,6 +172,8 @@ export function ProfileCard({
         </View>
       ) : null}
     </View>
+    </Tilt>
+    </Animated.View>
   )
 }
 

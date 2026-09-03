@@ -113,6 +113,16 @@ markings from borders. This is a reversible decision, not a permanent one.
 palette regardless of the OS setting — the same rule the web applies to its signed-in shell.
 The person's accent (`profiles.accent_color`) is `colors.user` on the theme.
 
+**Motion, on the UI thread.** `lib/motion.ts` is the vocabulary: `riseIn(index)` for rows
+arriving, `appear()` for a bubble, `useCountUp()` for a number, and the web's ease-out curve.
+The band's pitch is laid flat with `rotateX` and a vanishing point and drifts for forty seconds
+like the web camera; its floodlight pools breathe out of phase. The profile card tilts toward the
+finger through `components/ui/tilt.tsx` (a pan gesture, perspective and two rotations, a
+specular highlight sliding the other way, a spring back to flat). Every timing carries
+`ReduceMotion.System`, and the JS-driven count-up asks the OS itself. On the web the card gets
+the same tilt from the pointer in `components/profile/tilt-card.tsx`, and lists use the
+`rise-stagger` utility.
+
 **A plate, not a ring.** The web draws the level as an SVG arc; the phone draws a number with a
 hairline bar under it, because an SVG arc in React Native means adding `react-native-svg` for one
 decorative circle. The plate says the same three things — which level, how far into it, what is

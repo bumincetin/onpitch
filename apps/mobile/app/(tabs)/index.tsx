@@ -26,7 +26,10 @@ import { z } from 'zod'
 import { matchFormatSchema, matchStatusSchema } from '@onpitch/shared/domain'
 
 import { MatchCard, describeErrorText, type MatchCardMatch } from '@/components/match'
+import Animated from 'react-native-reanimated'
+
 import { EmptyState, NightBand, Screen, Spinner, Text } from '@/components/ui'
+import { riseIn } from '@/lib/motion'
 import { apiFetch } from '@/lib/api'
 import { DataError, dataError } from '@/lib/data-error'
 import { supabase, useSession } from '@/lib/supabase'
@@ -177,7 +180,11 @@ export default function MatchesScreen(): React.ReactElement {
           style={{ flex: 1 }}
           data={state.items}
           keyExtractor={(item) => item.id}
-          renderItem={({ item }) => <MatchCard match={item} onPress={openMatch} />}
+          renderItem={({ item, index }) => (
+            <Animated.View entering={riseIn(index)}>
+              <MatchCard match={item} onPress={openMatch} />
+            </Animated.View>
+          )}
           contentContainerStyle={{
             padding: theme.spacing.lg,
             paddingTop: theme.spacing.sm,

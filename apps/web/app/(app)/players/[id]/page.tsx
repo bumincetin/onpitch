@@ -32,6 +32,7 @@ import { MATCH_STATUS_META, formatKickoff } from "@/components/match/match-card"
 import { RatingDeltaInline, UncertaintyBar, conservativeRating } from "@/components/match/rating-delta"
 import { ProfileActions } from "@/components/profile/profile-actions"
 import { ProfileCard } from "@/components/profile/profile-card"
+import { TiltCard } from "@/components/profile/tilt-card"
 import { PitchBanner } from "@/components/three/pitch-banner"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -120,8 +121,9 @@ export default async function PlayerPage({ params }: { params: { id: string } })
   )
 
   return (
-    <div className="space-y-12 pb-10">
+    <div className="rise-stagger space-y-12 pb-10">
       {/* ---------------- the card ---------------- */}
+      <TiltCard className="fade-rise">
       <ProfileCard
         name={displayName}
         avatarUrl={profile?.avatar_url}
@@ -152,6 +154,7 @@ export default async function PlayerPage({ params }: { params: { id: string } })
           ) : null}
         </div>
       </ProfileCard>
+      </TiltCard>
 
       {profile?.bio ? <p className="max-w-prose text-pretty leading-relaxed text-foreground/90">{profile.bio}</p> : null}
 

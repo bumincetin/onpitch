@@ -99,7 +99,7 @@ export default async function DashboardPage({
   const canOptIn = !isPublic && profile?.is_minor === false
 
   return (
-    <div className="space-y-14 pb-10">
+    <div className="rise-stagger space-y-14 pb-10">
       {notice && (
         <Alert variant="destructive">
           <AlertTitle>{notice.title}</AlertTitle>
@@ -263,7 +263,7 @@ export default async function DashboardPage({
             <Link
               key={link.href}
               href={link.href}
-              className="group flex flex-col bg-background p-5 transition-colors hover:bg-secondary/60"
+              className="lift group flex flex-col bg-background p-5 transition-colors hover:bg-secondary/60"
             >
               <span className="text-base font-normal">{link.label}</span>
               <span className="mt-1.5 text-sm text-muted-foreground">{link.hint}</span>

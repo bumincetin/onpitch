@@ -99,7 +99,7 @@ export function ConversationList({ viewerId, initial, className }: ConversationL
   }
 
   return (
-    <ul className={cn("flex flex-col", className)} aria-label="Sohbetler">
+    <ul className={cn("rise-stagger flex flex-col", className)} aria-label="Sohbetler">
       {items.map((item) => {
         const active = pathname === `/messages/${item.id}`
         const unread = item.unreadCount > 0

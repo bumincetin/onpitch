@@ -17,6 +17,8 @@
 // on load, and a screen mounted before that patch never receives touches on Android.
 import 'react-native-gesture-handler'
 
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
+
 import { StripeProvider } from '@stripe/stripe-react-native'
 import { Stack } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
@@ -36,15 +38,20 @@ export const unstable_settings = {
 
 export default function RootLayout(): React.ReactElement {
   return (
-    <SafeAreaProvider>
-      <PaymentsProvider>
-        <SessionProvider>
-          <AccentProvider>
-            <AppShell />
-          </AccentProvider>
-        </SessionProvider>
-      </PaymentsProvider>
-    </SafeAreaProvider>
+    // GestureHandlerRootView is what lets a GestureDetector (the tilting card) receive touches
+    // on Android at all; on iOS it is harmless. It has to be the outermost view that gestures
+    // happen inside.
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <SafeAreaProvider>
+        <PaymentsProvider>
+          <SessionProvider>
+            <AccentProvider>
+              <AppShell />
+            </AccentProvider>
+          </SessionProvider>
+        </PaymentsProvider>
+      </SafeAreaProvider>
+    </GestureHandlerRootView>
   )
 }
 

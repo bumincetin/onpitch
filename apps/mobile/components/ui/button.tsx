@@ -19,6 +19,8 @@ import {
   type ViewStyle,
 } from 'react-native'
 
+import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated'
+
 import { useTheme, type Theme } from '@/lib/theme'
 
 import { Text } from './text'
@@ -74,6 +76,8 @@ function palette(theme: Theme, variant: ButtonVariant): ButtonPalette {
 /** Heights are all at or above the 44pt Apple / 48dp Android minimum target. */
 const HEIGHT: Record<ButtonSize, number> = { sm: 44, md: 48, lg: 54 }
 
+const AnimatedPressable = Animated.createAnimatedComponent(Pressable)
+
 export function Button({
   title,
   variant = 'primary',
@@ -91,15 +95,27 @@ export function Button({
   const { background, foreground, border } = palette(theme, variant)
   const inactive = disabled || loading
 
+  // Press feedback on the UI thread: a small settle, not a bounce. Composes with the opacity.
+  const press = useSharedValue(0)
+  const pressedStyle = useAnimatedStyle(() => ({ transform: [{ scale: 1 - press.value * 0.03 }] }))
+
   return (
-    <Pressable
+    <AnimatedPressable
+      onPressIn={(event) => {
+        press.value = withSpring(1, { damping: 20, stiffness: 300 })
+        rest.onPressIn?.(event)
+      }}
+      onPressOut={(event) => {
+        press.value = withSpring(0, { damping: 20, stiffness: 300 })
+        rest.onPressOut?.(event)
+      }}
       accessibilityRole="button"
       accessibilityLabel={accessibilityLabel ?? title}
       // `busy` is what makes VoiceOver say "in progress" instead of re-announcing the label as
       // if the button were still waiting for a first tap.
       accessibilityState={{ disabled: inactive, busy: loading }}
       disabled={inactive}
-      style={({ pressed }) => [
+      style={({ pressed }: { pressed: boolean }) => [
         {
           minHeight: HEIGHT[size],
           flexDirection: 'row',
@@ -116,6 +132,7 @@ export function Button({
           // transparent ones, without inventing five more colours.
           opacity: inactive ? 0.5 : pressed ? 0.85 : 1,
         },
+        pressedStyle,
         style,
       ]}
       {...rest}
@@ -136,6 +153,6 @@ export function Button({
           {right ? <View>{right}</View> : null}
         </>
       )}
-    </Pressable>
+    </AnimatedPressable>
   )
 }
