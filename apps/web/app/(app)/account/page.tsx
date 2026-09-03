@@ -23,6 +23,8 @@ import Link from "next/link"
 
 import { AvatarUpload } from "@/components/account/avatar-upload"
 import { ProfileForm } from "@/components/account/profile-form"
+import { ProfileStyleForm } from "@/components/account/profile-style-form"
+import { profileStyleOf } from "@onpitch/shared/profile"
 import { NotificationBell } from "@/components/notifications/notification-bell"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -69,11 +71,31 @@ export default async function AccountPage() {
     .eq("user_id", user.id)
     .is("read_at", null)
 
-  const displayName = profile.display_name ?? profile.full_name ?? "Your profile"
+  const displayName = profile.display_name ?? profile.full_name ?? "Profilin"
 
   return (
     <div className="space-y-6">
       <AccountHeader current="/account" unreadCount={count ?? 0} userId={user.id} />
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Kartın</CardTitle>
+          <CardDescription>
+            Rengin, profilinin açıldığı saha karesi, numaran ve sloganın. Aşağıdaki kart, başkalarının gördüğü
+            kartın ta kendisi.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <ProfileStyleForm
+            name={displayName}
+            avatarUrl={profile.avatar_url}
+            city={profile.city}
+            position={profile.preferred_position}
+            role={profile.role}
+            initial={profileStyleOf(profile)}
+          />
+        </CardContent>
+      </Card>
 
       <Card>
         <CardHeader>

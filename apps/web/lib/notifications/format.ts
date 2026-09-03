@@ -52,6 +52,7 @@ export const NOTIFICATION_GROUPS = [
   "venue",
   "account",
   "progress",
+  "message",
   "other",
 ] as const
 export type NotificationGroup = (typeof NOTIFICATION_GROUPS)[number]
@@ -230,6 +231,26 @@ const DESCRIPTORS: Readonly<Record<string, TypeDescriptor>> = {
     group: "progress",
     tone: "attention",
   },
+
+  /*
+    Messaging, written by 0011_profiles_and_messaging.sql.
+
+    `send_message()` writes the sender's name as the title and a fixed body — never the
+    message text, which has no business living in a second table. `report_message()` goes to
+    admins only.
+  */
+  "message.received": {
+    title: "Yeni mesaj",
+    body: "Sana yeni bir mesaj gönderdi.",
+    group: "message",
+    tone: "neutral",
+  },
+  "message.reported": {
+    title: "Bir mesaj bildirildi",
+    body: "Yönetim panelinden incele.",
+    group: "message",
+    tone: "attention",
+  },
 }
 
 /** Prefix to group, for a `type` this build has never seen. */
@@ -242,6 +263,7 @@ const GROUP_BY_PREFIX: Readonly<Record<string, NotificationGroup>> = {
   profile: "account",
   gdpr: "account",
   progress: "progress",
+  message: "message",
 }
 
 function prefixOf(type: string): string {
@@ -277,6 +299,8 @@ const linkDataSchema = z
     matchId: z.string().uuid(),
     venue_id: z.string().uuid(),
     venueId: z.string().uuid(),
+    conversation_id: z.string().uuid(),
+    conversationId: z.string().uuid(),
   })
   .partial()
   .passthrough()
@@ -285,17 +309,19 @@ interface LinkTargets {
   matchId: string | null
   bookingId: string | null
   venueId: string | null
+  conversationId: string | null
 }
 
 function readLinkTargets(data: unknown): LinkTargets {
   const parsed = linkDataSchema.safeParse(data)
-  if (!parsed.success) return { matchId: null, bookingId: null, venueId: null }
+  if (!parsed.success) return { matchId: null, bookingId: null, venueId: null, conversationId: null }
 
   const value = parsed.data
   return {
     matchId: value.match_id ?? value.matchId ?? null,
     bookingId: value.booking_id ?? value.bookingId ?? null,
     venueId: value.venue_id ?? value.venueId ?? null,
+    conversationId: value.conversation_id ?? value.conversationId ?? null,
   }
 }
 
@@ -336,6 +362,11 @@ export function resolveNotificationHref(
       // A badge belongs in the cabinet; a level-up and a lapsing streak belong on the
       // dashboard, where the ring and the streak marks are.
       return type === "progress.achievement" ? "/achievements" : "/dashboard"
+
+    case "message":
+      // A report is for admins, who have a queue; everyone else lands in the thread.
+      if (type === "message.reported") return audience === "admin" ? "/admin" : null
+      return targets.conversationId ? `/messages/${targets.conversationId}` : "/messages"
 
     default:
       return null

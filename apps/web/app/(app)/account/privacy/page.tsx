@@ -20,7 +20,10 @@ import Link from "next/link"
 import { ConsentStatus } from "@/components/account/consent-status"
 import { DataExportCard } from "@/components/account/data-export-card"
 import { DeleteAccountDialog } from "@/components/account/delete-account-dialog"
+import { MessagingControls } from "@/components/account/messaging-controls"
 import { PrivacyControls } from "@/components/account/privacy-controls"
+import { loadBlockedUsers } from "@/lib/messaging"
+import { MESSAGING_POLICIES, type MessagingPolicy } from "@onpitch/shared/profile"
 import { NotificationBell } from "@/components/notifications/notification-bell"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -54,6 +57,10 @@ export default async function PrivacyPage() {
 
   const privacy = enforcePrivacyDefaults(profile)
   const isMinorAccount = privacy.lockedFields.length > 0
+  const blocked = await loadBlockedUsers(supabase)
+  const messagingPolicy: MessagingPolicy = (MESSAGING_POLICIES as readonly string[]).includes(profile.messaging_policy)
+    ? (profile.messaging_policy as MessagingPolicy)
+    : "teammates"
 
   return (
     <div className="space-y-6">
@@ -73,6 +80,19 @@ export default async function PrivacyPage() {
             marketingOptIn={privacy.values.marketing_opt_in}
             lockedFields={privacy.lockedFields}
           />
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Kim sana mesaj gönderebilir</CardTitle>
+          <CardDescription>
+            Sohbetler yalnızca iki tarafın da hesabında durur; bir yıl sonra silinir, hesabını silersen yazdıkların
+            hemen kaldırılır. Engellediğin biri sana ulaşamaz ve bundan haberi olmaz.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <MessagingControls policy={messagingPolicy} minor={isMinorAccount} blocked={blocked} />
         </CardContent>
       </Card>
 

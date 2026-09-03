@@ -38,6 +38,28 @@ const row = (over: Partial<NotificationRow> = {}): NotificationRow => ({
 const MATCH = "22222222-2222-4222-8222-222222222222"
 const BOOKING = "33333333-3333-4333-8333-333333333333"
 
+const CONVERSATION = "44444444-4444-4444-8444-444444444444"
+
+describe("resolveNotificationHref — messages", () => {
+  it("lands a new-message notification in its thread, or the inbox without an id", () => {
+    expect(resolveNotificationHref("message.received", { conversationId: CONVERSATION })).toBe(`/messages/${CONVERSATION}`)
+    expect(resolveNotificationHref("message.received", { conversation_id: CONVERSATION })).toBe(`/messages/${CONVERSATION}`)
+    expect(resolveNotificationHref("message.received", {})).toBe("/messages")
+  })
+
+  it("routes a report to the admin queue and nowhere for anyone else", () => {
+    expect(resolveNotificationHref("message.reported", {}, "admin")).toBe("/admin")
+    expect(resolveNotificationHref("message.reported", {}, "player")).toBeNull()
+  })
+
+  it("keeps message text out of the fallback copy", () => {
+    const shaped = formatNotification(row({ type: "message.received", title: "Ayşe", body: null }))
+    expect(shaped.title).toBe("Ayşe")
+    expect(shaped.group).toBe("message")
+    expect(shaped.body).not.toContain("Cumartesi")
+  })
+})
+
 describe("resolveNotificationHref", () => {
   it("sends a match notification to the fixture, or to the list when there is no id", () => {
     expect(resolveNotificationHref("match.finalized", { match_id: MATCH })).toBe(`/matches/${MATCH}`)

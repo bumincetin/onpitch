@@ -37,8 +37,11 @@
 
 import { DashboardNav } from "@/components/nav/dashboard-nav"
 import { SiteHeader } from "@/components/nav/site-header"
+import { loadUnreadConversationCount } from "@/lib/messaging"
+import { accentStyle } from "@/lib/profile/accent"
 import { getSessionUser, requireRole } from "@/lib/rbac"
 import type { AppRole } from "@/lib/rbac"
+import { createClient } from "@/lib/supabase/server"
 
 export const dynamic = "force-dynamic"
 
@@ -51,6 +54,8 @@ export default async function DashboardLayout({ children }: { children: React.Re
   const profile = session?.profile
   const role = (profile?.role ?? "player") as AppRole
   const displayName = profile?.display_name ?? profile?.full_name ?? profile?.email ?? null
+  const supabase = await createClient()
+  const unreadMessages = await loadUnreadConversationCount(supabase)
 
   return (
     /*
@@ -63,13 +68,19 @@ export default async function DashboardLayout({ children }: { children: React.Re
       `lang="en"` on their own layouts. Stating it once at this level would have been a lie
       about half the tree (WCAG 3.1.2 Language of Parts).
     */
-    <div className="night flex min-h-screen flex-col bg-background text-foreground">
-      <SiteHeader role={role} displayName={displayName} />
+    <div className="night flex min-h-screen flex-col bg-background text-foreground" style={accentStyle(profile?.accent_color)}>
+      <SiteHeader
+        role={role}
+        displayName={displayName}
+        userId={session?.user.id ?? null}
+        avatarUrl={profile?.avatar_url ?? null}
+        unreadMessages={unreadMessages}
+      />
 
       <div className="mx-auto flex w-full max-w-7xl flex-1 gap-10 px-4 py-8 sm:px-6">
         <aside className="hidden w-52 shrink-0 lg:block">
           <div className="sticky top-24">
-            <DashboardNav role={role} />
+            <DashboardNav role={role} badges={{ "/messages": unreadMessages }} />
           </div>
         </aside>
 

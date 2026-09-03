@@ -11,8 +11,10 @@ import {
   ListChecks,
   ListOrdered,
   MapPin,
+  MessageCircle,
   Shield,
   Trophy,
+  UserRound,
   Wallet,
   type LucideIcon,
 } from "lucide-react"
@@ -60,6 +62,13 @@ const PLAYER_NAV: readonly NavSection[] = [
       { href: "/achievements", label: "Rozetler", icon: Award },
     ],
   },
+  {
+    heading: "Sen",
+    items: [
+      { href: "/messages", label: "Mesajlar", icon: MessageCircle },
+      { href: "/account", label: "Hesap ve görünüm", icon: UserRound },
+    ],
+  },
 ]
 
 const VENUE_OWNER_NAV: readonly NavSection[] = [
@@ -79,6 +88,13 @@ const VENUE_OWNER_NAV: readonly NavSection[] = [
       { href: "/venue/onboarding", label: "Stripe kurulumu", icon: CreditCard },
     ],
   },
+  {
+    heading: "Sen",
+    items: [
+      { href: "/messages", label: "Mesajlar", icon: MessageCircle },
+      { href: "/account", label: "Hesap ve görünüm", icon: UserRound },
+    ],
+  },
 ]
 
 const ADMIN_NAV: readonly NavSection[] = [
@@ -89,6 +105,7 @@ const ADMIN_NAV: readonly NavSection[] = [
       { href: "/matches", label: "Maçlar", icon: Trophy },
       { href: "/leagues", label: "Ligler", icon: Shield },
       { href: "/leaderboard", label: "Sıralama", icon: ListOrdered },
+      { href: "/messages", label: "Mesajlar", icon: MessageCircle },
     ],
   },
 ]
@@ -126,14 +143,14 @@ export function DashboardNav({ role, badges, className }: DashboardNavProps) {
                     className={cn(
                       "flex items-center gap-3 border-l-2 py-2 pl-3 text-sm transition-colors",
                       active
-                        ? "border-gold text-foreground"
+                        ? "border-user text-foreground"
                         : "border-transparent text-muted-foreground hover:border-foreground/25 hover:text-foreground",
                     )}
                   >
                     <Icon aria-hidden="true" className="size-4 shrink-0" />
                     <span className="truncate">{item.label}</span>
                     {count !== undefined && count > 0 ? (
-                      <Badge variant="secondary" className="ml-auto tabular-nums">
+                      <Badge className="ml-auto bg-user tabular-nums text-primary-foreground">
                         {count}
                       </Badge>
                     ) : null}

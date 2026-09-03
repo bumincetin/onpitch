@@ -28,6 +28,7 @@
 
 import Link from "next/link"
 
+import { MessageButton } from "@/components/messaging/message-button"
 import { usePresence } from "@/lib/realtime/use-presence"
 import type { MatchPresencePayload } from "@onpitch/shared/channels"
 import { Badge } from "@/components/ui/badge"
@@ -253,6 +254,9 @@ function RosterSide({
                 </span>
 
                 <span className="flex shrink-0 items-center gap-1.5">
+                  {!player.isSelf ? (
+                    <MessageButton userId={player.playerId} variant="icon" className="size-9" />
+                  ) : null}
                   {here ? (
                     <span
                       className="inline-block size-1.5 rounded-full bg-emerald-500"

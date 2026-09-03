@@ -29,6 +29,7 @@ import Link from "next/link"
 import { notFound } from "next/navigation"
 
 import { BookingSummary, type RefundPreview } from "@/components/booking/booking-summary"
+import { MessageButton } from "@/components/messaging/message-button"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -223,9 +224,19 @@ export default async function BookingDetailPage({ params, searchParams }: PagePr
                 All times are {timezone.replace(/_/g, " ")} local time.
               </p>
               {venue && (
-                <Button asChild variant="outline" size="sm">
-                  <Link href={`/venues/${encodeURIComponent(venue.slug)}`}>İşletmeyi gör</Link>
-                </Button>
+                <div className="flex flex-wrap gap-2 pt-1">
+                  <Button asChild variant="outline" size="sm">
+                    <Link href={`/venues/${encodeURIComponent(venue.slug)}`}>İşletmeyi gör</Link>
+                  </Button>
+                  {/* A booking is a relationship in can_message(): the booker and the owner may
+                      always write to each other about it, whatever their policies say. */}
+                  {isBooker && venue.owner_id !== session.user.id ? (
+                    <MessageButton userId={venue.owner_id} label="İşletmeye yaz" className="h-9" />
+                  ) : null}
+                  {isVenueOwner && booking.booked_by !== session.user.id ? (
+                    <MessageButton userId={booking.booked_by} label="Rezervasyon sahibine yaz" className="h-9" />
+                  ) : null}
+                </div>
               )}
             </CardContent>
           </Card>

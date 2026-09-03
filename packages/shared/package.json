@@ -16,7 +16,9 @@
     "./channels": "./src/channels.ts",
     "./gamification": "./src/gamification.ts",
     "./leagues": "./src/leagues.ts",
-    "./matchday": "./src/matchday/index.ts"
+    "./matchday": "./src/matchday/index.ts",
+    "./profile": "./src/profile.ts",
+    "./messaging": "./src/messaging.ts"
   },
   "dependencies": {
     "zod": "^3.23.8"

@@ -50,6 +50,15 @@ import {
   profileVisibilitySchema,
   type ProfileVisibility,
 } from "@onpitch/shared/domain"
+import {
+  JERSEY_NUMBER_MAX,
+  JERSEY_NUMBER_MIN,
+  TAGLINE_MAX,
+  accentColorSchema,
+  bannerShotSchema,
+  dominantFootSchema,
+  messagingPolicySchema,
+} from "@onpitch/shared/profile"
 
 export const runtime = "nodejs"
 export const dynamic = "force-dynamic"
@@ -100,6 +109,13 @@ const accountPatchSchema = z
     locationSharingEnabled: z.boolean().optional(),
     profileVisibility: profileVisibilitySchema.optional(),
     marketingOptIn: z.boolean().optional(),
+    // 0011: how you look, and who may write to you.
+    accentColor: accentColorSchema.optional(),
+    bannerShot: bannerShotSchema.optional(),
+    tagline: optionalText(TAGLINE_MAX),
+    jerseyNumber: z.number().int().min(JERSEY_NUMBER_MIN).max(JERSEY_NUMBER_MAX).nullable().optional(),
+    dominantFoot: dominantFootSchema.nullable().optional(),
+    messagingPolicy: messagingPolicySchema.optional(),
   })
   .strict()
 
@@ -298,6 +314,17 @@ export async function PATCH(request: Request): Promise<Response> {
       rejected.push("profile_visibility")
     }
 
+    // Art. 8, same shape as the three switches above: a minor may not open messaging to
+    // everyone. `enforce_minor_messaging` would refuse the write; refuse it here in words.
+    if (lockedFields.length > 0 && input.messagingPolicy === "everyone") {
+      return fail(
+        API_ERROR_CODES.FORBIDDEN,
+        "16 yaşın altındaki hesaplarda mesajlaşma herkese açılamaz; takım arkadaşları ya da hiç kimse seçilebilir.",
+        403,
+        { fields: ["messaging_policy"] },
+      )
+    }
+
     if (rejected.length > 0) {
       return fail(
         API_ERROR_CODES.FORBIDDEN,
@@ -333,6 +360,12 @@ export async function PATCH(request: Request): Promise<Response> {
     }
     if (input.profileVisibility !== undefined) patch.profile_visibility = input.profileVisibility
     if (input.marketingOptIn !== undefined) patch.marketing_opt_in = input.marketingOptIn
+    if (input.accentColor !== undefined) patch.accent_color = input.accentColor
+    if (input.bannerShot !== undefined) patch.banner_shot = input.bannerShot
+    if (input.tagline !== undefined) patch.tagline = input.tagline
+    if (input.jerseyNumber !== undefined) patch.jersey_number = input.jerseyNumber
+    if (input.dominantFoot !== undefined) patch.dominant_foot = input.dominantFoot
+    if (input.messagingPolicy !== undefined) patch.messaging_policy = input.messagingPolicy
 
     const updated = Object.keys(patch)
     if (updated.length === 0) {

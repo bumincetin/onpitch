@@ -23,6 +23,8 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { MessageButton } from "@/components/messaging/message-button"
+import { loadCanMessage } from "@/lib/messaging"
 import { getSessionUser } from "@/lib/rbac"
 import { createClient } from "@/lib/supabase/server"
 import { DEFAULT_CURRENCY } from "@onpitch/shared/domain"
@@ -46,7 +48,7 @@ export default async function VenuePage({ params }: { params: { slug: string } }
   const { data: venue, error } = await supabase
     .from("venues")
     .select(
-      "id, name, slug, description, address_line1, address_line2, city, district, postal_code, latitude, longitude, amenities, phone, timezone, is_active, charges_enabled",
+      "id, name, slug, owner_id, description, address_line1, address_line2, city, district, postal_code, latitude, longitude, amenities, phone, timezone, is_active, charges_enabled",
     )
     .eq("slug", params.slug)
     .maybeSingle()
@@ -61,6 +63,10 @@ export default async function VenuePage({ params }: { params: { slug: string } }
     )
   }
   if (!venue) notFound()
+
+  // A player who has booked here may always write to the venue (a booking is a relationship in
+  // can_message()); everyone else depends on the owner's messaging policy.
+  const canMessageOwner = venue.owner_id !== session.user.id && (await loadCanMessage(supabase, venue.owner_id))
 
   const { data: pitchRows, error: pitchError } = await supabase
     .from("pitches")
@@ -123,6 +129,7 @@ export default async function VenuePage({ params }: { params: { slug: string } }
               <a href={`tel:${venue.phone.replace(/[^\d+]/g, "")}`}>{venue.phone}</a>
             </Button>
           )}
+          {canMessageOwner ? <MessageButton userId={venue.owner_id} label="İşletmeye yaz" variant="outline" className="h-9" /> : null}
         </div>
         {venue.description && <p className="max-w-2xl text-sm">{venue.description}</p>}
         {venue.amenities.length > 0 && (

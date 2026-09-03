@@ -31,7 +31,14 @@ const SHOTS: readonly (readonly [prefix: string, shot: BannerShot])[] = [
   ["/players", "stands"],
   ["/notifications", "aerial"],
   ["/account", "aerial"],
+  ["/messages", "aerial"],
 ]
+
+/**
+ * Routes that mount their own `PitchBanner` inside the page (the profile card does). One WebGL
+ * context per page is the budget, so the layout's banner steps aside there.
+ */
+const OWN_CANVAS_PREFIXES = ["/players/"] as const
 
 function shotFor(pathname: string): BannerShot {
   let best: BannerShot = "stands"
@@ -52,6 +59,8 @@ export interface RouteBannerProps {
 export function RouteBanner({ className }: RouteBannerProps) {
   const pathname = usePathname()
   const shot = shotFor(pathname)
+
+  if (OWN_CANVAS_PREFIXES.some((prefix) => pathname.startsWith(prefix))) return null
 
   return (
     <div

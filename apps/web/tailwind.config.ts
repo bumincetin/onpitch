@@ -59,6 +59,11 @@ const config: Config = {
         vermilion: "hsl(var(--vermilion))",
         teal: "hsl(var(--teal))",
         azure: "hsl(var(--azure))",
+        /**
+         * The signed-in person's chosen accent (profiles.accent_color), set as `--accent-user`
+         * on the shell by `lib/profile/accent.ts`. Falls back to gold where no profile is loaded.
+         */
+        user: "hsl(var(--accent-user, var(--gold)))",
         "line-soft": "hsl(var(--line-soft))",
         muted: {
           DEFAULT: "hsl(var(--muted))",

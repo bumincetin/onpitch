@@ -1,7 +1,7 @@
 /**
  * app/(app)/players/[id]/page.tsx
  *
- * A player's rating, its uncertainty, and the matches behind it.
+ * A person's page: the card they designed, the rating the model holds, the matches behind it.
  *
  * ---------------------------------------------------------------------------------------------
  * WHAT A VISITOR SEES IS DECIDED IN POSTGRES, NOT HERE
@@ -11,54 +11,49 @@
  * other about how much to reveal:
  *
  *   profiles       self, admins, teammates, or a non-minor with visibility 'public'/'members'.
- *                  A minor's profile is NEVER visible to a stranger — `is_minor is not true` is a
- *                  conjunct of the policy, not a preference.
- *   player_ratings world-readable to any signed-in user. mu and sigma are non-identifying, and
- *                 gating them per row would turn every leaderboard page into a full scan plus a
- *                 visibility lookup. The NAME attached to a rating is what the profiles policies
- *                 protect.
+ *                  A minor's profile is NEVER visible to a stranger.
+ *   player_ratings world-readable to any signed-in user. mu and sigma are non-identifying.
  *   player_stats   your own rows, plus rows from matches you can see.
  *
  * So a private profile yields "rating visible, person not" — which is exactly right, and is why
- * this page renders an explained partial state instead of a 404. Pretending the row does not exist
- * would be a lie the ratings table contradicts one query later.
+ * this page renders an explained partial state instead of a 404.
+ *
+ * The card at the top is the person's own: their accent, the pitch shot they chose, their
+ * number. The live pitch behind it is the page's one WebGL canvas — the `(app)` layout's
+ * `RouteBanner` is hidden on this route (see `route-banner.tsx`) so there is never a second.
  */
 
 import type { Metadata } from "next"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 
+import { Measure, SectionHead } from "@/components/dashboard/night-band"
+import { MATCH_STATUS_META, formatKickoff } from "@/components/match/match-card"
+import { RatingDeltaInline, UncertaintyBar, conservativeRating } from "@/components/match/rating-delta"
+import { ProfileActions } from "@/components/profile/profile-actions"
+import { ProfileCard } from "@/components/profile/profile-card"
+import { PitchBanner } from "@/components/three/pitch-banner"
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { loadCanMessage } from "@/lib/messaging"
 import { getSessionUser } from "@/lib/rbac"
 import { createClient } from "@/lib/supabase/server"
 import { isUuid } from "@onpitch/shared/channels"
-import { MATCH_STATUS_META, formatKickoff } from "@/components/match/match-card"
-import { RatingDeltaInline, UncertaintyBar, conservativeRating } from "@/components/match/rating-delta"
-import { Badge } from "@/components/ui/badge"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Separator } from "@/components/ui/separator"
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
+import { profileStyleOf } from "@onpitch/shared/profile"
 
 export const dynamic = "force-dynamic"
 
 export const metadata: Metadata = {
   title: "Oyuncu",
-  description: "Reyting, belirsizlik ve maç geçmişi.",
+  description: "Kart, reyting ve maç geçmişi.",
 }
 
 const NIL_UUID = "00000000-0000-0000-0000-000000000000"
 const HISTORY_LIMIT = 20
 
-const RATING_1DP = new Intl.NumberFormat(undefined, {
-  minimumFractionDigits: 1,
-  maximumFractionDigits: 1,
-})
+const RATING_1DP = new Intl.NumberFormat("tr-TR", { minimumFractionDigits: 1, maximumFractionDigits: 1 })
 
 export default async function PlayerPage({ params }: { params: { id: string } }) {
   if (!isUuid(params.id)) notFound()
@@ -70,53 +65,41 @@ export default async function PlayerPage({ params }: { params: { id: string } })
   const playerId = params.id.toLowerCase()
   const isSelf = playerId === session.user.id.toLowerCase()
 
-  const [profileResult, ratingResult, statsResult] = await Promise.all([
+  const [profileResult, ratingResult, statsResult, canMessage, blockResult] = await Promise.all([
     supabase
       .from("profiles")
-      // No `deleted_at` predicate: it is outside the column-scoped SELECT grant in
-      // 0002_rls.sql (4.1), and a column privilege covers a WHERE-clause reference too, so
-      // naming it would make the whole statement a 42501 and render every player as "Private
-      // profile". profiles_select_self_or_visible already carries `deleted_at is null` on every
-      // branch that could admit another user's row, and a policy qual is evaluated by the
-      // executor rather than under the caller's column privileges.
-      .select("id, display_name, full_name, city, preferred_position, bio, created_at, avatar_url")
+      .select(
+        "id, display_name, full_name, city, preferred_position, bio, created_at, avatar_url, role, accent_color, banner_shot, tagline, jersey_number, dominant_foot",
+      )
       .eq("id", playerId)
       .maybeSingle(),
     supabase
       .from("player_ratings")
-      .select(
-        "player_id, mu, sigma, conservative_rating, matches_played, wins, draws, losses, last_match_at",
-      )
+      .select("player_id, mu, sigma, conservative_rating, matches_played, wins, draws, losses, last_match_at")
       .eq("player_id", playerId)
       .maybeSingle(),
     supabase
       .from("player_stats")
       .select(
-        // Kept as a single literal so postgrest-js can infer the row type from it.
         "id, match_id, goals, assists, saves, yellow_cards, red_cards, minutes_played, mu_before, sigma_before, mu_after, sigma_after, rating_delta, created_at, team_side",
       )
       .eq("player_id", playerId)
       .order("created_at", { ascending: false })
       .limit(HISTORY_LIMIT),
+    isSelf ? Promise.resolve(false) : loadCanMessage(supabase, playerId),
+    isSelf
+      ? Promise.resolve({ data: [] })
+      : supabase.from("user_blocks").select("blocked_id").eq("blocker_id", session.user.id).eq("blocked_id", playerId),
   ])
 
   if (profileResult.error) {
-    // A failed read renders as an unnamed profile, which is also what a legitimately private one
-    // looks like. Log so the two are distinguishable.
-    // eslint-disable-next-line no-console
-    console.error(
-      "[players/:id] profile read failed:",
-      profileResult.error.code,
-      profileResult.error.message,
-    )
+    console.error("[players/:id] profile read failed:", profileResult.error.code, profileResult.error.message)
   }
 
   const profile = profileResult.data
   const rating = ratingResult.data
   const stats = statsResult.data ?? []
 
-  // Nothing at all: no readable profile AND no rating row. The id is either fake or belongs to an
-  // erased account, and both are a 404 to this page.
   if (!profile && !rating) notFound()
 
   const matchIds = stats.map((row) => row.match_id)
@@ -124,146 +107,127 @@ export default async function PlayerPage({ params }: { params: { id: string } })
     .from("matches")
     .select("id, kickoff_at, status, home_score, away_score, home_team_id, away_team_id, is_ranked")
     .in("id", matchIds.length ? matchIds : [NIL_UUID])
-
   const matches = new Map((matchRows ?? []).map((row) => [row.id, row]))
 
-  const displayName = profile?.display_name ?? profile?.full_name ?? "Private profile"
+  const displayName = profile?.display_name ?? profile?.full_name ?? "Gizli profil"
+  const style = profileStyleOf(profile ?? {})
   const played = rating?.matches_played ?? 0
   const winRate = played > 0 ? Math.round(((rating?.wins ?? 0) / played) * 100) : null
+  const blocked = (blockResult.data ?? []).length > 0
+  const totals = stats.reduce(
+    (sum, row) => ({ goals: sum.goals + row.goals, assists: sum.assists + row.assists, minutes: sum.minutes + row.minutes_played }),
+    { goals: 0, assists: 0, minutes: 0 },
+  )
 
   return (
-    <div className="space-y-6">
-      {/* ---------------- header ---------------- */}
-      <header className="flex flex-wrap items-start gap-4">
-        <span
-          aria-hidden="true"
-          className="grid size-14 shrink-0 place-items-center rounded-full bg-muted text-lg font-semibold uppercase text-muted-foreground"
-        >
-          {displayName.trim().slice(0, 2)}
-        </span>
-
-        <div className="min-w-0 flex-1 space-y-1">
-          <h1 className="truncate text-2xl font-semibold tracking-tight">{displayName}</h1>
-          <p className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-muted-foreground">
-            {profile?.preferred_position ? <span>{profile.preferred_position}</span> : null}
-            {profile?.preferred_position && profile?.city ? <span aria-hidden="true">·</span> : null}
-            {profile?.city ? <span>{profile.city}</span> : null}
+    <div className="space-y-12 pb-10">
+      {/* ---------------- the card ---------------- */}
+      <ProfileCard
+        name={displayName}
+        avatarUrl={profile?.avatar_url}
+        style={style}
+        city={profile?.city}
+        position={profile?.preferred_position}
+        role={profile?.role}
+        scene={profile ? <PitchBanner shot={style.bannerShot} /> : null}
+      >
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div className="flex flex-wrap items-center gap-2">
             {isSelf ? <Badge variant="secondary">Bu sensin</Badge> : null}
-          </p>
+            {rating ? (
+              <Badge variant="outline" className="border-user/50 text-user">
+                Reyting {RATING_1DP.format(rating.conservative_rating ?? conservativeRating(rating.mu, rating.sigma))}
+              </Badge>
+            ) : null}
+            {profile?.created_at ? (
+              <span className="label-eyebrow">Üye · {formatKickoff(profile.created_at).date}</span>
+            ) : null}
+          </div>
+          {isSelf ? (
+            <Button asChild variant="outline" className="h-11">
+              <Link href="/account">Kartını düzenle</Link>
+            </Button>
+          ) : profile ? (
+            <ProfileActions userId={playerId} name={displayName} canMessage={canMessage} blocked={blocked} />
+          ) : null}
         </div>
-      </header>
+      </ProfileCard>
 
-      {profile?.bio ? <p className="max-w-prose text-sm leading-relaxed">{profile.bio}</p> : null}
+      {profile?.bio ? <p className="max-w-prose text-pretty leading-relaxed text-foreground/90">{profile.bio}</p> : null}
 
       {!profile ? (
         <Card>
           <CardHeader>
             <CardTitle className="text-base">Bu profil gizli</CardTitle>
             <CardDescription>
-              Aşağıdaki reyting giriş yapmış üyelere açıktır — mu ve sigma, kişinin kim olduğu hakkında bir şey söylemez. Arkasındaki ad, şehir ve geçmiş seninle paylaşılmaz.
+              Aşağıdaki reyting giriş yapmış üyelere açıktır — mu ve sigma, kişinin kim olduğu hakkında bir şey
+              söylemez. Arkasındaki ad, şehir ve geçmiş seninle paylaşılmaz.
             </CardDescription>
           </CardHeader>
         </Card>
       ) : null}
 
-      {/* ---------------- rating ---------------- */}
-      {rating ? (
-        <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-base">Reyting</CardTitle>
-            <CardDescription>
-              Sıralamada kullanılan sayı <strong>mu &minus; 3&sigma;</strong>: modelin bu oyuncunun
-              about 99.7% confident this player is above.
-            </CardDescription>
-          </CardHeader>
+      {/* ---------------- 01 numbers ---------------- */}
+      <section>
+        <SectionHead n="01" title="Sayılar" aside={<span className="label-eyebrow">Onaylı maçlardan</span>} />
+        <dl className="mt-6 grid grid-cols-2 gap-x-6 gap-y-5 sm:grid-cols-4 lg:grid-cols-6">
+          <Measure label="Maç" value={played} />
+          <Measure label="Galibiyet" value={rating?.wins ?? 0} tone="teal" hint={winRate !== null ? `%${winRate}` : undefined} />
+          <Measure label="Beraberlik" value={rating?.draws ?? 0} />
+          <Measure label="Mağlubiyet" value={rating?.losses ?? 0} tone="vermilion" />
+          <Measure label="Gol" value={totals.goals} tone="gold" hint={`son ${stats.length} maçta`} />
+          <Measure label="Asist" value={totals.assists} hint={`${totals.minutes} dk`} />
+        </dl>
+      </section>
 
-          <CardContent className="space-y-5">
-            <div className="flex flex-wrap items-end gap-x-6 gap-y-3">
-              <div>
-                <p className="text-4xl font-semibold tabular-nums">
-                  {RATING_1DP.format(
-                    rating.conservative_rating ?? conservativeRating(rating.mu, rating.sigma),
-                  )}
-                </p>
-                <p className="text-xs text-muted-foreground">Güvenli reyting</p>
-              </div>
-
-              <dl className="grid grid-cols-2 gap-x-6 gap-y-2 text-sm sm:grid-cols-4">
-                <div>
-                  <dt className="text-xs text-muted-foreground">Beceri (mu)</dt>
-                  <dd className="tabular-nums">{RATING_1DP.format(rating.mu)}</dd>
-                </div>
-                <div>
-                  <dt className="text-xs text-muted-foreground">Uncertainty (σ)</dt>
-                  <dd className="tabular-nums">{rating.sigma.toFixed(2)}</dd>
-                </div>
-                <div>
-                  <dt className="text-xs text-muted-foreground">Oynadığı</dt>
-                  <dd className="tabular-nums">{played}</dd>
-                </div>
-                <div>
-                  <dt className="text-xs text-muted-foreground">G / B / M</dt>
-                  <dd className="tabular-nums">
-                    {rating.wins}&thinsp;/&thinsp;{rating.draws}&thinsp;/&thinsp;{rating.losses}
-                    {winRate !== null ? (
-                      <span className="ml-1.5 text-xs text-muted-foreground">{winRate}%</span>
-                    ) : null}
-                  </dd>
-                </div>
-              </dl>
+      {/* ---------------- 02 rating ---------------- */}
+      <section>
+        <SectionHead n="02" title="Reyting" aside={<span className="label-eyebrow">mu − 3σ</span>} />
+        {rating ? (
+          <div className="mt-6 grid gap-8 lg:grid-cols-12">
+            <div className="lg:col-span-4">
+              <p className="nums text-6xl font-light leading-none text-user" style={{ textShadow: "0 0 40px hsl(var(--accent-user) / 0.35)" }}>
+                {RATING_1DP.format(rating.conservative_rating ?? conservativeRating(rating.mu, rating.sigma))}
+              </p>
+              <p className="label-eyebrow mt-3">Güvenli reyting</p>
             </div>
+            <div className="space-y-5 lg:col-span-8">
+              <dl className="grid grid-cols-3 gap-x-6 gap-y-4">
+                <Measure label="Beceri (mu)" value={RATING_1DP.format(rating.mu)} />
+                <Measure label="Belirsizlik (σ)" value={rating.sigma.toFixed(2)} />
+                <Measure label="Son maç" value={rating.last_match_at ? formatKickoff(rating.last_match_at).date : "—"} />
+              </dl>
+              <UncertaintyBar sigma={rating.sigma} label="Modelin bu oyuncuyu ne kadar tanıdığı" />
+              <p className="max-w-prose text-xs leading-relaxed text-muted-foreground">
+                Sıralamada kullanılan sayı mu − 3σ: modelin, bu oyuncunun yaklaşık %99,7 olasılıkla üstünde olduğuna
+                inandığı eşik. σ her maçta küçülür, uzun aralarda gece işleyen bir görevle yavaşça büyür — beceri
+                tahmini değişmez, model yalnızca daha az emin olur.
+              </p>
+            </div>
+          </div>
+        ) : (
+          <p className="mt-6 max-w-prose text-sm text-muted-foreground">
+            Henüz reyting yok. Reyting, onaylanmış sonucu olan ilk reytingli maçtan sonra oluşur. Herkes mu 25,0 ve σ
+            8,33 ile başlar; bu da 0,0 güvenli reyting demektir.
+          </p>
+        )}
+      </section>
 
-            <UncertaintyBar sigma={rating.sigma} label="Modelin bu oyuncuyu ne kadar tanıdığı" />
-
-            <Separator />
-
-            <p className="text-xs leading-relaxed text-muted-foreground">
-              σ shrinks with every match played and creeps back up during a lay-off — inactive
-              ratings are decayed nightly, which widens σ without ever touching mu. So a long break
-              lowers the displayed rating even though the estimate of the player&rsquo;s skill has
-              not changed at all: the model has simply become less sure, and it discounts what it is
-              unsure about.
-              {rating.last_match_at ? (
-                <>
-                  {" "}
-                  Last match{" "}
-                  <time dateTime={rating.last_match_at}>
-                    {formatKickoff(rating.last_match_at).date}
-                  </time>
-                  .
-                </>
-              ) : null}
-            </p>
-          </CardContent>
-        </Card>
-      ) : (
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-base">Henüz reyting yok</CardTitle>
-            <CardDescription>
-              Reyting, onaylanmış sonucu olan ilk reytingli maçtan sonra oluşur. Herkes mu 25,0 ve σ 8,33 ile başlar; bu da 0,0 güvenli reyting demektir.
-            </CardDescription>
-          </CardHeader>
-        </Card>
-      )}
-
-      {/* ---------------- history ---------------- */}
-      <Card>
-        <CardHeader className="pb-3">
-          <CardTitle className="text-base">Maç geçmişi</CardTitle>
-          <CardDescription>
-            {isSelf
-              ? `Your last ${HISTORY_LIMIT} rated appearances.`
-              : "Only matches you were also part of are shown — a stranger's full history is not public."}
-          </CardDescription>
-        </CardHeader>
-
-        <CardContent>
+      {/* ---------------- 03 history ---------------- */}
+      <section>
+        <SectionHead
+          n="03"
+          title="Maç geçmişi"
+          aside={
+            <span className="label-eyebrow">
+              {isSelf ? `Son ${HISTORY_LIMIT}` : "Ortak maçlar"}
+            </span>
+          }
+        />
+        <div className="mt-6">
           {stats.length === 0 ? (
-            <p className="rounded-md border border-dashed px-4 py-8 text-center text-sm text-muted-foreground">
-              {isSelf
-                ? "Henüz maç yok. Reytingli bir maç oyna; sonuç onaylandığında burada görünür."
-                : "No shared matches to show."}
+            <p className="rounded-md border border-dashed border-foreground/20 px-4 py-10 text-center text-sm text-muted-foreground">
+              {isSelf ? "Henüz maç yok. Reytingli bir maç oyna; sonuç onaylandığında burada görünür." : "Gösterilecek ortak maç yok."}
             </p>
           ) : (
             <div className="overflow-x-auto">
@@ -286,22 +250,17 @@ export default async function PlayerPage({ params }: { params: { id: string } })
                       match && match.home_score !== null && match.away_score !== null
                         ? `${match.home_score}–${match.away_score}`
                         : "—"
-
                     return (
                       <TableRow key={row.id}>
                         <TableCell className="max-w-[12rem]">
-                          <Link
-                            href={`/matches/${row.match_id}`}
-                            className="block truncate underline-offset-4 hover:underline"
-                          >
-                            {kickoff ? `${kickoff.date}, ${kickoff.time}` : "Match"}
+                          <Link href={`/matches/${row.match_id}`} className="block truncate underline-offset-4 hover:text-user hover:underline">
+                            {kickoff ? `${kickoff.date}, ${kickoff.time}` : "Maç"}
                           </Link>
                           <span className="text-xs text-muted-foreground">
                             {match ? MATCH_STATUS_META[match.status].label : "Sana görünmüyor"}
-                            {row.team_side ? ` · ${row.team_side}` : ""}
+                            {row.team_side ? ` · ${row.team_side === "home" ? "ev" : "deplasman"}` : ""}
                           </span>
                         </TableCell>
-
                         <TableCell className="text-right tabular-nums">{scoreLine}</TableCell>
                         <TableCell className="text-right tabular-nums">{row.goals}</TableCell>
                         <TableCell className="text-right tabular-nums">{row.assists}</TableCell>
@@ -316,8 +275,8 @@ export default async function PlayerPage({ params }: { params: { id: string } })
               </Table>
             </div>
           )}
-        </CardContent>
-      </Card>
+        </div>
+      </section>
     </div>
   )
 }

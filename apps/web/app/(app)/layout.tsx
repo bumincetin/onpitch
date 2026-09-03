@@ -19,8 +19,11 @@ import Link from "next/link"
 
 import { SiteHeader } from "@/components/nav/site-header"
 import { RouteBanner } from "@/components/three/route-banner"
+import { loadUnreadConversationCount } from "@/lib/messaging"
+import { accentStyle } from "@/lib/profile/accent"
 import { requireRole } from "@/lib/rbac"
 import type { AppRole } from "@/lib/rbac"
+import { createClient } from "@/lib/supabase/server"
 
 export const dynamic = "force-dynamic"
 
@@ -32,13 +35,19 @@ const FOOTER_LINKS = [
 ] as const
 
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
-  const { profile } = await requireRole()
+  const { user, profile } = await requireRole()
+  const supabase = await createClient()
+  const unreadMessages = await loadUnreadConversationCount(supabase)
 
   const role = (profile.role ?? "player") as AppRole
   const displayName = profile.display_name ?? profile.full_name ?? profile.email ?? null
 
   return (
-    <div className="night flex min-h-screen flex-col bg-background text-foreground">
+    /*
+      `--accent-user` is the person's chosen colour (profiles.accent_color), set once here and
+      read everywhere below as `text-user` / `bg-user` / `ring-user`. The shell is theirs.
+    */
+    <div className="night flex min-h-screen flex-col bg-background text-foreground" style={accentStyle(profile.accent_color)}>
       <a
         href="#main"
         className="sr-only-focusable sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:bg-background focus:px-3 focus:py-2 focus:text-sm focus:ring-2 focus:ring-ring"
@@ -46,7 +55,13 @@ export default async function AppLayout({ children }: { children: React.ReactNod
         İçeriğe atla
       </a>
 
-      <SiteHeader role={role} displayName={displayName} />
+      <SiteHeader
+        role={role}
+        displayName={displayName}
+        userId={user.id}
+        avatarUrl={profile.avatar_url}
+        unreadMessages={unreadMessages}
+      />
 
       {/*
         One live pitch per page, framed by the route. It is the layout's job rather than each

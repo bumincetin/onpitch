@@ -71,7 +71,7 @@ Follow [PRODUCTION.md §3](./PRODUCTION.md#3-supabase) exactly. In short:
 npm i -g supabase
 supabase login
 supabase link --project-ref <ref>       # from the dashboard URL
-supabase db push                        # replays supabase/migrations/0001…0010
+supabase db push                        # replays supabase/migrations/0001…0011
 supabase functions deploy trueskill-update
 supabase functions deploy anomaly-sweep
 supabase secrets set INTERNAL_API_TOKEN=<32 random bytes hex> ANOMALY_SERVICE_SECRET=<32 random bytes hex>

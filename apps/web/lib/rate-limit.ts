@@ -62,6 +62,15 @@ export const RATE_LIMITS = {
   /** Creating a match, and creating a team, are both cheap to spam and awkward to clean up. */
   create_match: { limit: 15, windowSeconds: 3600 },
   create_team: { limit: 10, windowSeconds: 3600 },
+  /**
+   * Messaging. These four are ALSO enforced inside the 0011 RPCs (`send_message`,
+   * `open_conversation`, `block_user`, `report_message`) with the same numbers, so a client that
+   * calls PostgREST directly meets the same wall. Listed here so the policy reads as one table.
+   */
+  message_send: { limit: 60, windowSeconds: 60 },
+  message_start: { limit: 20, windowSeconds: 3600 },
+  block_user: { limit: 30, windowSeconds: 3600 },
+  report_message: { limit: 10, windowSeconds: 3600 },
 } as const
 
 export type RateLimitBucket = keyof typeof RATE_LIMITS

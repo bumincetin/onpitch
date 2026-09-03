@@ -57,7 +57,7 @@ export function LevelRing({ xp, level, size = 132, className }: LevelRingProps) 
           cy="60"
           r="52"
           fill="none"
-          stroke="hsl(var(--gold))"
+          stroke="hsl(var(--accent-user, var(--gold)))"
           strokeWidth="3"
           strokeLinecap="butt"
           pathLength={100}
@@ -67,7 +67,7 @@ export function LevelRing({ xp, level, size = 132, className }: LevelRingProps) 
           transform="rotate(-90 60 60)"
         />
         {/* Tick at the top: the boundary the arc is running toward. */}
-        <line x1="60" y1="4" x2="60" y2="12" stroke="hsl(var(--gold))" strokeWidth="1.5" />
+        <line x1="60" y1="4" x2="60" y2="12" stroke="hsl(var(--accent-user, var(--gold)))" strokeWidth="1.5" />
       </svg>
 
       <div className="absolute inset-0 flex flex-col items-center justify-center">
@@ -75,7 +75,7 @@ export function LevelRing({ xp, level, size = 132, className }: LevelRingProps) 
         <span className="nums mt-1 text-4xl font-light leading-none tracking-tight">
           {shownLevel}
         </span>
-        <span className="mt-1.5 font-mono text-[0.625rem] uppercase tracking-[0.14em] text-gold">
+        <span className="mt-1.5 font-mono text-[0.625rem] uppercase tracking-[0.14em] text-user">
           {rank.tr}
         </span>
       </div>

@@ -27,6 +27,10 @@ including API error messages.
   sheet, and a 60-second post-match debrief that pre-fills from live tracking or reconstructs the
   match when the phone stayed in the bag. Exports WhatsApp cards and 9:16 stories. See
   [docs/MATCHDAY.md](docs/MATCHDAY.md).
+- **Make it yours and talk.** An accent colour that tints your whole shell, a pitch shot behind
+  your profile card, a number and a tagline. Direct messages between teammates and between a
+  player and the venue they booked — consent-shaped by default, relationship-only for under-16s,
+  redacted in place on erasure, purged after a year. See [docs/MESSAGING.md](docs/MESSAGING.md).
 - **Watch live** over Supabase Realtime: broadcast for score ticks, Postgres Changes for the
   state that has to be right, both authorised by RLS.
 
@@ -40,8 +44,9 @@ that renders a still. See [docs/DESIGN.md](docs/DESIGN.md).
 apps/web/          Next.js 14 App Router, React 18, TypeScript strict, Tailwind + shadcn/ui
 apps/mobile/       Expo SDK 57, expo-router, React Native 0.86, React 19
 packages/shared/   database.ts · domain.ts · trueskill.ts · balance.ts · quality.ts
-                   · channels.ts · gamification.ts · leagues.ts · matchday/
-supabase/          migrations 0001…0010 · functions/ (Deno edge) · config.toml
+                   · channels.ts · gamification.ts · leagues.ts · matchday/ · profile.ts
+                   · messaging.ts
+supabase/          migrations 0001…0011 · functions/ (Deno edge) · config.toml
 services/anomaly/  FastAPI + scikit-learn IsolationForest sidecar
 scripts/           check-schema-drift.mjs · generate-mobile-assets.mjs · seed-dev.mjs
                    · progress.mjs
@@ -58,10 +63,10 @@ Inside `apps/web`:
 ```
 app/          (auth) (app) (dashboard) route groups, api/ route handlers, auth/ callbacks
 components/   ui/ (shadcn primitives) · account · admin · auth · booking · match · matchday
-              · nav · notifications · team · venue
+              · messaging · nav · notifications · profile · team · venue
 lib/          supabase clients · stripe · payments · rbac · gdpr · realtime · matchmaking
               · booking · teams · admin · notifications · api-response · env
-              · rate-limit · site-url · progress · leagues · matchday
+              · rate-limit · site-url · progress · leagues · matchday · messaging · profile
 components/three/  the night-pitch scenes: world · players · scene · textures · palette
 ```
 
@@ -74,7 +79,7 @@ running for the local stack.
 npm install                            # root workspaces, then apps/mobile via postinstall
 cp .env.example apps/web/.env.local    # fill in Supabase + Stripe keys
 npx supabase start                     # Postgres 15, GoTrue, Realtime, Storage, Studio on :54323
-npx supabase db reset                  # replays migrations 0001…0010
+npx supabase db reset                  # replays migrations 0001…0011
 npm run dev                            # Next.js on http://localhost:3000
 ```
 

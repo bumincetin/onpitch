@@ -81,6 +81,13 @@
 
     /* Architectural, not rounded. 2px is a cut edge, not a corner. */
     --radius: 2px;
+
+    /*
+     * The signed-in person's chosen accent (profiles.accent_color). The shell layouts set it
+     * inline from lib/profile/accent.ts; this is the fallback for anything rendered outside
+     * them, and it is gold so the marketing page keeps its brand colour.
+     */
+    --accent-user: 43 60% 45.1%;
   }
 
   .dark {
@@ -186,6 +193,7 @@
     --line-soft: 214 14% 17%;
     --input: 214 15% 25%;
     --ring: 41 70% 60%;
+    --accent-user: 41 70% 60%;
   }
 }
 
@@ -329,6 +337,72 @@
 }
 
 @layer utilities {
+  /**
+   * EFFECTS
+   * -------
+   * Three small things that make a screen feel lit rather than printed. Every one of them is a
+   * colour the person chose, and every one collapses to nothing under prefers-reduced-motion
+   * (the rule at the bottom of this file).
+   */
+
+  /* The person's accent as a floodlight pool behind an element. */
+  .glow-user {
+    box-shadow: 0 0 0 1px hsl(var(--accent-user) / 0.35), 0 0 42px -8px hsl(var(--accent-user) / 0.55);
+  }
+
+  /* A list arriving one row at a time. Apply to the parent; children stagger by index. */
+  .rise-stagger > * {
+    animation: fade-rise 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  .rise-stagger > *:nth-child(1) { animation-delay: 0ms; }
+  .rise-stagger > *:nth-child(2) { animation-delay: 45ms; }
+  .rise-stagger > *:nth-child(3) { animation-delay: 90ms; }
+  .rise-stagger > *:nth-child(4) { animation-delay: 135ms; }
+  .rise-stagger > *:nth-child(5) { animation-delay: 180ms; }
+  .rise-stagger > *:nth-child(6) { animation-delay: 225ms; }
+  .rise-stagger > *:nth-child(n + 7) { animation-delay: 270ms; }
+
+  /* A hover that lifts toward the light instead of scaling. */
+  .lift {
+    transition: transform 220ms cubic-bezier(0.16, 1, 0.3, 1), border-color 220ms ease, box-shadow 220ms ease;
+  }
+  .lift:hover {
+    transform: translateY(-2px);
+    border-color: hsl(var(--accent-user) / 0.6);
+    box-shadow: 0 12px 32px -18px hsl(var(--accent-user) / 0.6);
+  }
+
+  /* A breathing dot: a live match, an unread thread. */
+  .pulse-dot {
+    position: relative;
+  }
+  .pulse-dot::after {
+    content: "";
+    position: absolute;
+    inset: -4px;
+    border-radius: 9999px;
+    border: 1px solid hsl(var(--accent-user) / 0.7);
+    animation: pulse-ring 1.8s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+  }
+  @keyframes pulse-ring {
+    from { transform: scale(0.6); opacity: 0.9; }
+    to { transform: scale(1.6); opacity: 0; }
+  }
+
+  /*
+   * The inbox on a phone: one pane at a time. The thread page marks its root with
+   * `messages-thread-open`, and that hides the list column beside it below `lg`.
+   */
+  @media (max-width: 1023.98px) {
+    .messages-pane:has(.messages-thread-open) ~ .messages-list,
+    .messages-list:has(+ .messages-pane .messages-thread-open) {
+      display: none;
+    }
+    .messages-pane:has(.messages-index) {
+      display: none;
+    }
+  }
+
   /* Visible only to assistive tech — used for form hints and live-region announcements. */
   .sr-only-focusable:not(:focus):not(:focus-within) {
     position: absolute;

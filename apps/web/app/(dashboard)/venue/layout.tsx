@@ -44,6 +44,7 @@
 import { headers } from "next/headers"
 import Link from "next/link"
 
+import { NightBand, Measure } from "@/components/dashboard/night-band"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { requireRole } from "@/lib/rbac"
 import { createClient } from "@/lib/supabase/server"
@@ -110,18 +111,37 @@ export default async function VenueLayout({ children }: { children: React.ReactN
       The player surface one level up is Turkish and carries no override.
     */
     <div lang="en" className="space-y-6">
+      {/*
+        The owner's surface opens on the pitch too — from the touchline, looking in through the
+        wire, which is where a venue owner actually stands. Same band the player's dashboard has,
+        so the two halves of the marketplace are one product.
+      */}
+      <NightBand
+        shot="touchline"
+        eyebrow={`İşletme paneli${soleVenue?.city ? ` · ${soleVenue.city}` : ""}${isAdmin ? " · yönetici görünümü" : ""}`}
+        title={hasVenue ? (soleVenue ? soleVenue.name : `${venues.length} işletme`) : "İşletmeni yayına al"}
+        lede={
+          hasVenue
+            ? unpayable.length === 0
+              ? "Ödemeler açık. Bugünkü doluluk, ciro ve sıradaki hakediş aşağıda."
+              : "Stripe doğrulaması bitmeden rezervasyon alınamaz."
+            : "İşletmeni tanımla, bir saha ekle ve hakediş hesabını bağla — üçü de tamamlandığında oyuncular rezervasyon yapabilir."
+        }
+        aside={
+          hasVenue ? (
+            <dl className="grid grid-cols-2 gap-x-8 gap-y-4">
+              <Measure label="İşletme" value={venues.length} />
+              <Measure
+                label="Ödeme"
+                value={unpayable.length === 0 ? "Açık" : "Kapalı"}
+                tone={unpayable.length === 0 ? "teal" : "vermilion"}
+              />
+            </dl>
+          ) : null
+        }
+      />
+
       <div className="flex flex-wrap items-end justify-between gap-3">
-        <div>
-          <h1 className="text-2xl font-semibold tracking-tight">İşletme paneli</h1>
-          <p className="text-sm text-muted-foreground">
-            {hasVenue
-              ? soleVenue
-                ? `${soleVenue.name}${soleVenue.city ? ` · ${soleVenue.city}` : ""}`
-                : `${venues.length} venues`
-              : "Set up your first venue to start taking bookings."}
-            {isAdmin ? " · viewing as admin" : null}
-          </p>
-        </div>
 
         {venues.length > 1 ? (
           <nav aria-label="İşletme seç" className="flex flex-wrap gap-1">

@@ -16,7 +16,6 @@
 
 import type { ReactNode } from "react"
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
 import { cn } from "@/lib/utils"
 
@@ -55,50 +54,47 @@ export function MetricCard({
 }: MetricCardProps) {
   const tone = deltaTone(deltaDirection, goodDirection)
 
+  /*
+    A hairline and a number, in the dashboard's own idiom (`Measure` in night-band.tsx), with the
+    trend as a small mono chip. The box is gone: four boxed KPIs read as a SaaS template, four
+    ruled figures read as a page of this product. `hover` lifts the rule to the owner's accent.
+  */
   return (
-    <Card className={cn("overflow-hidden", className)}>
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <CardTitle className="text-sm font-medium text-muted-foreground">{label}</CardTitle>
+    <div className={cn("group border-t border-foreground/15 pt-3 transition-colors hover:border-user", className)}>
+      <div className="flex items-center justify-between gap-2">
+        <p className="label-eyebrow">{label}</p>
         {icon ? (
           <span aria-hidden="true" className="text-muted-foreground">
             {icon}
           </span>
         ) : null}
-      </CardHeader>
-      <CardContent>
-        <div className="text-2xl font-semibold tabular-nums tracking-tight">{value}</div>
+      </div>
+      <p className="nums mt-2 text-3xl font-light leading-none tracking-tight">{value}</p>
 
-        {delta ? (
-          <p className={cn("mt-1 flex items-center gap-1 text-xs font-medium", tone)}>
-            <TrendGlyph direction={deltaDirection} />
-            <span className="tabular-nums">{delta}</span>
-            {deltaLabel ? (
-              <span className="font-normal text-muted-foreground">{deltaLabel}</span>
-            ) : null}
-          </p>
-        ) : deltaLabel ? (
-          <p className="mt-1 text-xs text-muted-foreground">{deltaLabel}</p>
-        ) : null}
+      {delta ? (
+        <p className={cn("mt-2 flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.12em]", tone)}>
+          <TrendGlyph direction={deltaDirection} />
+          <span className="tabular-nums">{delta}</span>
+          {deltaLabel ? <span className="normal-case tracking-normal text-muted-foreground">{deltaLabel}</span> : null}
+        </p>
+      ) : deltaLabel ? (
+        <p className="mt-2 text-xs text-muted-foreground">{deltaLabel}</p>
+      ) : null}
 
-        {hint ? <p className="mt-2 text-xs text-muted-foreground">{hint}</p> : null}
-      </CardContent>
-    </Card>
+      {hint ? <p className="mt-2 text-xs leading-relaxed text-muted-foreground">{hint}</p> : null}
+    </div>
   )
 }
 
 /** Loading placeholder with the same box model, so nothing reflows when data arrives. */
 export function MetricCardSkeleton({ className }: { className?: string }) {
   return (
-    <Card className={cn("overflow-hidden", className)} aria-hidden="true">
-      <CardHeader className="pb-2">
-        <Skeleton className="h-4 w-24" />
-      </CardHeader>
-      <CardContent>
-        <Skeleton className="h-8 w-32" />
-        <Skeleton className="mt-2 h-3 w-20" />
-        <Skeleton className="mt-3 h-3 w-40" />
-      </CardContent>
-    </Card>
+    <div className={cn("border-t border-foreground/15 pt-3", className)} aria-hidden="true">
+      <Skeleton className="h-3 w-24" />
+      <Skeleton className="mt-3 h-8 w-32" />
+      <Skeleton className="mt-2 h-3 w-20" />
+      <Skeleton className="mt-3 h-3 w-40" />
+    </div>
   )
 }
 
@@ -125,8 +121,9 @@ function deltaTone(direction: MetricDirection, goodDirection: "up" | "down"): st
   if (direction === "neutral") return "text-muted-foreground"
   const isGood = direction === goodDirection
   // Deliberately not the destructive token: a bad trend is information, not an error state, and
-  // painting a quarter of the dashboard in error red trains owners to ignore it.
-  return isGood ? "text-emerald-600 dark:text-emerald-400" : "text-amber-600 dark:text-amber-400"
+  // painting a quarter of the dashboard in error red trains owners to ignore it. Teal is the
+  // confirmed-result colour, gold the caution — the same two meanings they carry everywhere else.
+  return isGood ? "text-teal" : "text-gold"
 }
 
 function TrendGlyph({ direction }: { direction: MetricDirection }) {

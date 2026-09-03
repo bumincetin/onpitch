@@ -867,6 +867,18 @@ export type Database = {
           /** Free text by design — no CHECK constraint. */
           preferred_position: string | null
           bio: string | null
+          /** Added by 0011. CHECK: gold | teal | vermilion | azure | violet | lime | coral | ice. */
+          accent_color: string
+          /** Added by 0011. CHECK: one of the six BannerShot names. */
+          banner_shot: string
+          /** Added by 0011. <= 80 chars. */
+          tagline: string | null
+          /** Added by 0011. 0..99. Distinct from team_members.jersey_number. */
+          jersey_number: number | null
+          /** Added by 0011. CHECK: left | right | both. */
+          dominant_foot: string | null
+          /** Added by 0011. CHECK: everyone | teammates | nobody. Pinned away from everyone for minors. */
+          messaging_policy: string
           stripe_account_id: string | null
           stripe_customer_id: string | null
           onboarding_completed_at: string | null
@@ -895,6 +907,12 @@ export type Database = {
           city?: string | null
           preferred_position?: string | null
           bio?: string | null
+          accent_color?: string
+          banner_shot?: string
+          tagline?: string | null
+          jersey_number?: number | null
+          dominant_foot?: string | null
+          messaging_policy?: string
           stripe_account_id?: string | null
           stripe_customer_id?: string | null
           onboarding_completed_at?: string | null
@@ -923,6 +941,12 @@ export type Database = {
           city?: string | null
           preferred_position?: string | null
           bio?: string | null
+          accent_color?: string
+          banner_shot?: string
+          tagline?: string | null
+          jersey_number?: number | null
+          dominant_foot?: string | null
+          messaging_policy?: string
           stripe_account_id?: string | null
           stripe_customer_id?: string | null
           onboarding_completed_at?: string | null
@@ -1858,6 +1882,268 @@ export type Database = {
        * These types exist so the table is accounted for, not so a client can query it: a
        * `.from("rate_limits")` anywhere in the app is a bug, and it will return nothing.
        */
+      /* ---------------------------------------------------------------------- */
+      /*  Messaging (0011_profiles_and_messaging.sql)                            */
+      /* ---------------------------------------------------------------------- */
+
+      /**
+       * A block in either direction stops messages both ways. Written only by
+       * `block_user()` / `unblock_user()`; readable by the blocker.
+       */
+      user_blocks: {
+        Row: {
+          blocker_id: string
+          blocked_id: string
+          created_at: string
+        }
+        Insert: {
+          blocker_id: string
+          blocked_id: string
+          created_at?: string
+        }
+        Update: {
+          blocker_id?: string
+          blocked_id?: string
+          created_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_blocks_blocker_id_fkey"
+            columns: ["blocker_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_blocks_blocked_id_fkey"
+            columns: ["blocked_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      /** One thread per pair (`direct_key`). Created only by `open_conversation()`. */
+      conversations: {
+        Row: {
+          id: string
+          /** CHECK: direct. */
+          kind: string
+          /** `least(a,b) || ':' || greatest(a,b)` for a direct thread. */
+          direct_key: string | null
+          booking_id: string | null
+          created_by: string | null
+          last_message_id: string | null
+          last_message_at: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          kind?: string
+          direct_key?: string | null
+          booking_id?: string | null
+          created_by?: string | null
+          last_message_id?: string | null
+          last_message_at?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          kind?: string
+          direct_key?: string | null
+          booking_id?: string | null
+          created_by?: string | null
+          last_message_id?: string | null
+          last_message_at?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "conversations_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "bookings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "conversations_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "conversations_last_message_id_fkey"
+            columns: ["last_message_id"]
+            isOneToOne: false
+            referencedRelation: "messages"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      /** Membership in a thread. `left_at` hides it; `muted_at` silences its notifications. */
+      conversation_members: {
+        Row: {
+          conversation_id: string
+          user_id: string
+          joined_at: string
+          last_read_at: string | null
+          muted_at: string | null
+          left_at: string | null
+        }
+        Insert: {
+          conversation_id: string
+          user_id: string
+          joined_at?: string
+          last_read_at?: string | null
+          muted_at?: string | null
+          left_at?: string | null
+        }
+        Update: {
+          conversation_id?: string
+          user_id?: string
+          joined_at?: string
+          last_read_at?: string | null
+          muted_at?: string | null
+          left_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "conversation_members_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "conversations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "conversation_members_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      /**
+       * Inserted only by `send_message()`. `deleted_at` is the sender's unsend, `redacted_at`
+       * is GDPR erasure; both clear `body` in the same statement.
+       */
+      messages: {
+        Row: {
+          id: string
+          conversation_id: string
+          sender_id: string
+          /** <= 2000 chars; '' once deleted or redacted. */
+          body: string
+          /** Client-minted idempotency key, <= 64 chars. */
+          client_id: string | null
+          created_at: string
+          edited_at: string | null
+          deleted_at: string | null
+          redacted_at: string | null
+        }
+        Insert: {
+          id?: string
+          conversation_id: string
+          sender_id: string
+          body: string
+          client_id?: string | null
+          created_at?: string
+          edited_at?: string | null
+          deleted_at?: string | null
+          redacted_at?: string | null
+        }
+        Update: {
+          id?: string
+          conversation_id?: string
+          sender_id?: string
+          body?: string
+          client_id?: string | null
+          created_at?: string
+          edited_at?: string | null
+          deleted_at?: string | null
+          redacted_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "messages_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "conversations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "messages_sender_id_fkey"
+            columns: ["sender_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      /** An abuse report. `excerpt` is the moderation record and the only message text admins see. */
+      message_reports: {
+        Row: {
+          id: string
+          message_id: string
+          reporter_id: string
+          /** CHECK: harassment | spam | inappropriate | other. */
+          reason: string
+          details: string | null
+          excerpt: string
+          created_at: string
+          resolved_at: string | null
+          resolved_by: string | null
+        }
+        Insert: {
+          id?: string
+          message_id: string
+          reporter_id: string
+          reason: string
+          details?: string | null
+          excerpt: string
+          created_at?: string
+          resolved_at?: string | null
+          resolved_by?: string | null
+        }
+        Update: {
+          id?: string
+          message_id?: string
+          reporter_id?: string
+          reason?: string
+          details?: string | null
+          excerpt?: string
+          created_at?: string
+          resolved_at?: string | null
+          resolved_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "message_reports_message_id_fkey"
+            columns: ["message_id"]
+            isOneToOne: false
+            referencedRelation: "messages"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "message_reports_reporter_id_fkey"
+            columns: ["reporter_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "message_reports_resolved_by_fkey"
+            columns: ["resolved_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       rate_limits: {
         Row: {
           /** What is being limited, e.g. 'checkout'. Matches `^[a-z][a-z0-9_]{1,39}$`. */
@@ -2126,6 +2412,75 @@ export type Database = {
        * The `jsonb` it returns is parsed by `playerProgressSchema` in
        * `@onpitch/shared/gamification`; use that rather than casting.
        */
+      /* ---------------------------------------------------------------------- */
+      /*  Messaging (0011_profiles_and_messaging.sql)                            */
+      /* ---------------------------------------------------------------------- */
+
+      /** Whether the caller may open a thread with this profile. Blocks, policy and Art. 8. */
+      can_message: {
+        Args: { p_recipient: string }
+        Returns: boolean
+      }
+      /** Find-or-create the pair's direct thread. PT403 when refused, PT429 when rate-limited. */
+      open_conversation: {
+        Args: { p_recipient: string }
+        Returns: string
+      }
+      /** Append a message. Returns the row; a repeated `p_client_id` returns the first row. */
+      send_message: {
+        Args: { p_conversation: string; p_body: string; p_client_id?: string | null }
+        Returns: Database["public"]["Tables"]["messages"]["Row"]
+      }
+      mark_conversation_read: {
+        Args: { p_conversation: string }
+        Returns: string
+      }
+      set_conversation_muted: {
+        Args: { p_conversation: string; p_muted: boolean }
+        Returns: boolean
+      }
+      leave_conversation: {
+        Args: { p_conversation: string }
+        Returns: boolean
+      }
+      /** Sender-only unsend. Leaves a tombstone. */
+      delete_message: {
+        Args: { p_message: string }
+        Returns: boolean
+      }
+      block_user: {
+        Args: { p_user: string }
+        Returns: boolean
+      }
+      unblock_user: {
+        Args: { p_user: string }
+        Returns: boolean
+      }
+      /** Files a report with an excerpt; admins are notified. Returns the report id. */
+      report_message: {
+        Args: { p_message: string; p_reason: string; p_details?: string | null }
+        Returns: string
+      }
+      /** The inbox. Parsed by `conversationSummarySchema` in `@onpitch/shared/messaging`. */
+      my_conversations: {
+        Args: Record<PropertyKey, never>
+        Returns: Json
+      }
+      /** Threads with something unread — the header badge. */
+      unread_conversation_count: {
+        Args: Record<PropertyKey, never>
+        Returns: number
+      }
+      /** Who the caller has blocked. Parsed by `blockedUserSchema`. */
+      my_blocks: {
+        Args: Record<PropertyKey, never>
+        Returns: Json
+      }
+      /** service_role only. Retention sweep, scheduled by pg_cron. */
+      purge_old_messages: {
+        Args: { p_keep_days?: number }
+        Returns: number
+      }
       my_progress: {
         Args: Record<PropertyKey, never>
         Returns: Json
