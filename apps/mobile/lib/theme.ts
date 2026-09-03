@@ -8,7 +8,13 @@
  * here. Keep the two files in step; a token defined in one and not the other leaves the two
  * clients rendering the same screen in different colours.
  *
- * Brand hue is 142 — pitch green.
+ * THE PHONE IS THE NIGHT SCOPE
+ * ----------------------------
+ * The web has three palettes: paper for marketing pages, `.dark` for a visitor's own theme
+ * choice, and `.night` for the landing page and the WHOLE signed-in shell. The phone is the
+ * signed-in shell — there are no marketing pages on it — so it is `.night` regardless of the
+ * OS setting, exactly as the web is once you sign in. Paper and dark are kept below for
+ * reference and for any future surface that wants them; `useTheme()` returns night.
  */
 
 import * as React from 'react'
@@ -141,6 +147,43 @@ const darkColors: ThemeColors = {
 }
 
 /**
+ * The web's `.night` scope, resolved to hex. The ground is #05070C — a floodlit pitch has no
+ * black, only this. Paper becomes the ink; every accent keeps its meaning, lifted so it survives
+ * on near-black. Borders are paper at low alpha so a hairline reads as a rule, not a wall.
+ */
+const nightColors: ThemeColors = {
+  background: '#05070C',
+  foreground: '#F6F1E7',
+  card: '#0D1420',
+  cardForeground: '#F6F1E7',
+  popover: '#0D1420',
+  popoverForeground: '#F6F1E7',
+  primary: '#F6F1E7',
+  primaryForeground: '#05070C',
+  secondary: '#161E2B',
+  secondaryForeground: '#F6F1E7',
+  muted: '#161E2B',
+  mutedForeground: '#9AA6B8',
+  accent: '#1B2433',
+  accentForeground: '#F6F1E7',
+  destructive: '#EA4A3F',
+  destructiveForeground: '#05070C',
+  success: '#2FB2BC',
+  successForeground: '#05070C',
+  warning: '#E0B352',
+  warningForeground: '#05070C',
+  gold: '#E0B352',
+  teal: '#2FB2BC',
+  vermilion: '#EA4A3F',
+  azure: '#4D8FD6',
+  user: '#E0B352',
+  border: 'rgba(246, 241, 231, 0.14)',
+  input: 'rgba(246, 241, 231, 0.22)',
+  ring: '#E0B352',
+  overlay: 'rgba(0, 0, 0, 0.7)',
+}
+
+/**
  * A 4pt scale. `md` is the default gap inside a component, `lg` the gutter between components,
  * `xl` the screen padding.
  */
@@ -170,10 +213,12 @@ const radius = {
  * `fontWeight` values are string literals so they satisfy `TextStyle['fontWeight']` without a
  * cast at every call site.
  */
+// Headings are set light and tight, as on the web: the weight comes from size and space, never
+// from bold. Labels keep their weight so a caption still reads as a caption.
 const type = {
-  display: { fontSize: 28, lineHeight: 34, fontWeight: '700' },
-  title: { fontSize: 20, lineHeight: 26, fontWeight: '600' },
-  heading: { fontSize: 17, lineHeight: 22, fontWeight: '600' },
+  display: { fontSize: 32, lineHeight: 36, fontWeight: '300' },
+  title: { fontSize: 22, lineHeight: 27, fontWeight: '400' },
+  heading: { fontSize: 17, lineHeight: 22, fontWeight: '500' },
   body: { fontSize: 15, lineHeight: 21, fontWeight: '400' },
   label: { fontSize: 13, lineHeight: 18, fontWeight: '500' },
   caption: { fontSize: 12, lineHeight: 16, fontWeight: '400' },
@@ -187,6 +232,14 @@ const type = {
  * light palette when the OS is in dark mode.
  */
 export const theme = {
+  colors: nightColors,
+  spacing,
+  radius,
+  type,
+}
+
+/** The paper palette, kept for a surface that ever needs to print. Not returned by useTheme(). */
+export const paperTheme: Theme = {
   colors: lightColors,
   spacing,
   radius,
@@ -213,19 +266,21 @@ export const darkTheme: Theme = {
  * rather than flipping to dark for a frame.
  */
 export function useTheme(): Theme {
-  const scheme = useColorScheme()
   const { accent } = useAccent()
-  const dark = scheme === 'dark'
-  // Memoised so a screen that puts the theme in a dependency list does not re-run on every
-  // render; the object only changes when the scheme or the person's accent does.
+  // Always night (see the header). Memoised so a screen that puts the theme in a dependency
+  // list does not re-run on every render; the object only changes with the person's accent.
   return React.useMemo(() => {
-    const base = dark ? darkTheme : theme
-    const user = ACCENT_HEX[accent][dark ? 'dark' : 'light']
-    return user === base.colors.user ? base : { ...base, colors: { ...base.colors, user } }
-  }, [accent, dark])
+    const user = ACCENT_HEX[accent].dark
+    return user === theme.colors.user ? theme : { ...theme, colors: { ...theme.colors, user } }
+  }, [accent])
 }
 
-/** True when the OS is in dark mode. For the status bar and for `KeyboardAvoidingView` styling. */
+/**
+ * The ground is always dark, so the status bar is always light-on-dark. `useColorScheme` is
+ * still consulted for the one thing it should decide — nothing here yet — and kept so the
+ * hook's callers do not change when it does.
+ */
 export function useIsDark(): boolean {
-  return useColorScheme() === 'dark'
+  useColorScheme()
+  return true
 }

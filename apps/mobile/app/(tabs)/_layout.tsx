@@ -87,10 +87,10 @@ export default function TabsLayout(): React.ReactElement {
         tabBarActiveTintColor: theme.colors.user,
         tabBarInactiveTintColor: theme.colors.mutedForeground,
         tabBarStyle: {
-          backgroundColor: theme.colors.card,
+          backgroundColor: theme.colors.background,
           borderTopColor: theme.colors.border,
         },
-        tabBarLabelStyle: { fontSize: 11, fontWeight: '600' },
+        tabBarLabelStyle: { fontSize: 10, fontWeight: '600', letterSpacing: 0.6, textTransform: 'uppercase' },
         sceneStyle: { backgroundColor: theme.colors.background },
       }}
     >

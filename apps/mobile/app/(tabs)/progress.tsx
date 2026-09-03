@@ -34,7 +34,7 @@ import {
   StreakStrip,
   XpRow,
 } from '@/components/progress'
-import { Button, EmptyState, Screen, Spinner, Text } from '@/components/ui'
+import { Button, EmptyState, NightBand, Screen, Spinner, Text } from '@/components/ui'
 import { describeErrorText } from '@/components/match'
 import { claimChallenge, loadLeaderboard, loadProgress, type ProgressPayload } from '@/lib/progress'
 import { useSession } from '@/lib/supabase'
@@ -173,10 +173,13 @@ export default function ProgressScreen(): React.ReactElement {
         ) : null}
 
         {/* ------------------------------------------------------------ level */}
-        <View style={{ gap: theme.spacing.lg }}>
-          <Eyebrow>
-            {rank.tr} · Sonraki seviyeye {formatXp(Math.max(0, progress.nextLevelAt - progress.xp))} XP
-          </Eyebrow>
+        <NightBand
+          bleed={theme.spacing.lg}
+          eyebrow={`Panel · ${rank.tr}`}
+          title="Tekrar hoş geldin"
+          lede={`Sonraki seviyeye ${formatXp(Math.max(0, progress.nextLevelAt - progress.xp))} XP kaldı.`}
+          style={{ marginTop: -theme.spacing.lg }}
+        >
           <LevelPlate xp={progress.xp} level={progress.level} />
           <CounterRow
             matches={progress.counters.matchesPlayed}
@@ -196,7 +199,7 @@ export default function ProgressScreen(): React.ReactElement {
               <FormRow results={form} />
             </View>
           </View>
-        </View>
+        </NightBand>
 
         {/* --------------------------------------------------------- fixture */}
         <View style={{ gap: theme.spacing.md }}>

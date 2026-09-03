@@ -84,8 +84,7 @@ export function ProfileCard({
       {[0.18, 0.11, 0.06].map((opacity, index) => (
         <View
           key={opacity}
-          pointerEvents="none"
-          style={{
+          style={{ pointerEvents: 'none',
             position: 'absolute',
             left: -120 - index * 60,
             top: -140 - index * 60,
@@ -190,7 +189,7 @@ export function PitchMarkings({ shot, accent, compact = false }: { shot: Profile
     case 'stands':
       // The whole pitch from above the corner flag: outline, halfway line, centre circle.
       return (
-        <View pointerEvents="none" style={{ position: 'absolute', inset: 0 }}>
+        <View style={{ pointerEvents: 'none', position: 'absolute', inset: 0 }}>
           <View style={[common, { left: '8%', right: '8%', top: '18%', bottom: '10%', borderWidth: line }]} />
           <View style={[common, { left: '8%', right: '8%', top: '54%', borderTopWidth: line }]} />
           <View style={[common, { left: '38%', width: '24%', top: '44%', aspectRatio: 1, borderRadius: 999, borderWidth: line }]} />
@@ -198,7 +197,7 @@ export function PitchMarkings({ shot, accent, compact = false }: { shot: Profile
       )
     case 'centre':
       return (
-        <View pointerEvents="none" style={{ position: 'absolute', inset: 0, alignItems: 'center', justifyContent: 'center' }}>
+        <View style={{ pointerEvents: 'none', position: 'absolute', inset: 0, alignItems: 'center', justifyContent: 'center' }}>
           <View style={[common, { width: '70%', aspectRatio: 1, borderRadius: 999, borderWidth: line, position: 'relative' }]} />
           <View style={[common, { left: 0, right: 0, top: '50%', borderTopWidth: line }]} />
           <View style={{ position: 'absolute', width: 6, height: 6, borderRadius: 3, backgroundColor: accent, opacity: 0.9 }} />
@@ -206,7 +205,7 @@ export function PitchMarkings({ shot, accent, compact = false }: { shot: Profile
       )
     case 'goalmouth':
       return (
-        <View pointerEvents="none" style={{ position: 'absolute', inset: 0 }}>
+        <View style={{ pointerEvents: 'none', position: 'absolute', inset: 0 }}>
           <View style={[common, { left: '22%', right: '22%', bottom: 0, height: '34%', borderWidth: line, borderBottomWidth: 0 }]} />
           <View style={[common, { left: '36%', right: '36%', bottom: 0, height: '14%', borderWidth: line, borderBottomWidth: 0 }]} />
           <View style={[common, { left: '40%', right: '40%', top: '36%', aspectRatio: 2, borderRadius: 999, borderWidth: line }]} />
@@ -215,7 +214,7 @@ export function PitchMarkings({ shot, accent, compact = false }: { shot: Profile
     case 'touchline':
       // Through the wire: a mesh of hairlines over the far touchline.
       return (
-        <View pointerEvents="none" style={{ position: 'absolute', inset: 0, flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 4 }}>
+        <View style={{ pointerEvents: 'none', position: 'absolute', inset: 0, flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 4 }}>
           {Array.from({ length: compact ? 8 : 14 }, (_, index) => (
             <View key={index} style={{ width: 1, backgroundColor: 'rgba(246,241,231,0.14)' }} />
           ))}
@@ -224,7 +223,7 @@ export function PitchMarkings({ shot, accent, compact = false }: { shot: Profile
       )
     case 'aerial':
       return (
-        <View pointerEvents="none" style={{ position: 'absolute', inset: 0 }}>
+        <View style={{ pointerEvents: 'none', position: 'absolute', inset: 0 }}>
           {Array.from({ length: compact ? 4 : 7 }, (_, index) => (
             <View key={index} style={{ position: 'absolute', left: 0, right: 0, top: `${(index + 1) * 12.5}%`, height: 1, backgroundColor: 'rgba(246,241,231,0.12)' }} />
           ))}
@@ -235,7 +234,7 @@ export function PitchMarkings({ shot, accent, compact = false }: { shot: Profile
     case 'tunnel':
       // Low and central, walking in: two lines converging on the light.
       return (
-        <View pointerEvents="none" style={{ position: 'absolute', inset: 0, alignItems: 'center' }}>
+        <View style={{ pointerEvents: 'none', position: 'absolute', inset: 0, alignItems: 'center' }}>
           <View style={[common, { top: '20%', bottom: 0, width: '3%', borderLeftWidth: line, transform: [{ rotate: '-18deg' }], left: '30%' }]} />
           <View style={[common, { top: '20%', bottom: 0, width: '3%', borderRightWidth: line, transform: [{ rotate: '18deg' }], right: '30%' }]} />
           <View style={{ position: 'absolute', top: '16%', width: compact ? 40 : 90, height: compact ? 40 : 90, borderRadius: 999, backgroundColor: accent, opacity: 0.22 }} />

@@ -26,7 +26,7 @@ import { z } from 'zod'
 import { matchFormatSchema, matchStatusSchema } from '@onpitch/shared/domain'
 
 import { MatchCard, describeErrorText, type MatchCardMatch } from '@/components/match'
-import { EmptyState, Screen, Spinner, Text } from '@/components/ui'
+import { EmptyState, NightBand, Screen, Spinner, Text } from '@/components/ui'
 import { apiFetch } from '@/lib/api'
 import { DataError, dataError } from '@/lib/data-error'
 import { supabase, useSession } from '@/lib/supabase'
@@ -153,9 +153,14 @@ export default function MatchesScreen(): React.ReactElement {
     <Screen
       padded={false}
       header={
-        <View style={{ paddingHorizontal: theme.spacing.lg, paddingTop: theme.spacing.md }}>
+        <NightBand
+          compact
+          eyebrow="Maçlar"
+          title={lane === 'open' ? 'Kadrosu eksik oyunlar' : 'Senin maçların'}
+          lede={lane === 'open' ? 'Yakında bir yer var mı? Katıl, kadro dolsun.' : 'Bu akşam kim oynuyor, sonuç ne oldu.'}
+        >
           <LaneSwitch value={lane} onChange={setLane} />
-        </View>
+        </NightBand>
       }
     >
       {showSpinner ? (

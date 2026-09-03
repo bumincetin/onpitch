@@ -50,7 +50,7 @@ import * as React from 'react'
 import { FlatList, RefreshControl, ScrollView, View } from 'react-native'
 
 import { VenueCard, formatShortLabel, MATCH_FORMATS, type VenueCardVenue } from '@/components/booking'
-import { Button, EmptyState, Field, Notice, Screen, Separator, Spinner, Text } from '@/components/ui'
+import { Button, EmptyState, Field, NightBand, Notice, Screen, Separator, Spinner, Text } from '@/components/ui'
 import {
   addDaysToDateKey,
   centroidOf,
@@ -324,17 +324,15 @@ export default function BookScreen(): React.ReactElement {
 
   const listHeader = (
     <View style={{ gap: theme.spacing.lg, paddingBottom: theme.spacing.md }}>
-      <View style={{ flexDirection: 'row', alignItems: 'center', gap: theme.spacing.md }}>
-        <Text variant="body" tone="muted" style={{ flex: 1 }}>
-          İşletmeleri ara, sonra istediğin sahada bir saat seç.
-        </Text>
-        <Button
-          title="Rezervasyonlarım"
-          variant="outline"
-          size="sm"
-          onPress={() => router.push('/bookings')}
-        />
-      </View>
+      <NightBand
+        compact
+        bleed={theme.spacing.lg}
+        eyebrow="Saha"
+        title="Bir saat tut"
+        lede="İşletmeleri ara, sonra istediğin sahada bir saat seç."
+        aside={<Button title="Rezervasyonlarım" variant="outline" size="sm" onPress={() => router.push('/bookings')} />}
+        style={{ marginTop: -theme.spacing.lg }}
+      />
 
       {consentNotice ? (
         <Notice tone="warning" title="Rezervasyon henüz açılmadı" description={consentNotice} />

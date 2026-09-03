@@ -103,8 +103,15 @@ section heads and hairline rules.
 Two deliberate divergences:
 
 **No WebGL.** Adding `expo-gl` means a native module and a dev build, against an Expo SDK 57
-dependency set that was hard-won and is currently verified. The phone gets the CSS-equivalent
-night ground instead. This is a reversible decision, not a permanent one.
+dependency set that was hard-won and is currently verified. The phone paints what the web paints
+before the canvas arrives: `components/ui/night-band.tsx` is `.night-fallback` built from stacked
+translucent Views — four floodlight pools over a horizon that goes warm at the bottom, the ruled
+grid, the hairline — and every tab opens on one. The profile card draws its six "shots" as pitch
+markings from borders. This is a reversible decision, not a permanent one.
+
+**Always night.** There are no marketing pages on the phone, so `useTheme()` returns the night
+palette regardless of the OS setting — the same rule the web applies to its signed-in shell.
+The person's accent (`profiles.accent_color`) is `colors.user` on the theme.
 
 **A plate, not a ring.** The web draws the level as an SVG arc; the phone draws a number with a
 hairline bar under it, because an SVG arc in React Native means adding `react-native-svg` for one

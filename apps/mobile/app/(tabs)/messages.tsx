@@ -12,7 +12,7 @@ import * as React from 'react'
 import { FlatList, RefreshControl, View } from 'react-native'
 
 import { ConversationRow } from '@/components/messaging'
-import { EmptyState, Screen, Separator, Text } from '@/components/ui'
+import { EmptyState, NightBand, Screen, Separator, Text } from '@/components/ui'
 import { useConversations } from '@/lib/messaging'
 import { useSession } from '@/lib/supabase'
 import { useTheme } from '@/lib/theme'
@@ -49,11 +49,13 @@ export default function MessagesScreen(): React.ReactElement {
         )}
         ItemSeparatorComponent={() => <Separator inset={theme.spacing.lg + 40 + theme.spacing.md} />}
         ListHeaderComponent={
-          <View style={{ paddingHorizontal: theme.spacing.lg, paddingBottom: theme.spacing.sm }}>
-            <Text variant="caption" tone="muted">
-              Takım arkadaşların ve rezervasyon yaptığın işletmelerle. Kimlerin sana yazabileceğini Gizlilik ve veri&apos;den seçersin.
-            </Text>
-          </View>
+          <NightBand
+            compact
+            eyebrow="Mesajlar"
+            title={items.length === 0 ? 'Sohbetlerin' : `${items.length} sohbet`}
+            lede="Takım arkadaşların ve rezervasyon yaptığın işletmelerle. Kimlerin sana yazabileceğini Gizlilik ve veri'den seçersin."
+            style={{ marginBottom: theme.spacing.sm }}
+          />
         }
         ListEmptyComponent={
           <View style={{ padding: theme.spacing.lg }}>

@@ -15,6 +15,7 @@ export { Button, type ButtonProps, type ButtonSize, type ButtonVariant } from '.
 export { Card, type CardProps } from './card'
 export { EmptyState, type EmptyStateProps } from './empty-state'
 export { Field, type FieldProps } from './field'
+export { NightBand, type NightBandProps } from './night-band'
 export { Notice, NoticeBullet, type NoticeProps, type NoticeTone } from './notice'
 export { Screen, type ScreenProps } from './screen'
 export { Separator, type SeparatorProps } from './separator'
