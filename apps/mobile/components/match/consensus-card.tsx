@@ -453,7 +453,7 @@ export function ConsensusCard({
           </Badge>
           {round.rejections > 0 ? (
             <Badge tone="destructive" size="sm">
-              {round.rejections} against
+              {`${round.rejections} karşı oy`}
             </Badge>
           ) : null}
         </View>

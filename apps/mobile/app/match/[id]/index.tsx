@@ -314,10 +314,10 @@ export default function MatchDetailScreen(): React.ReactElement {
               {MATCH_FORMAT_LABEL[detail.format]}
             </Badge>
             <Badge tone={detail.isRanked ? 'primary' : 'outline'} size="sm">
-              {detail.isRanked ? 'Ranked' : 'Friendly'}
+              {detail.isRanked ? 'Reytingli' : 'Hazırlık'}
             </Badge>
             <Badge tone="outline" size="sm">
-              {filled} of {teamSize * 2} in
+              {`${filled} / ${teamSize * 2} sahada`}
             </Badge>
             {detail.createdBy === viewerId ? (
               <Badge tone="neutral" size="sm">

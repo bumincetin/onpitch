@@ -59,6 +59,16 @@ function palette(theme: Theme, tone: BadgeTone): BadgePalette {
   }
 }
 
+/**
+ * True when every child is a string or a number — including the array JSX produces for
+ * `{count} sahada`, which is `[3, ' sahada']`. Those all belong inside one <Text>; only a caller
+ * that passes real elements (an icon and a label) takes over the layout.
+ */
+function isTextOnly(children: React.ReactNode): boolean {
+  const list = React.Children.toArray(children)
+  return list.length > 0 && list.every((child) => typeof child === 'string' || typeof child === 'number')
+}
+
 export function Badge({ children, tone = 'neutral', size = 'md', style }: BadgeProps): React.ReactElement {
   const theme = useTheme()
   const { background, foreground, border } = palette(theme, tone)
@@ -81,7 +91,7 @@ export function Badge({ children, tone = 'neutral', size = 'md', style }: BadgeP
         style,
       ]}
     >
-      {typeof children === 'string' || typeof children === 'number' ? (
+      {isTextOnly(children) ? (
         <Text variant={compact ? 'caption' : 'label'} weight="600" style={{ color: foreground }}>
           {children}
         </Text>
